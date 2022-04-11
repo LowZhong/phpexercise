@@ -1,9 +1,9 @@
 <?php
 // used to connect to the database
 $host = "localhost";
-$db_name = "online_store";
-$username = "online_store";
-$password = "Bm)i@MnOM6D!J4_J";
+$db_name = "lz_online_store";
+$username = "lz_online_store";
+$password = "ZrMDn.nQ.]j!jNKL";
 
 try {
     $con = new
