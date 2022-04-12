@@ -27,6 +27,7 @@
             $customerID = $_POST['customerID'];
             $productID = $_POST['productID'];
             $quantity = $_POST['quantity'];
+            
 
 
             //$error['username'] = validateOrderusername($username);
@@ -41,7 +42,7 @@
                     // prepare query for execution
                     $stmt = $con->prepare($query);
                     // bind the parameters
-                    $stmt->bindParam(1, $username);
+                    $stmt->bindParam(1, $customerID);
                     // Execute the query
                     if ($stmt->execute()) {
                         $last_order_id = $con->lastInsertId();
@@ -97,7 +98,7 @@
                             <td>Select username </td>
                             <td>
                             <div class="col">';
-                        echo "<select class='form_select' name='customerID[]' >";
+                        echo "<select class='form_select' name='customerID' >";
                         echo '<option selected>username</option>';
                         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                             extract($row);
