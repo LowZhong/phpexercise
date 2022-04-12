@@ -36,9 +36,9 @@
             $month = $_POST['month'];
             $day = $_POST['day'];
             $birthdate = "$year/$month/$day";
-            $stmt = $con->prepare("SELECT * FROM customer WHERE username= ?");
+            $stmt = $con->prepare("SELECT * FROM customerID WHERE usernameID= ?");
             //execute the statement
-            $stmt->execute([$username]);
+            $stmt->execute([$customerID]);
             //fetch result
             $user = $stmt->fetch();
             /*echo $_POST['password']."</br>";

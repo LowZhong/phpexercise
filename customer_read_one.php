@@ -11,7 +11,7 @@
     <!-- container -->
     <div class="container">
         <div class="page-header">
-            <?php include 'database/navbar.php'; ?> 
+            <?php include 'database/navbar.php'; ?>
             <h1>Customer Details</h1>
         </div>
 
@@ -19,20 +19,20 @@
         <?php
         // get passed parameter value, in this case, the record ID
         // isset() is a PHP function used to verify if a value is there or not
-        
-        $user_name = isset($_GET['username']) ? $_GET['username'] : die('ERROR: Record ID not found.');
+
+        $customerID = isset($_GET['customerID']) ? $_GET['customerID'] : die('ERROR: Record ID not found.');
         //include database connection
         include 'database/connection.php';
         include 'database/function.php';
-        
+
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT username, password, email, firstname, lastname, gender, DAY(birthdate) as day, MONTH(birthdate) as month, YEAR(birthdate) as year, status FROM customer WHERE username = ? ";
+            $query = "SELECT customerID, username, password, email, firstname, lastname, gender, DAY(birthdate) as day, MONTH(birthdate) as month, YEAR(birthdate) as year, status FROM customer WHERE username = ? ";
             $stmt = $con->prepare($query);
 
             // this is the first question mark
-            $stmt->bindParam(1, $user_name);
+            $stmt->bindParam(1, $customerID);
 
             // execute our query
             $stmt->execute();
@@ -53,9 +53,6 @@
             $birthdate = "$year/$month/$day";
             $gender = $row['gender'];
             $status = $row['status'];
-            
-            
-            
         }
 
         // show error
@@ -68,6 +65,10 @@
         <!-- HTML read one record table will be here -->
 
         <table class='table table-hover table-responsive table-bordered'>
+            <tr>
+                <td>Customer ID</td>
+                <td><?php echo htmlspecialchars($customerID, ENT_QUOTES);  ?></td>
+            </tr>
             <tr>
                 <td>Username</td>
                 <td><?php echo htmlspecialchars($username, ENT_QUOTES);  ?></td>

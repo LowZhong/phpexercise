@@ -140,12 +140,16 @@ function sex($gender)
     }
 }
 
-/*//order create
-function validateOrderusername($userName){
-    if ($userName == null){
-        return 'Please enter your Username.';
-    }else if (validateOrderusername($userName) > 0){
-        return 'Username not Found.';
+//order create
+/*function validateOrderusername($username){
+    if (empty($_POST($username))){
+        return 'Please select your Username.';
+    }
+}
+
+function validateOrder($productID){
+    if (empty($_POST($productID))) {
+        return 'Please do not empty the selection products.';
     }
 }*/
 

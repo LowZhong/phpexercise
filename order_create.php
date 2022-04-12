@@ -19,22 +19,22 @@
         include 'database/connection.php';
         include 'database/function.php';
         // define variables and set to empty values
-        $orderID = $username = $product = $quantity = "";
+        //$orderID = $username = $productID = $quantity = "";
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-            
+
             // posted values
             $username = $_POST['username'];
             $productID = $_POST['productID'];
             $quantity = $_POST['quantity'];
-            print_r($product);
 
 
-            $error['username'] = validateUsername($username);
-            $error = array_filter($error);
-            if(empty($error)) {
+            //$error['username'] = validateOrderusername($username);
+            //$error['username'] = validateOrder($productID);
+            //$error = array_filter($error);
+            if (empty($error)) {
 
-            
+
                 try {
                     // insert query
                     $query = "INSERT INTO order_summary (username) VALUES (?)";
@@ -47,31 +47,25 @@
                         $last_order_id = $con->lastInsertId();
                         if ($last_order_id > 0) {
 
-                            //foreach( $product as $pkey){
-                                //echo $pkey;
+                            for ($i = 0; $i < count($productID); $i++) {
 
-                                for ($i = 0; $i < count($productID); $i++) {
+                                try {
+                                    $query = "INSERT INTO order_details (orderID, productID, quantity) VALUES (:lastorderid, :productID, :quantity)";
 
-                                    
-                                    try {
-                                        $query = "INSERT INTO order_details (orderID, productID, quantity) VALUES (:lastorderid, :productID, :quantity)";
-
-                                        //prepare query for execute
-                                        $stmt = $con->prepare($query);
-                                        //posted values
-                                        $stmt->bindParam(":lastorderid", $last_order_id);
-                                        $stmt->bindParam(":product", $productID[$i]);
-                                        $stmt->bindParam(":quantity", $quantity[$i]);
-                                        //execute the query
-                                        if ($stmt->execute()) {
-                                        
-                                        }
-                                    } catch (PDOException $exception) {
-                                        die('ERROR: ' . $exception->getMessage());
+                                    //prepare query for execute
+                                    $stmt = $con->prepare($query);
+                                    //posted values
+                                    $stmt->bindParam(":lastorderid", $last_order_id);
+                                    $stmt->bindParam(":productID", $productID[$i]);
+                                    $stmt->bindParam(":quantity", $quantity[$i]);
+                                    //execute the query
+                                    if ($stmt->execute()) {
                                     }
+                                } catch (PDOException $exception) {
+                                    die('ERROR: ' . $exception->getMessage());
                                 }
-                            //}
-                        } 
+                            }
+                        }
                         echo "<div class='alert alert-success'>Record was saved.</div>";
                     } else {
                         echo "<div class='alert alert-danger'>Unable to save record.</div>";
@@ -102,6 +96,7 @@
                     for ($x = 1; $x <= 3; $x++) {
                         try {
                             // prepare select query
+
                             $query = "SELECT * FROM products";
                             $stmt = $con->prepare($query);
                             // execute our query
