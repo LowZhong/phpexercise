@@ -28,7 +28,7 @@
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT orderDetailsID, orderID, customerID, productID, quantity  FROM order_details WHERE orderID = ? LIMIT 0,1";
+            $query = "SELECT orderDetailsID, orderID, productID, quantity  FROM order_details WHERE orderID = ? LIMIT 0,1";
             $stmt = $con->prepare($query);
             // this is the first question mark
             $stmt->bindParam(1, $orderDetailsID);
@@ -38,7 +38,6 @@
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             // values to fill up our form
             $orderDetailsID = $row["orderDetailsID"];
-            $customerID = $row["customerID"];
             $orderID = $row["orderID"];
             $productID = $row["productID"];
             $quantity = $row["quantity"];
@@ -60,10 +59,6 @@
             <tr>
                 <td>Order ID</td>
                 <td><?php echo htmlspecialchars($orderID, ENT_QUOTES);  ?></td>
-            </tr>
-            <tr>
-                <td>Customer ID</td>
-                <td><?php echo htmlspecialchars($customerID, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
                 <td>product</td>

@@ -61,6 +61,7 @@
 
                 // bind the parameters
                 $stmt->bindParam(':orderDetailsID', $orderDetailsID);
+                $stmt->bindParam(':customerID', $customerID);
                 $stmt->bindParam(':orderID', $orderID);
                 $stmt->bindParam(':product', $product);
                 $stmt->bindParam(':quantity', $quantity);
@@ -96,7 +97,7 @@
             // values to fill up our form
             $orderDetailsID = $row['orderDetailsID'];
             $orderID = $row['orderID'];
-            $product = $row['product'];
+            $productID = $row['productID'];
             $quantity = $row['quantity'];
         }
 
@@ -114,14 +115,7 @@
         <!--we have our html form here where new record information can be updated-->
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "? orderDetailsID={$orderDetailsID}"); ?>" method="post">
             <table class='table table-hover table-responsive table-bordered'>
-                <tr>
-                    <td>orderDetailsID</td>
-                    <td><?php echo htmlspecialchars($orderDetailsID, ENT_QUOTES);  ?></td>
-                </tr>
-                <tr>
-                    <td>orderID</td>
-                    <td><?php echo htmlspecialchars($orderID, ENT_QUOTES);  ?></td>
-                </tr>
+                
                 <?php
                     for ($x = 1; $x <= 3; $x++) {
                         try {
@@ -155,7 +149,7 @@
                     <td></td>
                     <td>
                         <input type='submit' value='Save Changes' class='btn btn-primary' />
-                        <a href='order_listing.php' class='btn btn-danger'>Back to read products</a>
+                        <a href='order_listing.php' class='btn btn-danger'>Back to Order List</a>
                     </td>
                 </tr>
             </table>

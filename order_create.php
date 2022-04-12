@@ -41,7 +41,7 @@
                     // prepare query for execution
                     $stmt = $con->prepare($query);
                     // bind the parameters
-                    $stmt->bindParam(1, $customerID);
+                    $stmt->bindParam(1, $username);
                     // Execute the query
                     if ($stmt->execute()) {
                         $last_order_id = $con->lastInsertId();
@@ -87,11 +87,9 @@
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                 <table class='table table-hover table-responsive table-bordered'>
 
-
-
                     <?php
                     
-                        $query = "SELECT username FROM customer";
+                        $query = "SELECT customerID, username FROM customer";
                         $stmt = $con->prepare($query);
                         // execute our query
                         $stmt->execute();
@@ -109,8 +107,6 @@
                     for ($x = 1; $x <= 3; $x++) {
                         try {
                             // prepare select query
-
-
                             $query = "SELECT * FROM products";
                             $stmt = $con->prepare($query);
                             // execute our query
@@ -141,7 +137,7 @@
                         <td></td>
                         <td>
                             <input type='submit' value='Save' class='btn btn-primary' />
-                            <a href='index.php' class='btn btn-danger'>Back</a>
+                            <a href='order_listing.php' class='btn btn-danger'>Back To Order List</a>
                         </td>
                     </tr>
 
