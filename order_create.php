@@ -24,7 +24,7 @@
 
 
             // posted values
-            $username = $_POST['username'];
+            $customerID = $_POST['customerID'];
             $productID = $_POST['productID'];
             $quantity = $_POST['quantity'];
 
@@ -37,11 +37,11 @@
 
                 try {
                     // insert query
-                    $query = "INSERT INTO order_summary (username) VALUES (?)";
+                    $query = "INSERT INTO order_summary (customerID) VALUES (?)";
                     // prepare query for execution
                     $stmt = $con->prepare($query);
                     // bind the parameters
-                    $stmt->bindParam(1, $username);
+                    $stmt->bindParam(1, $customerID);
                     // Execute the query
                     if ($stmt->execute()) {
                         $last_order_id = $con->lastInsertId();
@@ -87,15 +87,29 @@
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                 <table class='table table-hover table-responsive table-bordered'>
 
-                    <tr>
-                        <td>Username</td>
-                        <td><input type='text' name='username' class='form-control' value="<?php echo $username; ?>" /></td>
-                    </tr>
+
 
                     <?php
+                    
+                        $query = "SELECT username FROM customer";
+                        $stmt = $con->prepare($query);
+                        // execute our query
+                        $stmt->execute();
+                        echo '<tr>
+                            <td>Select username </td>
+                            <td>
+                            <div class="col">';
+                        echo "<select class='form_select' name='customerID[]' >";
+                        echo '<option selected>username</option>';
+                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                            extract($row);
+                            echo "<option value='" . $customerID . "' >" . $username . "</option>";
+                        
+                    }
                     for ($x = 1; $x <= 3; $x++) {
                         try {
                             // prepare select query
+
 
                             $query = "SELECT * FROM products";
                             $stmt = $con->prepare($query);
