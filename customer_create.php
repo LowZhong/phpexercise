@@ -26,8 +26,9 @@
             include 'database/function.php';
             // posted values
             $username = $_POST['username'];
-            $password = md5($_POST['password']); //md5 encrypt
-            $inputconfirmPassword = md5($_POST['inputconfirmPassword']);
+            $password = $_POST['password']; //md5 encrypt
+            $passwordmd5 = md5($password);
+            $inputconfirmPassword = $_POST['inputconfirmPassword'];
             $email = $_POST['email'];
             $firstname = $_POST['firstname'];
             $lastname = $_POST['lastname'];
@@ -40,8 +41,9 @@
             $stmt->execute([$username]);
             //fetch result
             $user = $stmt->fetch();
-            echo md5($_POST['password'])."</br>";
-            echo md5($_POST['inputconfirmPassword'])."</br>";
+            echo $_POST['password']."</br>";
+            echo $_POST['inputconfirmPassword']."</br>";
+            echo md5($password);
 
             //function
             $error['username'] = validateUsername($username); //array call function
@@ -55,7 +57,7 @@
 
                 try {
                     // insert query
-                    $query = "INSERT INTO customer SET username=:username, password=:password, email=:email, firstname=:firstname, lastname=:lastname, birthdate=:birthdate, gender=:gender";
+                    $query = "INSERT INTO customer SET username=:username, password=:password, email=:email, firstname=:firstname, lastname=:lastname, birthdate=:birthdate, gender=:gender, status=:status";
                     // prepare query for execution
                     $stmt = $con->prepare($query);
                     // bind the parameters
@@ -66,8 +68,7 @@
                     $stmt->bindParam(':lastname', $lastname);
                     $stmt->bindParam(':birthdate', $birthdate);
                     $stmt->bindParam(':gender', $gender);
-                    //$stmt->bindParam(':status', $status);
-                    //$stmt->bindParam(':starsign', $starsign);
+                    $stmt->bindParam(':status', $status);
                     // specify when this record was inserted to the database
 
                     // Execute the query
@@ -128,7 +129,7 @@
                     <td><input type="password" class="form-control" name="password" id="password" placeholder="Password" value="<?php echo $password; ?>"></td>
                 </tr>
                 <tr>
-                    <td>Comfirm Password</td>
+                    <td>Confirm Password</td>
                     <td><input type="password" class="form-control" id="inputconfirmPassword" name="inputconfirmPassword" placeholder="Password" value="<?php echo $inputconfirmPassword; ?>"></td>
                 </tr>
 
