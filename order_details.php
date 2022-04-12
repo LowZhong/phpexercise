@@ -19,68 +19,62 @@
         <?php
         // get passed parameter value, in this case, the record ID
         // isset() is a PHP function used to verify if a value is there or not
-        //$orderDetailsID = isset($_GET['orderID']) ? $_GET['orderID'] : die('ERROR: Record Order Detail ID not found.');
+        $orderDetailsID = isset($_GET['orderID']) ? $_GET['orderID'] : die('ERROR: Record Order Detail ID not found.');
 
         //include database connection
         include 'database/connection.php';
         include 'database/function.php';
 
-        // select all data
-        $query = "SELECT orderDetailsID, orderID, name, price, quantity
-                    FROM order_details 
-                    INNER JOIN products
-                    ON order_details.productID = products.productID;";
-        $stmt = $con->prepare($query);
-        $stmt->execute();
-
-        // this is how to get number of rows returned
-        $num = $stmt->rowCount();
-
-        //check if more than 0 record found
-        if ($num > 0) {
-
-            // data from database will be here
-            echo "<table class='table table-hover table-responsive table-bordered'>"; //start table
-
-            //creating our table heading
-            echo "<tr>";
-            echo "<th>orderDetails ID</th>";
-            echo "<th>Orders ID</th>";
-            echo "<th>Product Name</th>";
-            echo "<th>Product Prices</th>";
-            echo "<th>Total Prices</th>";
-            echo "<th>Product Quantity</th>";
-            echo "</tr>";
-
-            // table body will be here
-            // retrieve our table contents
-            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                // extract row
-                // this will make $row['firstname'] to just $firstname only
-
-                extract($row);
-                //function
-
-                // creating new table row per record
-                $totalprice = (int)$quantity * (int)$price;
-                echo "<tr>";
-                echo "<td>{$orderDetailsID}</td>";
-                echo "<td>{$orderID}</td>";
-                echo "<td>{$name}</td>";
-                echo "<td>{$price}</td>";
-                echo "<td>{$totalprice}</td>";
-                echo "<td>{$quantity}</td>";
-                echo "</td>";
-                echo "</tr>";
-            }
-            // end table
-            echo "</table>";
+        // read current record's data
+        try {
+            // prepare select query
+            $query = "SELECT orderDetailsID, orderID, productID, quantity  FROM order_details WHERE orderID = ? LIMIT 0,1";
+            $stmt = $con->prepare($query);
+            // this is the first question mark
+            $stmt->bindParam(1, $orderDetailsID);
+            // execute our query
+            $stmt->execute();
+            // store retrieved row to a variable
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            // values to fill up our form
+            $orderDetailsID = $row["orderDetailsID"];
+            $orderID = $row["orderID"];
+            $productID = $row["productID"];
+            $quantity = $row["quantity"];
+            
         }
-        // if no records found
-        else {
-            echo "<div class='alert alert-danger'>No records Order ID found.</div>";
+
+        // show error
+        catch (PDOException $exception) {
+            die('ERROR: ' . $exception->getMessage());
         }
         ?>
+
+        <!-- HTML read one record table will be here -->
+        <table class='table table-hover table-responsive table-bordered'>
+            <tr>
+                <td>Order Detail ID</td>
+                <td><?php echo htmlspecialchars($orderDetailsID, ENT_QUOTES);  ?></td>
+            </tr>
+            <tr>
+                <td>Order ID</td>
+                <td><?php echo htmlspecialchars($orderID, ENT_QUOTES);  ?></td>
+            </tr>
+            <tr>
+                <td>product ID</td>
+                <td><?php echo htmlspecialchars($productID, ENT_QUOTES);  ?></td>
+            </tr>
+            <tr>
+                <td>Quantity</td>
+                <td><?php echo htmlspecialchars($quantity, ENT_QUOTES);  ?></td>
+            </tr>
+
+            
+            <a href='order_listing.php' class='btn btn-danger'>Back to order list</a>
+            </td>
+            </tr>
+        </table>
+        <!--we have our html table here where the record will be displayed-->
     </div>
     <!-- end .container -->
 </body>
