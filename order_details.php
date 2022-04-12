@@ -61,7 +61,7 @@
                 <td><?php echo htmlspecialchars($orderID, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
-                <td>product</td>
+                <td>product ID</td>
                 <td><?php echo htmlspecialchars($productID, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
