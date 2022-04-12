@@ -2,7 +2,7 @@
 // used to connect to the database
 $host = "localhost";
 $db_name = "lz_online_store";
-$username = "lz_online_store";
+$username = "LZ_online_store";
 $password = "ZrMDn.nQ.]j!jNKL";
 
 try {
