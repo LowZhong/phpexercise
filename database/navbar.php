@@ -19,9 +19,9 @@
             Product
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="product_read.php">Product List</a></li>
+            <li><a class="dropdown-item" href="product_create.php">Product Create</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="product_read_one.php">Product Details</a></li>
+            <li><a class="dropdown-item" href="product_read.php">Product List</a></li>
           </ul>
         </li>
 
@@ -30,9 +30,9 @@
             Customer
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="customer_read.php">Customer List</a></li>
+            <li><a class="dropdown-item" href="customer_create.php">Customer Create</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="customer_read_one.php">Customer Details</a></li>
+            <li><a class="dropdown-item" href="customer_read.php">Customer list</a></li>
           </ul>
         </li>
 
@@ -41,9 +41,9 @@
             Order
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="order_listing.php">Order List</a></li>
+            <li><a class="dropdown-item" href="order_create.php">Order Create</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="order_details.php">Order Details</a></li>
+            <li><a class="dropdown-item" href="order_listing.php">Order list</a></li>
           </ul>
         </li>
       </ul>
