@@ -57,19 +57,20 @@
             $year = htmlspecialchars(strip_tags($_POST['year']));
             $gender = htmlspecialchars(strip_tags($_POST['gender']));
             $birthdate =  htmlspecialchars(strip_tags($_POST['year']))."-" . htmlspecialchars(strip_tags($_POST['month'])) . "-" . htmlspecialchars(strip_tags($_POST['day']));
-            echo $status = $_POST['status']."</br>";
-            echo $gender = $_POST['gender'];
+            /*echo $status = $_POST['status']."</br>";
+            echo $gender = $_POST['gender'];*/
 
 
             $error['username'] = validateUsername($username); //array call function
             $error['password'] = validateOrderPassword($password);
             $error['birthdate'] = validateAge($year, $birthdate);
+            $error['birthdate'] = validateStatus($status);
             $error = array_filter($error);
 
             if (empty($error)) {
                 try {
                     // write update query
-                    $query = "UPDATE customer SET username=:username, email=:email, password=:password, firstname=:firstname, lastname=:lastname, gender=:gender, birthdate=:birthdate WHERE username = :username";
+                    $query = "UPDATE customer SET username=:username, email=:email, password=:password, firstname=:firstname, lastname=:lastname, gender=:gender, birthdate=:birthdate, status=:status WHERE username = :username";
                     // prepare query for excecution
                     $stmt = $con->prepare($query);
 
@@ -81,6 +82,7 @@
                     $stmt->bindParam(':lastname', $lastname);
                     $stmt->bindParam(':gender', $gender);
                     $stmt->bindParam(':birthdate', $birthdate);
+                    $stmt->bindParam(':status', $status);
 
                     // Execute the query
                     if ($stmt->execute()) {
@@ -158,11 +160,11 @@
                 </tr>
                 <tr>
                     <td>Gender</td>
-                    <td><input class="form-check-input" type="radio" name="gender" id="gender" <?php if ($gender == "male") echo 'checked' ?> value="male">
+                    <td><input class="form-check-input" type="radio" name="gender" id="gender" <?php if (isset($gender) && $gender=="male") echo "checked";?> value="male">
                         <label class="form-check-label" for="gender">
                             Male
                         </label>
-                        <input class="form-check-input" type="radio" name="gender" id="gender" <?php if ($gender == "female") echo 'checked' ?>value="female">
+                        <input class="form-check-input" type="radio" name="gender" id="gender" <?php if (isset($gender) && $gender=="female") echo "checked";?> value="female">
                         <label class="form-check-label" for="gender">
                             Female
                         </label>
@@ -171,11 +173,11 @@
 
                 <tr>
                     <td>Account Status</td>
-                    <td><input class="form-check-input" type="radio" name="status" id="status" <?php if ($status == "active") echo 'checked' ?> value="active">
+                    <td><input class="form-check-input" type="radio" name="status" id="status" <?php if (isset($status) && $status=="active") echo "checked";?> value="active">
                         <label class="form-check-label" for="status">
                             Active
                         </label>
-                        <input class="form-check-input" type="radio" name="status" id="status" <?php if ($status == "disabled") echo 'checked' ?>value="disabled">
+                        <input class="form-check-input" type="radio" name="status" id="status" <?php if (isset($status) && $status=="disabled") echo "checked";?> value="disabled">
                         <label class="form-check-label" for="status">
                             Disabled
                         </label>
