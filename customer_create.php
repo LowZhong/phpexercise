@@ -24,7 +24,6 @@
             include 'database/connection.php';
             include 'database/function.php';
 
-            //echo navBar();
             // posted values
             $username = $_POST['username'];
             $password = md5($_POST['password']); //md5 encrypt
