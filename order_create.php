@@ -120,7 +120,7 @@
                             echo '<option selected>Product ' . $x . '</option>';
                             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                 extract($row);
-                                echo "<option value='" . $id . "' >" . $name . "</option>";
+                                echo "<option value='" . $productID . "' >" . $name . "</option>";
                             }
                             echo "</select>
                             </div>
