@@ -36,7 +36,7 @@
         <?php
         // get passed parameter value, in this case, the record ID
         // isset() is a PHP function used to verify if a value is there or not
-        $user_name = isset($_GET['username']) ? $_GET['username'] : die('ERROR: Record ID not found.');
+        $customerID = isset($_GET['customerID']) ? $_GET['customerID'] : die('ERROR: Record ID not found.');
         $username = $firstname = $lastname = $password = $inputconfirmPassword = $birthdate = $gender = $status = $starsign = $email = "";
 
         //include database connection
@@ -70,11 +70,12 @@
             if (empty($error)) {
                 try {
                     // write update query
-                    $query = "UPDATE customer SET username=:username, email=:email, password=:password, firstname=:firstname, lastname=:lastname, gender=:gender, birthdate=:birthdate, status=:status WHERE username = :username";
+                    $query = "UPDATE customer SET username=:username, email=:email, password=:password, firstname=:firstname, lastname=:lastname, gender=:gender, birthdate=:birthdate, status=:status WHERE customerID = :customerID";
                     // prepare query for excecution
                     $stmt = $con->prepare($query);
 
                     // bind the parameters
+                    $stmt->bindParam(':customerID', $customerID);
                     $stmt->bindParam(':username', $username);
                     $stmt->bindParam(':email', $email);
                     $stmt->bindParam(':password', $password);
@@ -106,11 +107,11 @@
         // read current record's data
             try {
                 // prepare select query
-                $query = "SELECT username, password, email, firstname, lastname, gender, DAY(birthdate) as day, MONTH(birthdate) as month, YEAR(birthdate) as year, status FROM customer WHERE username = ? ";
+                $query = "SELECT customerID, username, password, email, firstname, lastname, gender, DAY(birthdate) as day, MONTH(birthdate) as month, YEAR(birthdate) as year, status FROM customer WHERE customerID = ? ";
                 $stmt = $con->prepare($query);
 
                 // this is the first question mark
-                $stmt->bindParam(1, $user_name);
+                $stmt->bindParam(1, $customerID);
                 // execute our query
                 $stmt->execute();
                 // store retrieved row to a variable
@@ -136,7 +137,7 @@
 
         <!-- HTML form to update record will be here -->
         <!--we have our html form here where new record information can be updated-->
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?username={$username}"); ?>" method="post">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?customerID={$customerID}"); ?>" method="post">
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td>Username</td>
