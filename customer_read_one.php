@@ -11,6 +11,7 @@
     <!-- container -->
     <div class="container">
         <div class="page-header">
+            <?php include 'database/navbar.php'; ?> 
             <h1>Customer Details</h1>
         </div>
 

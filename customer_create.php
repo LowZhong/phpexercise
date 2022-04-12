@@ -23,7 +23,6 @@
             // include database connection
             include 'database/connection.php';
             include 'database/function.php';
-
             // posted values
             $username = $_POST['username'];
             $password = md5($_POST['password']); //md5 encrypt
