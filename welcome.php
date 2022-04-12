@@ -7,6 +7,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
+<header>
+    <?php include 'database/navbar.php'; ?>
+</header>
+
 <body>
 <div class="container-fluid h1 text-center m-2" class="text-primary">>
         <?php
