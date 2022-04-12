@@ -43,7 +43,7 @@
 
             //creating our table heading
             echo "<tr>";
-            echo "<th>customerID</th>";
+            echo "<th>Customer ID</th>";
             echo "<th>Username</th>";
             echo "<th>Email</th>";
             echo "<th>Firstname</th>";
@@ -71,10 +71,10 @@
                 echo "<td>";
 
                 // read one record
-                echo "<a href='customer_read_one.php?username={$customerID}' class='btn btn-info m-r-1em'>Read</a>";
+                echo "<a href='customer_read_one.php?customerID={$customerID}' class='btn btn-info m-r-1em'>Read</a>";
 
                 // we will use this links on next part of this post
-                echo "<a href='customer_update.php?username={$customerID}' class='btn btn-primary m-r-1em'>Edit</a>";
+                echo "<a href='customer_update.php?customerID={$customerID}' class='btn btn-primary m-r-1em'>Edit</a>";
 
                 // we will use this links on next part of this post
                 echo "<a href='#' onclick='delete_user({$customerID});'  class='btn btn-danger'>Delete</a>";
