@@ -36,7 +36,7 @@
         <?php
         // get passed parameter value, in this case, the record ID
         // isset() is a PHP function used to verify if a value is there or not
-        $orderDetailsID = isset($_GET['orderDetailsID']) ? $_GET['orderDetailsID'] : die('ERROR: Record ID not found.');
+        $orderDetailsID = isset($_GET['orderID']) ? $_GET['orderID'] : die('ERROR: Record ID not found.');
 
         //include database connection
         include 'database/connection.php';
@@ -48,7 +48,7 @@
             // posted values
             $orderDetailsID = htmlspecialchars(strip_tags($_POST['orderDetailsID']));
             $orderID = htmlspecialchars(strip_tags($_POST['orderID']));
-            $product = htmlspecialchars(strip_tags($_POST['product']));
+            $product = htmlspecialchars(strip_tags($_POST['productID']));
             $quantity = htmlspecialchars(strip_tags($_POST['quantity']));
 
             try {
@@ -63,7 +63,7 @@
                 $stmt->bindParam(':orderDetailsID', $orderDetailsID);
                 $stmt->bindParam(':customerID', $customerID);
                 $stmt->bindParam(':orderID', $orderID);
-                $stmt->bindParam(':product', $product);
+                $stmt->bindParam(':productID', $productID);
                 $stmt->bindParam(':quantity', $quantity);
 
                 // Execute the query
