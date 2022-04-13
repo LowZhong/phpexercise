@@ -36,7 +36,7 @@
         <?php
         // get passed parameter value, in this case, the record ID
         // isset() is a PHP function used to verify if a value is there or not
-        $orderDetailsID = isset($_GET['orderID']) ? $_GET['orderID'] : die('ERROR: Record ID not found.');
+        $orderDetailsID = isset($_GET['orderDetailsID']) ? $_GET['orderDetailsID'] : die('ERROR: Record ID not found.');
 
         //include database connection
         include 'database/connection.php';
@@ -128,11 +128,11 @@
                                 <td>Select Product ' . $x . '</td>
                                 <td>
                                 <div class="col">';
-                            echo "<select class='form_select' name='product[]' >";
+                            echo "<select class='form_select' name='productID[]' >";
                             echo '<option selected>Product ' . $x . '</option>';
                             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                 extract($row);
-                                echo "<option value='" . $id . "' >" . $name . "</option>";
+                                echo "<option value='" . $productID . "' >" . $name . "</option>";
                             }
                             echo "</select>
                             </div>

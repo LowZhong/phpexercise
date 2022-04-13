@@ -35,7 +35,7 @@
         <?php
         // get passed parameter value, in this case, the record ID
         // isset() is a PHP function used to verify if a value is there or not
-        $id = isset($_GET['id']) ? $_GET['id'] : die('ERROR: Record ID not found.');
+        $productID = isset($_GET['productID']) ? $_GET['productID'] : die('ERROR: Record ID not found.');
         $name = $description = $price = "";
 
         //include database connection
@@ -60,7 +60,7 @@
                     // write update query
                     // in this case, it seemed like we have so many fields to pass and
                     // it is better to label them and not use question marks
-                    $query = "UPDATE products SET name=:name, description=:description, price=:price WHERE id = :id";
+                    $query = "UPDATE products SET name=:name, description=:description, price=:price WHERE productID = :productID";
                     // prepare query for excecution
                     $stmt = $con->prepare($query);
 
@@ -68,7 +68,7 @@
                     $stmt->bindParam(':name', $name);
                     $stmt->bindParam(':description', $description);
                     $stmt->bindParam(':price', $price);
-                    $stmt->bindParam(':id', $id);
+                    $stmt->bindParam(':productID', $productID);
                     // Execute the query
                     if ($stmt->execute()) {
                         echo "<div class='alert alert-success'>Record was updated.</div>";
@@ -90,11 +90,11 @@
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT id, name, description, price FROM products WHERE id = ? LIMIT 0,1";
+            $query = "SELECT productID, name, description, price FROM products WHERE productID = ? LIMIT 0,1";
             $stmt = $con->prepare($query);
 
             // this is the first question mark
-            $stmt->bindParam(1, $id);
+            $stmt->bindParam(1, $productID);
 
             // execute our query
             $stmt->execute();
@@ -115,7 +115,7 @@
         ?>
         <!-- HTML form to update record will be here -->
         <!--we have our html form here where new record information can be updated-->
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?id={$id}"); ?>" method="post">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?productID={$productID}"); ?>" method="post">
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td>Name</td>
