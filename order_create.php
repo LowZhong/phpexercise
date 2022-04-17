@@ -27,7 +27,7 @@
             $customerID = $_POST['customerID'];
             $productID = $_POST['productID'];
             $quantity = $_POST['quantity'];
-            
+
 
 
             //$error['username'] = validateOrderusername($username);
@@ -89,30 +89,31 @@
                 <table class='table table-hover table-responsive table-bordered'>
 
                     <?php
-                    
-                        $query = "SELECT customerID, username FROM customer";
-                        $stmt = $con->prepare($query);
-                        // execute our query
-                        $stmt->execute();
-                        echo '<tr>
+
+                    $query = "SELECT customerID, username FROM customer";
+                    $stmt = $con->prepare($query);
+                    // execute our query
+                    $stmt->execute();
+                    echo '<tr>
                             <td>Select username </td>
                             <td>
                             <div class="col">';
-                        echo "<select class='form_select' name='customerID' >";
-                        echo '<option selected>username</option>';
-                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                            extract($row);
-                            echo "<option value='" . $customerID . "' >" . $username . "</option>";
-                        
+                    echo "<select class='form_select' name='customerID' >";
+                    echo '<option selected>username</option>';
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                        extract($row);
+                        echo "<option value='" . $customerID . "' >" . $username . "</option>";
                     }
-                    for ($x = 1; $x <= 3; $x++) {
+                    for ($x = 1; $x <= 1; $x++) {
+                        
                         try {
                             // prepare select query
                             $query = "SELECT * FROM products";
                             $stmt = $con->prepare($query);
+                            
                             // execute our query
                             $stmt->execute();
-                            echo '<tr>
+                            echo '<tr class="productrow">
                                 <td>Select Product ' . $x . '</td>
                                 <td>
                                 <div class="col">';
@@ -141,14 +142,40 @@
                             <a href='order_listing.php' class='btn btn-danger'>Back To Order List</a>
                         </td>
                     </tr>
-
                 </table>
 
-
+                <tr>
+                    <td colspan="2">
+                        <div>
+                            <div>
+                                <button type="button" class="add">Add More Product</button>
+                                <button type="button" class="del">Delete Last Product</button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
             </form>
 
     </div>
     <!-- end .container -->
+
+    <script>
+        document.addEventListener('click', function (event) {
+            if (event.target.matches('.add')) {
+                var element = document.querySelector('.productrow');
+                var clone = element.cloneNode(true);
+                element.after(clone);
+            }
+            if (event.target.matches('.del')) {
+                var total = document.querySelectorAll('.productrow').length;
+                if (total > 1) {
+                    var element = document.querySelector('.productrow');
+                    element.remove(element);
+                }
+            }
+        }, false);
+    </script>
+
 </body>
 
 </html>
