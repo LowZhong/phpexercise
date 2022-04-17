@@ -20,7 +20,7 @@
         // include database connection
         include 'database/connection.php';
         include 'database/function.php';
-        
+
         // delete message prompt will be here
 
         // select all data
@@ -59,7 +59,7 @@
 
                 extract($row);
                 //function
-                
+
                 // creating new table row per record
                 echo "<tr>";
                 echo "<td>{$customerID}</td>";
@@ -67,7 +67,7 @@
                 echo "<td>{$email}</td>";
                 echo "<td>{$firstname}</td>";
                 echo "<td>{$lastname}</td>";
-                echo "<td>".sex($gender)."</td>";
+                echo "<td>" . sex($gender) . "</td>";
                 echo "<td>";
 
                 // read one record
@@ -92,11 +92,56 @@
         }
         ?>
 
+        <!-- confirm delete record will be here -->
+        <?php
+        // include database connection
+        include 'database/connection.php';
+        try {
+            // get record ID
+            // isset() is a PHP function used to verify if a value is there or not
+            $customerID = isset($_GET['customerID']) ? $_GET['customerID'] :  die('ERROR: Record ID not found.');
+
+            // delete query
+            $query = "DELETE FROM customer WHERE customerID = ?";
+            $stmt = $con->prepare($query);
+            $stmt->bindParam(1, $customerID);
+
+            if ($stmt->execute()) {
+                // redirect to read records page and
+                // tell the user record was deleted
+                header('Location: customer_read.php?action=deleted');
+            } else {
+                die('Unable to delete record.');
+            }
+        }
+        // show error
+        catch (PDOException $exception) {
+            die('ERROR: ' . $exception->getMessage());
+        }
+
+        $action = isset($_GET['action']) ? $_GET['action'] : "";
+
+        // if it was redirected from delete.php
+        if ($action == 'deleted') {
+            echo "<div class='alert alert-success'>Record was deleted.</div>";
+        }
+
+        ?>
 
     </div> <!-- end .container -->
 
-    <!-- confirm delete record will be here -->
+    <script>
+        // confirm record deletion
+        function delete_user(customerID) {
 
+            var answer = confirm('Are you sure?');
+            if (answer) {
+                // if user clicked ok,
+                // pass the id to delete.php and execute the delete query
+                window.location = 'customer_read.php?customerID=' + customerID;
+            }
+        }
+    </script>
 </body>
 
 </html>
