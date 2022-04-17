@@ -68,7 +68,7 @@
                 echo "<a href='product_update.php?productID={$productID}' class='btn btn-primary m-r-1em'>Edit</a>";
 
                 // we will use this links on next part of this post
-                echo "<a href='#' onclick='delete_user({$productID});'  class='btn btn-danger'>Delete</a>";
+                echo "<a href='#' onclick='delete_product({$productID});'  class='btn btn-danger'>Delete</a>";
                 echo "</td>";
                 echo "</tr>";
             }
@@ -82,10 +82,57 @@
         }
         ?>
 
+        <!-- confirm delete record will be here -->
+        <?php
+        // include database connection
+        include 'database/connection.php';
+        try {
+            // get record ID
+            // isset() is a PHP function used to verify if a value is there or not
+            $productID = isset($_GET['productID']) ? $_GET['productID'] :  die('ERROR: Record ID not found.');
+
+            // delete query
+            $query = "DELETE FROM products WHERE productID = ?";
+            $stmt = $con->prepare($query);
+            $stmt->bindParam(1, $productID);
+
+            if ($stmt->execute()) {
+                // redirect to read records page and
+                // tell the user record was deleted
+                header('Location: product_read.php?action=deleted');
+            } else {
+                die('Unable to delete record.');
+            }
+        }
+        // show error
+        catch (PDOException $exception) {
+            die('ERROR: ' . $exception->getMessage());
+        }
+
+        $action = isset($_GET['action']) ? $_GET['action'] : "";
+
+        // if it was redirected from delete.php
+        if ($action == 'deleted') {
+            echo "<div class='alert alert-success'>Record was deleted.</div>";
+        }
+
+        ?>
+
 
     </div> <!-- end .container -->
 
-    <!-- confirm delete record will be here -->
+    <script>
+        // confirm record deletion
+        function delete_product(productID) {
+
+            var answer = confirm('Are you sure?');
+            if (answer) {
+                // if user clicked ok,
+                // pass the id to delete.php and execute the delete query
+                window.location = 'product_read.php?productID=' + productID;
+            }
+        }
+    </script>
 
 </body>
 
