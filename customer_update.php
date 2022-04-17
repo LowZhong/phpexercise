@@ -162,11 +162,11 @@
                 </tr>
                 <tr>
                     <td>Gender</td>
-                    <td><input class="form-check-input" type="radio" name="gender" id="gender" <?php if (isset($gender) && $gender=="male") echo "checked";?> value="male">
+                    <td><input class="form-check-input" type="radio" name="gender" id="gender" <?php if ($gender == "male") echo "checked" ?> value="male">
                         <label class="form-check-label" for="gender">
                             Male
                         </label>
-                        <input class="form-check-input" type="radio" name="gender" id="gender" <?php if (isset($gender) && $gender=="female") echo "checked";?> value="female">
+                        <input class="form-check-input" type="radio" name="gender" id="gender" <?php if ($gender == "female") echo "checked" ?> value="female">
                         <label class="form-check-label" for="gender">
                             Female
                         </label>
@@ -175,11 +175,11 @@
 
                 <tr>
                     <td>Account Status</td>
-                    <td><input class="form-check-input" type="radio" name="status" id="status" <?php if (isset($status) && $status=="active") echo "checked";?> value="active">
+                    <td><input class="form-check-input" type="radio" name="status" id="status" <?php if ($status == "active") echo "checked" ?> value="active">
                         <label class="form-check-label" for="status">
                             Active
                         </label>
-                        <input class="form-check-input" type="radio" name="status" id="status" <?php if (isset($status) && $status=="disabled") echo "checked";?> value="disabled">
+                        <input class="form-check-input" type="radio" name="status" id="status" <?php if ($status == "disabled") echo "checked" ?> value="disabled">
                         <label class="form-check-label" for="status">
                             Disabled
                         </label>

@@ -19,7 +19,7 @@
         <?php
         // get passed parameter value, in this case, the record ID
         // isset() is a PHP function used to verify if a value is there or not
-        $orderDetailsID = isset($_GET['orderID']) ? $_GET['orderID'] : die('ERROR: Record Order Detail ID not found.');
+        $orderID = isset($_GET['orderID']) ? $_GET['orderID'] : die('ERROR: Record Order Detail ID not found.');
 
         //include database connection
         include 'database/connection.php';
@@ -31,7 +31,7 @@
             $query = "SELECT orderDetailsID, orderID, productID, quantity  FROM order_details WHERE orderID = ? LIMIT 0,1";
             $stmt = $con->prepare($query);
             // this is the first question mark
-            $stmt->bindParam(1, $orderDetailsID);
+            $stmt->bindParam(1, $orderID);
             // execute our query
             $stmt->execute();
             // store retrieved row to a variable
