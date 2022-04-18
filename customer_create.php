@@ -59,8 +59,8 @@
                     $stmt = $con->prepare($query);
 
                     // new 'image' field
-                    $user_image = !empty($_FILES["user_img"]["name"])
-                        ? sha1_file($_FILES['user_img']['tmp_name']) . "-" . basename($_FILES["user_img"]["name"])
+                    $user_image = !empty($_FILES["user_image"]["name"])
+                        ? sha1_file($_FILES['user_image']['tmp_name']) . "-" . basename($_FILES["user_image"]["name"])
                         : "";
                     $user_image = htmlspecialchars(strip_tags($user_image));
 
@@ -86,7 +86,7 @@
                             $file_upload_error_messages .= "<div>Only JPG and PNG files are allowed.</div>";
                         }
                         // make sure submitted file is not too large
-                        if ($_FILES['prod_img']['size'] > (5120)) {
+                        if ($_FILES['user_image']['size'] > (5120)) {
                             $file_upload_error_messages .= "<div>Image must be less than 5 MB in size.</div>";
                         }
                     } else {
@@ -120,7 +120,7 @@
 
                 if (empty($file_upload_error_messages)) {
                     // it means there are no errors, so try to upload the file (now only start uploading)
-                    if (move_uploaded_file($_FILES["user_img"]["tmp_name"], $target_file)) {
+                    if (move_uploaded_file($_FILES["user_image"]["tmp_name"], $target_file)) {
                         echo "<div class='alert'>";
                         echo "<div>Uploaded successfully</div>";
                         echo "</div>";
@@ -240,7 +240,7 @@
                 <tr>
                     <td>Upload Your Profile Image</td>
                     <td>
-                        <input type="file" name="user_img" />
+                        <input type="file" name="user_image" />
                     </td>
                 </tr>
 
