@@ -43,7 +43,7 @@
 
                     // new 'image' field
                     $image = !empty($_FILES["prod_img"]["name"])
-                        ? sha1_file($_FILES['prod_img']['tmp_name']) . "-" . basename($_FILES["image"]["name"])
+                        ? sha1_file($_FILES['prod_img']['tmp_name']) . "-" . basename($_FILES["prod_img"]["name"])
                         : "";
                     $image = htmlspecialchars(strip_tags($image));
 
@@ -64,13 +64,13 @@
                         // check the extension of the upload file
                         $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
                         // make sure certain file types are allowed
-                        $allowed_file_types = array("jpg", "jpeg", "png", "gif");
+                        $allowed_file_types = array("jpg", "png");
                         if (!in_array($file_type, $allowed_file_types)) {
-                            $file_upload_error_messages .= "<div>Only JPG, JPEG, PNG, GIF files are allowed.</div>";
+                            $file_upload_error_messages .= "<div>Only JPG and PNG files are allowed.</div>";
                         }
                         // make sure submitted file is not too large
-                        if ($_FILES['prod_img']['size'] > (1024000)) {
-                            $file_upload_error_messages .= "<div>Image must be less than 1 MB in size.</div>";
+                        if ($_FILES['prod_img']['size'] > (5120)) {
+                            $file_upload_error_messages .= "<div>Image must be less than 5 MB in size.</div>";
                         }
                     } else {
                         echo "no file selected.";

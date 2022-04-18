@@ -142,8 +142,11 @@ function sex($gender)
 
 function pro_img($image)
 {
-    if ($image == "prod_img") {
-        return '<img src="<?php if(isset($image)) echo $image; ?> width=30 />"';
+    if ($image = null){
+        echo "<img src='images/default_product_image.png' width=30 alt='prod_default'/>";
+    }
+    else if ($image == "prod_img") {
+        return '<img src="uploads/<?php = $image ?> width=30 />"';
     }
 }
 
