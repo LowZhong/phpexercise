@@ -140,6 +140,13 @@ function sex($gender)
     }
 }
 
+function pro_img($image)
+{
+    if ($image == "prod_img") {
+        return '<img src="<?php if(isset($image)) echo $image; ?> width=30 />"';
+    }
+}
+
 //order create
 /*function validateOrderusername($username){
     if (empty($_POST($username))){
