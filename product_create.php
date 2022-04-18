@@ -42,8 +42,8 @@
                     $price = htmlspecialchars(strip_tags($_POST['price']));
 
                     // new 'image' field
-                    $image = !empty($_FILES["prod_img"]["name"])
-                        ? sha1_file($_FILES['prod_img']['tmp_name']) . "-" . basename($_FILES["prod_img"]["name"])
+                    $image = !empty($_FILES["image"]["name"])
+                        ? sha1_file($_FILES['image']['tmp_name']) . "-" . basename($_FILES["image"]["name"])
                         : "";
                     $image = htmlspecialchars(strip_tags($image));
 
@@ -69,7 +69,7 @@
                             $file_upload_error_messages .= "<div>Only JPG and PNG files are allowed.</div>";
                         }
                         // make sure submitted file is not too large
-                        if ($_FILES['prod_img']['size'] > (5120)) {
+                        if ($_FILES['image']['size'] > (5120)) {
                             $file_upload_error_messages .= "<div>Image must be less than 5 MB in size.</div>";
                         }
                     } else {
@@ -102,7 +102,7 @@
 
                 if (empty($file_upload_error_messages)) {
                     // it means there are no errors, so try to upload the file (now only start uploading)
-                    if (move_uploaded_file($_FILES["prod_img"]["tmp_name"], $target_file)) {
+                    if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
                         echo "<div class='alert'>";
                         echo "<div>Uploaded successfully</div>";
                         echo "</div>";
@@ -149,7 +149,7 @@
                 <tr>
                     <td>Upload Image</td>
                     <td>
-                        <input type="file" name="prod_img" />
+                        <input type="file" name="image" />
 
                     </td>
                 </tr>

@@ -24,7 +24,7 @@
         // delete message prompt will be here
 
         // select all data
-        $query = "SELECT customerID, username, email, firstname, lastname, gender FROM customer ORDER BY customerID DESC";
+        $query = "SELECT customerID, username, email, firstname, lastname, gender, user_image FROM customer ORDER BY customerID ASC";
         $stmt = $con->prepare($query);
         $stmt->execute();
 
@@ -49,6 +49,7 @@
             echo "<th>Firstname</th>";
             echo "<th>Lastname</th>";
             echo "<th>Gender</th>";
+            echo "<th>Profile Picture</th>";
             echo "</tr>";
 
             // table body will be here
@@ -68,6 +69,7 @@
                 echo "<td>{$firstname}</td>";
                 echo "<td>{$lastname}</td>";
                 echo "<td>" . sex($gender) . "</td>";
+                echo "<td>" . user_img($user_image) . "</td>";
                 echo "<td>";
 
                 // read one record
