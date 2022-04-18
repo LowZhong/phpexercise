@@ -104,7 +104,7 @@
                         extract($row);
                         echo "<option value='" . $customerID . "' >" . $username . "</option>";
                     }
-                    for ($x = 1; $x <= 1; $x++) {
+                    //for ($x = 1; $x <= 1; $x++) {
                         
                         try {
                             // prepare select query
@@ -132,7 +132,7 @@
                         catch (PDOException $exception) {
                             die('ERROR: ' . $exception->getMessage());
                         }
-                    }
+                    //}
                     ?>
 
                     <tr>

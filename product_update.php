@@ -37,6 +37,7 @@
         // isset() is a PHP function used to verify if a value is there or not
         $productID = isset($_GET['productID']) ? $_GET['productID'] : die('ERROR: Record ID not found.');
         $name = $description = $price = "";
+        $target_file = "";
 
         //include database connection
         include 'database/connection.php';
@@ -60,15 +61,52 @@
                     // write update query
                     // in this case, it seemed like we have so many fields to pass and
                     // it is better to label them and not use question marks
-                    $query = "UPDATE products SET name=:name, description=:description, price=:price WHERE productID = :productID";
+                    $query = "UPDATE products SET name=:name, description=:description, price=:price, image=:image WHERE productID = :productID";
                     // prepare query for excecution
                     $stmt = $con->prepare($query);
+
+                    // new 'image' field
+                    $image = !empty($_FILES["image"]["name"])
+                        ? sha1_file($_FILES['image']['tmp_name']) . "-" . basename($_FILES["image"]["name"])
+                        : "";
+                    $image = htmlspecialchars(strip_tags($image));
+
+                    if ($image) {
+                        $target_directory = "uploads/";
+                        // make sure the 'uploads' folder exists
+                        // if not, create it
+                        if (!is_dir($target_directory)) {
+                            mkdir($target_directory, 0777, true);
+                        }
+                        $target_file = $target_directory . $image;
+
+                        // make sure file does not exist
+                        if (file_exists($target_file)) {
+                            $file_upload_error_messages .= "<div>Image already exists. Try to change file name.</div>";
+                        }
+
+                        // check the extension of the upload file
+                        $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
+                        // make sure certain file types are allowed
+                        $allowed_file_types = array("jpg", "png");
+                        if (!in_array($file_type, $allowed_file_types)) {
+                            $file_upload_error_messages .= "<div>Only JPG and PNG files are allowed.</div>";
+                        }
+                        // make sure submitted file is not too large
+                        if ($_FILES['image']['size'] > (5120)) {
+                            $file_upload_error_messages .= "<div>Image must be less than 5 MB in size.</div>";
+                        }
+                    } else {
+                        echo "no file selected.";
+                    }
+
 
                     // bind the parameters
                     $stmt->bindParam(':name', $name);
                     $stmt->bindParam(':description', $description);
                     $stmt->bindParam(':price', $price);
                     $stmt->bindParam(':productID', $productID);
+                    $stmt->bindParam(':image', $image);
                     // Execute the query
                     if ($stmt->execute()) {
                         echo "<div class='alert alert-success'>Record was updated.</div>";
@@ -80,6 +118,25 @@
                 catch (PDOException $exception) {
                     die('ERROR: ' . $exception->getMessage());
                 }
+
+                if (empty($file_upload_error_messages)) {
+                    // it means there are no errors, so try to upload the file (now only start uploading)
+                    if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+                        echo "<div class='alert'>";
+                        echo "<div>Uploaded successfully</div>";
+                        echo "</div>";
+                    } else {
+                        echo "<div class='alert alert-danger'>";
+                        echo "<div>Unable to upload photo.</div>";
+                        echo "</div>";
+                    }
+                } else {
+                    // it means there are some errors, so show them to user
+                    echo "<div class='alert alert-danger'>";
+                    echo "<div>{$file_upload_error_messages}</div>";
+                    echo "</div>";
+                }
+
             } else {
                 foreach ($error as $value) {
                     echo "<div class='alert alert-danger'>$value <br/></div>"; //start print error msg
@@ -90,7 +147,7 @@
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT productID, name, description, price FROM products WHERE productID = ? LIMIT 0,1";
+            $query = "SELECT productID, name, description, price, image FROM products WHERE productID = ? LIMIT 0,1";
             $stmt = $con->prepare($query);
 
             // this is the first question mark
@@ -106,6 +163,7 @@
             $name = $row['name'];
             $description = $row['description'];
             $price = $row['price'];
+            $image = $row['image'];
         }
 
         // show error
@@ -129,6 +187,14 @@
                     <td>Price</td>
                     <td><input type='text' name='price' value="<?php echo htmlspecialchars($price, ENT_QUOTES);  ?>" class='form-control' value="<?php echo $price; ?>" /></td>
                 </tr>
+
+                <tr>
+                    <td>Upload Product Image</td>
+                    <td>
+                        <input type="file" name="image"/>
+                    </td>
+                </tr>
+
                 <tr>
                     <td></td>
                     <td>
