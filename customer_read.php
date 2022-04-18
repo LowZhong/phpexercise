@@ -111,7 +111,7 @@
             if (answer) {
                 // if user clicked ok,
                 // pass the id to delete.php and execute the delete query
-                window.location = 'delete.php?customerID=' + customerID;
+                window.location = 'delete_user.php?customerID=' + customerID;
             }
         }
     </script>
