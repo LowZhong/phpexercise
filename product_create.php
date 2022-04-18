@@ -43,7 +43,7 @@
 
                     // new 'image' field
                     $image = !empty($_FILES["prod_img"]["name"])
-                        ? sha1_file($_FILES['prod_img']['tmp_name']) . "-" . basename($_FILES["prod_img"]["name"])
+                        ? sha1_file($_FILES['prod_img']['tmp_name']) . "-" . basename($_FILES["image"]["name"])
                         : "";
                     $image = htmlspecialchars(strip_tags($image));
 
@@ -150,6 +150,7 @@
                     <td>Upload Image</td>
                     <td>
                         <input type="file" name="prod_img" />
+
                     </td>
                 </tr>
 
