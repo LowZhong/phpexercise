@@ -61,7 +61,7 @@
                 echo "<td>{$name}</td>";
                 echo "<td>{$description}</td>";
                 echo "<td>{$price}</td>";
-                echo "<td>". pro_img($image) ."</td>";
+                echo "<td>".pro_img($image) ."</td>";
                 echo "<td>";
                 // read one record
                 echo "<a href='product_read_one.php?productID={$productID}' class='btn btn-info m-r-1em'>Read</a>";
