@@ -20,6 +20,7 @@
         // include database connection
         include 'database/connection.php';
         include 'database/function.php';
+        //include 'database/delete.php';
         // delete message prompt will be here
 
         // select all data
@@ -63,6 +64,7 @@
                 echo "<td>{$price}</td>";
                 echo "<td>" . pro_img($image) . "</td>";
                 echo "<td>";
+
                 // read one record
                 echo "<a href='product_read_one.php?productID={$productID}' class='btn btn-info m-r-1em'>Read</a>";
 
@@ -75,6 +77,13 @@
                 echo "</tr>";
             }
 
+            $action = isset($_GET['action']) ? $_GET['action'] : "";
+
+            // if it was redirected from delete.php
+            if ($action == 'deleted') {
+                echo "<div class='alert alert-success'>Record was deleted.</div>";
+            }
+
             // end table
             echo "</table>";
         }
@@ -83,15 +92,8 @@
             echo "<div class='alert alert-danger'>No records found.</div>";
         }
 
-        $action = isset($_GET['action']) ? $_GET['action'] : "";
-
-        // if it was redirected from delete.php
-        if ($action == 'deleted') {
-            echo "<div class='alert alert-success'>Record was deleted.</div>";
-        }
-
-
         ?>
+
 
     </div> <!-- end .container -->
 
@@ -103,7 +105,7 @@
             if (answer) {
                 // if user clicked ok,
                 // pass the id to delete.php and execute the delete query
-                window.location = 'delete.php?productID=' + productID;
+                window.location = 'delete_product.php?productID=' + productID;
             }
         }
     </script>

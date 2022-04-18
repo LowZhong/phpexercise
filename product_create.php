@@ -55,6 +55,7 @@
                             mkdir($target_directory, 0777, true);
                         }
                         $target_file = $target_directory . $image;
+                        $file_upload_error_messages = "";
 
                         // make sure file does not exist
                         if (file_exists($target_file)) {
