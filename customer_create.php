@@ -38,12 +38,9 @@
             $birthdate = "$year/$month/$day";
             $stmt = $con->prepare("SELECT * FROM customerID WHERE usernameID= ?");
             //execute the statement
-            $stmt->execute([$customerID]);
+            //$stmt->execute($customerID);
             //fetch result
-            $user = $stmt->fetch();
-            /*echo $_POST['password']."</br>";
-            echo $_POST['inputconfirmPassword']."</br>";
-            echo md5($password);*/
+            $customerID = $stmt->fetch();
 
             //function
             $error['username'] = validateUsername($username); //array call function
