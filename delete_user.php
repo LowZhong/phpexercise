@@ -7,7 +7,10 @@ try {
     $customerID = isset($_GET['customerID']) ? $_GET['customerID'] :  die('ERROR: Record ID not found.');
 
     // delete query
-    $query = "DELETE FROM customer WHERE customerID = ?";
+    $query = "DELETE * FROM customer
+                LEFT JOIN order_summary
+                ON customer.customerID = order_summary.customerID
+                WHERE order_summary.customerID IS NULL;";
     $stmt = $con->prepare($query);
     $stmt->bindParam(1, $customerID);
 
@@ -23,4 +26,3 @@ try {
 catch (PDOException $exception) {
     die('ERROR: ' . $exception->getMessage());
 }
-?>

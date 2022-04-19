@@ -9,7 +9,10 @@ try {
     $productID = isset($_GET['productID']) ? $_GET['productID'] :  die('ERROR: Record ID not found.');
 
     // delete query
-    $query = "DELETE FROM products WHERE productID = ?";
+    $query = "DELETE * FROM products 
+                LEFT JOIN order_details
+                ON order_details.productID = products.productID
+                WHERE order_details.productID IS NULL";
     $stmt = $con->prepare($query);
     $stmt->bindParam(1, $productID);
 
