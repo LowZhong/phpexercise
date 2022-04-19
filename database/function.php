@@ -145,9 +145,6 @@ function pro_img($image)
     if ($image == null){
         return "<img src='images/default_product_image.png' width=80 alt='prod_default'/>";
     }
-    else if ($image == "image") {
-        return '<img src="uploads/<?php = $image ?> width=30 />"';
-    }
 }
 
 function user_img($user_image)

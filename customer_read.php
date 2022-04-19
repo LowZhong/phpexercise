@@ -69,7 +69,7 @@
                 echo "<td>{$firstname}</td>";
                 echo "<td>{$lastname}</td>";
                 echo "<td>" . sex($gender) . "</td>";
-                echo "<td>" . user_img($user_image) . "</td>";
+                echo "<td>'<img src='$image' width=50 />'</td>";
                 echo "<td>";
 
                 // read one record

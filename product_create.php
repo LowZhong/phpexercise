@@ -30,8 +30,10 @@
             $error['name'] = validatename($name);
             $error['price'] = validatePrice($price);
 
+
             $error = array_filter($error);
             if (empty($error)) {
+
                 try {
                     // insert query
                     $query = "INSERT INTO products SET name=:name, description=:description, price=:price, image=:image, created=:created";
@@ -47,37 +49,6 @@
                         : "";
                     $image = htmlspecialchars(strip_tags($image));
 
-                    if ($image) {
-                        $target_directory = "uploads/";
-                        // make sure the 'uploads' folder exists
-                        // if not, create it
-                        if (!is_dir($target_directory)) {
-                            mkdir($target_directory, 0777, true);
-                        }
-                        $target_file = $target_directory . $image;
-                        $file_upload_error_messages = "";
-
-                        // make sure file does not exist
-                        if (file_exists($target_file)) {
-                            $file_upload_error_messages .= "<div>Image already exists. Try to change file name.</div>";
-                        }
-
-                        // check the extension of the upload file
-                        $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
-                        // make sure certain file types are allowed
-                        $allowed_file_types = array("jpg", "png");
-                        if (!in_array($file_type, $allowed_file_types)) {
-                            $file_upload_error_messages .= "<div>Only JPG and PNG files are allowed.</div>";
-                        }
-                        // make sure submitted file is not too large
-                        if ($_FILES['image']['size'] > (52428800)) {
-                            $file_upload_error_messages .= "<div>Image must be less than 5 MB in size.</div>";
-                        }
-                    } else {
-                        echo "no file selected.";
-                    }
-
-                
                     // bind the parameters
                     $stmt->bindParam(':name', $name);
                     $stmt->bindParam(':description', $description);
@@ -91,36 +62,64 @@
                     // Execute the query
                     if ($stmt->execute()) {
                         echo "<div class='alert alert-success'>Record was saved.</div>";
+                        // now, if image is not empty, try to upload the image
+                        if ($image) {
+
+                            // sha1_file() function is used to make a unique file name
+                            $target_directory = "uploads/";
+                            $target_file = $target_directory . $image;
+                            $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
+
+                            // error message is empty
+                            $file_upload_error_messages = "";
+                        }
+                        // make sure certain file types are allowed
+                        $allowed_file_types = array("jpg", "png");
+                        if (!in_array($file_type, $allowed_file_types)) {
+                            $file_upload_error_messages .= "<div>Only JPG OR PNG files are allowed.</div>";
+                        }
+                        // make sure file does not exist
+                        if (file_exists($target_file)) {
+                            $file_upload_error_messages .= "<div>Image already exists. Try to change file name.</div>";
+                        }
+                        // make sure submitted file is not too large, can't be larger than 1 MB
+                        if ($_FILES['image']['size'] > (5242880)) {
+                            $file_upload_error_messages .= "<div>Image must be less than 5 MB in size.</div>";
+                        }
+                        // make sure the 'uploads' folder exists
+                        // if not, create it
+                        if (!is_dir($target_directory)) {
+                            mkdir($target_directory, 0777, true);
+                        }
+
+                        // if $file_upload_error_messages is still empty
+                        if (empty($file_upload_error_messages)) {
+                            // it means there are no errors, so try to upload the file
+                            if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+                                // it means photo was uploaded
+                            } else {
+                                echo "<div class='alert alert-danger'>";
+                                echo "<div>Unable to upload photo.</div>";
+                                echo "<div>Update the record to upload photo.</div>";
+                                echo "</div>";
+                            }
+                        }
+                        // if $file_upload_error_messages is NOT empty
+                        else {
+                            // it means there are some errors, so show them to user
+                            echo "<div class='alert alert-danger'>";
+                            echo "<div>{$file_upload_error_messages}</div>";
+                            echo "<div>Update the record to upload photo.</div>";
+                            echo "</div>";
+                        }
                     } else {
                         echo "<div class='alert alert-danger'>Unable to save record.</div>";
                     }
                 }
-
                 // show error
                 catch (PDOException $exception) {
                     die('ERROR: ' . $exception->getMessage());
                 }
-
-                if (empty($file_upload_error_messages)) {
-
-                    $target_file = "";
-                    // it means there are no errors, so try to upload the file (now only start uploading)
-                    if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-                        echo "<div class='alert'>";
-                        echo "<div>Uploaded successfully</div>";
-                        echo "</div>";
-                    } else {
-                        echo "<div class='alert alert-danger'>";
-                        echo "<div>Unable to upload photo.</div>";
-                        echo "</div>";
-                    }
-                } else {
-                    // it means there are some errors, so show them to user
-                    echo "<div class='alert alert-danger'>";
-                    echo "<div>{$file_upload_error_messages}</div>";
-                    echo "</div>";
-                }
-
             } else {
                 foreach ($error as $value) {
                     echo "<div class='alert alert-danger'>$value <br/></div>"; //start print error msg
