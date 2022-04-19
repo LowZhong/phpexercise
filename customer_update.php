@@ -44,10 +44,10 @@
         include 'database/function.php';
 
         //-- PHP post to update record will be here --
-     
+
         // check if form was submitted
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            
+
             // posted values 
             $username = htmlspecialchars(strip_tags($_POST['username']));
             $email = htmlspecialchars(strip_tags($_POST['email']));
@@ -57,7 +57,7 @@
             $year = htmlspecialchars(strip_tags($_POST['year']));
             $gender = htmlspecialchars(strip_tags($_POST['gender']));
             $status = htmlspecialchars(strip_tags($_POST['status']));
-            $birthdate =  htmlspecialchars(strip_tags($_POST['year']))."-" . htmlspecialchars(strip_tags($_POST['month'])) . "-" . htmlspecialchars(strip_tags($_POST['day']));
+            $birthdate =  htmlspecialchars(strip_tags($_POST['year'])) . "-" . htmlspecialchars(strip_tags($_POST['month'])) . "-" . htmlspecialchars(strip_tags($_POST['day']));
             /*echo $status = $_POST['status']."</br>";
             echo $gender = $_POST['gender'];*/
 
@@ -75,6 +75,12 @@
                     // prepare query for excecution
                     $stmt = $con->prepare($query);
 
+                    // new 'image' field
+                    $user_image = !empty($_FILES["user_image"]["name"])
+                        ? sha1_file($_FILES['user_image']['tmp_name']) . "-" . basename($_FILES["user_image"]["name"])
+                        : "";
+                    $user_image = htmlspecialchars(strip_tags($user_image));
+
                     // bind the parameters
                     $stmt->bindParam(':customerID', $customerID);
                     $stmt->bindParam(':username', $username);
@@ -85,10 +91,64 @@
                     $stmt->bindParam(':gender', $gender);
                     $stmt->bindParam(':birthdate', $birthdate);
                     $stmt->bindParam(':status', $status);
+                    $stmt->bindParam(':status', $user_image);
 
                     // Execute the query
                     if ($stmt->execute()) {
                         echo "<div class='alert alert-success'>Record was updated.</div>";
+                        if ($user_image) {
+                            $target_directory = "uploads/";
+                            // make sure the 'uploads' folder exists
+                            // if not, create it
+                            if (!is_dir($target_directory)) {
+                                mkdir($target_directory, 0777, true);
+                            }
+                            $target_file = $target_directory . $user_image;
+
+                            // make sure file does not exist
+                            if (file_exists($target_file)) {
+                                $file_upload_error_messages .= "<div>Image already exists. Try to change file name.</div>";
+                            }
+
+                            // check the extension of the upload file
+                            $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
+                            // make sure certain file types are allowed
+                            $allowed_file_types = array("jpg", "png");
+                            if (!in_array($file_type, $allowed_file_types)) {
+                                $file_upload_error_messages .= "<div>Only JPG or PNG files are allowed.</div>";
+                            }
+                            // make sure submitted file is not too large
+                            if ($_FILES['user_image']['size'] > (5242880)) {
+                                $file_upload_error_messages .= "<div>Image must be less than 5 MB in size.</div>";
+                            }
+                            // make sure the 'uploads' folder exists
+                            // if not, create it
+                            if (!is_dir($target_directory)) {
+                                mkdir($target_directory, 0777, true);
+                            }
+                            // if $file_upload_error_messages is still empty
+                            if (empty($file_upload_error_messages)) {
+                                // it means there are no errors, so try to upload the file
+                                if (move_uploaded_file($_FILES["user_image"]["tmp_name"], $target_file)) {
+                                    // it means photo was uploaded
+                                } else {
+                                    echo "<div class='alert alert-danger'>";
+                                    echo "<div>Unable to upload photo.</div>";
+                                    echo "<div>Update the record to upload photo.</div>";
+                                    echo "</div>";
+                                }
+                            }
+                            // if $file_upload_error_messages is NOT empty
+                            else {
+                                // it means there are some errors, so show them to user
+                                echo "<div class='alert alert-danger'>";
+                                echo "<div>{$file_upload_error_messages}</div>";
+                                echo "<div>Update the record to upload photo.</div>";
+                                echo "</div>";
+                            }
+                        } else {
+                            echo "no file selected.";
+                        }
                     } else {
                         echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
                     }
@@ -104,36 +164,36 @@
             }
         }
 
-    
-        // read current record's data
-            try {
-                // prepare select query
-                $query = "SELECT customerID, username, password, email, firstname, lastname, gender, DAY(birthdate) as day, MONTH(birthdate) as month, YEAR(birthdate) as year, status FROM customer WHERE customerID = ? ";
-                $stmt = $con->prepare($query);
 
-                // this is the first question mark
-                $stmt->bindParam(1, $customerID);
-                // execute our query
-                $stmt->execute();
-                // store retrieved row to a variable
-                $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                // values to fill up our form
-                $username = $row['username'];
-                $email = $row['email'];
-                $password = $row['password'];
-                $firstname = $row['firstname'];
-                $lastname = $row['lastname'];
-                $gender = $row['gender'];
-                $lastname = $row['lastname'];
-                $dobyear = $row['year'];
-                $dobmonth = $row['month'];
-                $dobday = $row['day'];
-                $status = $row['status'];
-            }
-            // show error
-            catch (PDOException $exception) {
-                die('ERROR: ' . $exception->getMessage());
-            }
+        // read current record's data
+        try {
+            // prepare select query
+            $query = "SELECT customerID, username, password, email, firstname, lastname, gender, DAY(birthdate) as day, MONTH(birthdate) as month, YEAR(birthdate) as year, status FROM customer WHERE customerID = ? ";
+            $stmt = $con->prepare($query);
+
+            // this is the first question mark
+            $stmt->bindParam(1, $customerID);
+            // execute our query
+            $stmt->execute();
+            // store retrieved row to a variable
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            // values to fill up our form
+            $username = $row['username'];
+            $email = $row['email'];
+            $password = $row['password'];
+            $firstname = $row['firstname'];
+            $lastname = $row['lastname'];
+            $gender = $row['gender'];
+            $lastname = $row['lastname'];
+            $dobyear = $row['year'];
+            $dobmonth = $row['month'];
+            $dobday = $row['day'];
+            $status = $row['status'];
+        }
+        // show error
+        catch (PDOException $exception) {
+            die('ERROR: ' . $exception->getMessage());
+        }
         ?>
 
         <!-- HTML form to update record will be here -->
@@ -214,28 +274,35 @@
 
                         <!--year-->
                         <?php
-                        $year_start  = 2022;
-                        $birthdate = 2022;
+                    $year_start  = 2022;
+                    $birthdate = 2022;
 
-                        echo '<select id="year" name="year">' . "\n";
-                        for ($year = $year_start; $year >= 1990; $year--) {
-                            $selected = ($dobyear == $year ? ' selected' : '');
-                            echo '<option value="' . $year . '"' . $selected . '>' . $year . '</option>' . "\n";
-                        }
-                        echo '</select>' . "\n";
+                    echo '<select id="year" name="year">' . "\n";
+                    for ($year = $year_start; $year >= 1990; $year--) {
+                        $selected = ($dobyear == $year ? ' selected' : '');
+                        echo '<option value="' . $year . '"' . $selected . '>' . $year . '</option>' . "\n";
+                    }
+                    echo '</select>' . "\n";
                         ?>
                     </td>
                 <tr>
-                    <td></td>
+
+                <tr>
+                    <td>Update Your Profile Picture</td>
                     <td>
-                        <input type='submit' value='Save Changes' class='btn btn-primary' />
-                        <a href='customer_read.php' class='btn btn-danger'>Back to Customer List</a>
+                        <input type="file" name="image" />
                     </td>
+                </tr>
+                <td></td>
+                <td>
+                    <input type='submit' value='Save Changes' class='btn btn-primary' />
+                    <a href='customer_read.php' class='btn btn-danger'>Back to Customer List</a>
+                </td>
                 </tr>
             </table>
         </form>
 
-        
+
 
 
     </div>
