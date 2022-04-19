@@ -29,12 +29,10 @@
             $quantity = $_POST['quantity'];
 
 
-
-            //$error['username'] = validateOrderusername($username);
-            //$error['username'] = validateOrder($productID);
-            //$error = array_filter($error);
+            $error['username'] = validateOrderusername($username);
+            $error['productID'] = validateOrderProduct($productID);
+            $error = array_filter($error);
             if (empty($error)) {
-
 
                 try {
                     // insert query
