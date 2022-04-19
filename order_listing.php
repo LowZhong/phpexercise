@@ -24,7 +24,7 @@
         // delete message prompt will be here
 
         // select all data
-        $query = "SELECT orderID, customerID, orderTime FROM order_summary ORDER BY orderID DESC";
+        $query = "SELECT orderID, customerID, orderTime FROM order_summary ORDER BY orderID ASC";
         $stmt = $con->prepare($query);
         $stmt->execute();
 
