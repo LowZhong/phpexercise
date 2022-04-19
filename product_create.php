@@ -70,7 +70,7 @@
                             $file_upload_error_messages .= "<div>Only JPG and PNG files are allowed.</div>";
                         }
                         // make sure submitted file is not too large
-                        if ($_FILES['image']['size'] > (5120)) {
+                        if ($_FILES['image']['size'] > (52428800)) {
                             $file_upload_error_messages .= "<div>Image must be less than 5 MB in size.</div>";
                         }
                     } else {
@@ -102,6 +102,8 @@
                 }
 
                 if (empty($file_upload_error_messages)) {
+
+                    $target_file = "";
                     // it means there are no errors, so try to upload the file (now only start uploading)
                     if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
                         echo "<div class='alert'>";
