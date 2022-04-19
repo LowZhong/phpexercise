@@ -29,8 +29,9 @@
             $quantity = $_POST['quantity'];
 
 
-            $error['username'] = validateOrderusername($username);
-            $error['productID'] = validateOrderProduct($productID);
+            $name = "";
+            $error['username'.'name'.'quantity'] = validateOrderusername($username, $name, $quantity);
+            $error['name'] = validateOrderProduct($productID, $name);
             $error = array_filter($error);
             if (empty($error)) {
 
@@ -75,7 +76,7 @@
             } else {
                 foreach ($error as $value) {
                     echo "<div class='alert alert-danger'>$value <br/></div>"; //start print error msg
-                }
+               }
             }
         }
 
