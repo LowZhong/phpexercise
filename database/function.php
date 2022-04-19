@@ -163,17 +163,17 @@ function user_img($user_image)
 }
 
 //order create
-/*function validateOrderusername($username){
-    if (empty($_POST($username))){
+function validateOrderusername($username){
+    if (empty($_POST['username'])){
         return 'Please select your Username.';
     }
 }
 
-function validateOrder($productID){
-    if (empty($_POST($productID))) {
+function validateOrderProduct($productID){
+    if (empty($_POST['productID'])) {
         return 'Please do not empty the selection products.';
     }
-}*/
+}
 
 function test_input($data)
 {
