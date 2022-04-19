@@ -115,36 +115,37 @@
         <!--we have our html form here where new record information can be updated-->
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "? orderDetailsID={$orderDetailsID}"); ?>" method="post">
             <table class='table table-hover table-responsive table-bordered'>
-                
+
                 <?php
-                    for ($x = 1; $x <= 3; $x++) {
-                        try {
-                            // prepare select query
-                            $query = "SELECT * FROM products";
-                            $stmt = $con->prepare($query);
-                            // execute our query
-                            $stmt->execute();
-                            echo '<tr>
-                                <td>Select Product ' . $x . '</td>
-                                <td>
-                                <div class="col">';
-                            echo "<select class='form_select' name='productID[]' >";
-                            echo '<option selected>Product ' . $x . '</option>';
-                            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                extract($row);
-                                echo "<option value='" . $productID . "' >" . $name . "</option>";
-                            }
-                            echo "</select>
-                            </div>
-                                Quantity
-                                <input type='number' name='quantity[]' class='form-control' value='" . $quantity[$x] . "' />";
+                //for ($x = 1; $x <= 3; $x++) {
+                    try {
+                        // prepare select query
+                        $query = "SELECT * FROM products";
+                        $stmt = $con->prepare($query);
+                        
+                        // execute our query
+                        $stmt->execute();
+                        echo '<tr class="productrow">
+                            <td>Select Product</td>
+                            <td>
+                            <div class="col">';
+                        echo "<select class='form_select' name='productID[]' >";
+                        echo '<option selected>Product</option>';
+                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                            extract($row);
+                            echo "<option value='" . $productID . "' >" . $name . "</option>";
                         }
-                        // show error
-                        catch (PDOException $exception) {
-                            die('ERROR: ' . $exception->getMessage());
-                        }
+                        echo "</select>
+                        </div>
+                            Quantity
+                            <input type='number' name='quantity[]' class='form-control' value='' />";
                     }
-                    ?>
+                    // show error
+                    catch (PDOException $exception) {
+                        die('ERROR: ' . $exception->getMessage());
+                    }
+                //}
+                ?>
                 <tr>
                     <td></td>
                     <td>
@@ -153,11 +154,38 @@
                     </td>
                 </tr>
             </table>
+
+            <tr>
+                <td colspan="2">
+                    <div>
+                        <div>
+                            <button type="button" class="add">Add More Product</button>
+                            <button type="button" class="del">Delete Last Product</button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
         </form>
 
 
     </div>
     <!-- end .container -->
+    <script>
+        document.addEventListener('click', function(event) {
+            if (event.target.matches('.add')) {
+                var element = document.querySelector('.productrow');
+                var clone = element.cloneNode(true);
+                element.after(clone);
+            }
+            if (event.target.matches('.del')) {
+                var total = document.querySelectorAll('.productrow').length;
+                if (total > 1) {
+                    var element = document.querySelector('.productrow');
+                    element.remove(element);
+                }
+            }
+        }, false);
+    </script>
 </body>
 
 </html>

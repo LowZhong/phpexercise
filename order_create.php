@@ -113,11 +113,11 @@
                             // execute our query
                             $stmt->execute();
                             echo '<tr class="productrow">
-                                <td>Select Product ' . $x . '</td>
+                                <td>Select Product</td>
                                 <td>
                                 <div class="col">';
                             echo "<select class='form_select' name='productID[]' >";
-                            echo '<option selected>Product ' . $x . '</option>';
+                            echo '<option selected>Product</option>';
                             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                 extract($row);
                                 echo "<option value='" . $productID . "' >" . $name . "</option>";
@@ -125,7 +125,7 @@
                             echo "</select>
                             </div>
                                 Quantity
-                                <input type='number' name='quantity[]' class='form-control' value='" . $quantity[$x] . "' />";
+                                <input type='number' name='quantity[]' class='form-control' value='' />";
                         }
                         // show error
                         catch (PDOException $exception) {
