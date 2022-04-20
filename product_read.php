@@ -12,7 +12,7 @@
     <div class="container">
         <?php include 'database/navbar.php'; ?>
         <div class="page-header">
-            <h1>Read Products</h1>
+            <h1>Product Lists</h1>
         </div>
 
         <!-- PHP code to read records will be here -->
