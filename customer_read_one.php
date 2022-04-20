@@ -23,7 +23,7 @@
         $customerID = isset($_GET['customerID']) ? $_GET['customerID'] : die('ERROR: Record ID not found.');
         //include database connection
         include 'database/connection.php';
-        include 'database/function.php';
+        include 'function/function.php';
 
         // read current record's data
         try {

@@ -41,7 +41,7 @@
 
         //include database connection
         include 'database/connection.php';
-        include 'database/function.php';
+        include 'function/function.php';
 
         //-- PHP post to update record will be here --
 

@@ -19,7 +19,7 @@
         <?php
         // connection
         include 'database/connection.php';
-        include 'database/function.php';
+        include 'function/function.php';
 
         $orderID = isset($_GET['orderID']) ? $_GET['orderID'] : die('ERROR: Record User not found.');
 

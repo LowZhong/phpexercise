@@ -41,7 +41,7 @@
 
         //include database connection
         include 'database/connection.php';
-        include 'database/function.php';
+        include 'function/function.php';
 
         // check if form was submitted
         if ($_SERVER["REQUEST_METHOD"] == "POST") {

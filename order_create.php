@@ -17,7 +17,7 @@
         <?php
         // include database connection
         include 'database/connection.php';
-        include 'database/function.php';
+        include 'function/function.php';
         // define variables and set to empty values
         //$orderID = $username = $productID = $quantity = "";
         if ($_SERVER["REQUEST_METHOD"] == "POST") {

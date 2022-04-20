@@ -24,7 +24,7 @@
         <?php
         // include database connection
         include 'database/connection.php';
-        include 'database/function.php';
+        include 'function/function.php';
 
         // delete message prompt will be here
 

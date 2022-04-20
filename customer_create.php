@@ -22,7 +22,7 @@
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // include database connection
             include 'database/connection.php';
-            include 'database/function.php';
+            include 'function/function.php';
             // posted values
             $username = $_POST['username'];
             $password = $_POST['password']; //md5 encrypt
