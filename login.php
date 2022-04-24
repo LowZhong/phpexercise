@@ -54,7 +54,8 @@
                 <tr>
                     <td>Username</td>
                     <td>
-                        <input type='text' name='username' class='form-control'  />
+                        <input type='text' name='username' class='form-control'/>
+                        
                     </td>
                 </tr>
                 <tr>
