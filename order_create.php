@@ -33,48 +33,52 @@
 
             echo $customerID;
             if (!empty($customerID)) {
-                if (!empty($productID)) {
+                if (!empty(array_filter($productID))) {
+                    if (!empty(array_filter($quantity))) {
 
-                    try {
-                        // insert query
-                        $query = "INSERT INTO order_summary (customerID) VALUES (?)";
-                        // prepare query for execution
-                        $stmt = $con->prepare($query);
-                        // bind the parameters
-                        $stmt->bindParam(1, $customerID);
-                        // Execute the query
-                        if ($stmt->execute()) {
-                            $last_order_id = $con->lastInsertId();
-                            if ($last_order_id > 0) {
+                        try {
+                            // insert query
+                            $query = "INSERT INTO order_summary (customerID) VALUES (?)";
+                            // prepare query for execution
+                            $stmt = $con->prepare($query);
+                            // bind the parameters
+                            $stmt->bindParam(1, $customerID);
+                            // Execute the query
+                            if ($stmt->execute()) {
+                                $last_order_id = $con->lastInsertId();
+                                if ($last_order_id > 0) {
 
-                                for ($i = 0; $i < count($productID); $i++) {
+                                    for ($i = 0; $i < count($productID); $i++) {
 
-                                    try {
-                                        $query = "INSERT INTO order_details (orderID, productID, quantity) VALUES (:lastorderid, :productID, :quantity)";
+                                        try {
+                                            $query = "INSERT INTO order_details (orderID, productID, quantity) VALUES (:lastorderid, :productID, :quantity)";
 
-                                        //prepare query for execute
-                                        $stmt = $con->prepare($query);
-                                        //posted values
-                                        $stmt->bindParam(":lastorderid", $last_order_id);
-                                        $stmt->bindParam(":productID", $productID[$i]);
-                                        $stmt->bindParam(":quantity", $quantity[$i]);
-                                        //execute the query
-                                        if ($stmt->execute()) {
+                                            //prepare query for execute
+                                            $stmt = $con->prepare($query);
+                                            //posted values
+                                            $stmt->bindParam(":lastorderid", $last_order_id);
+                                            $stmt->bindParam(":productID", $productID[$i]);
+                                            $stmt->bindParam(":quantity", $quantity[$i]);
+                                            //execute the query
+                                            if ($stmt->execute()) {
+                                            }
+                                        } catch (PDOException $exception) {
+                                            die('ERROR: ' . $exception->getMessage());
                                         }
-                                    } catch (PDOException $exception) {
-                                        die('ERROR: ' . $exception->getMessage());
                                     }
                                 }
+                                echo "<div class='alert alert-success'>Record was saved.</div>";
+                            } else {
+                                echo "<div class='alert alert-danger'>Unable to save record.</div>";
                             }
-                            echo "<div class='alert alert-success'>Record was saved.</div>";
-                        } else {
-                            echo "<div class='alert alert-danger'>Unable to save record.</div>";
+                        } catch (PDOException $exception) {
+                            die('ERROR: ' . $exception->getMessage());
                         }
-                    } catch (PDOException $exception) {
-                        die('ERROR: ' . $exception->getMessage());
+                    } else {
+                        echo "<div class='alert alert-danger'>Please Enter Your Quantity.</div>";
                     }
                 } else {
-                    echo "<div class='alert alert-danger'>Please Enter Your Quantity.</div>";
+                    echo "<div class='alert alert-danger'>Please Select Your Products.</div>";
                 }
             } else {
                 echo "<div class='alert alert-danger'>Please Select Your Username.</div>";

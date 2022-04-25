@@ -46,78 +46,83 @@
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // posted values
-            $orderDetailsID = htmlspecialchars(strip_tags($_POST['orderDetailsID']));
-            $orderID = htmlspecialchars(strip_tags($_POST['orderID']));
-            $product = htmlspecialchars(strip_tags($_POST['productID']));
-            $quantity = htmlspecialchars(strip_tags($_POST['quantity']));
+            $orderDetailsID = $_POST['orderDetailsID'];
+            $product_ID = $_POST['productID'];
+            $quantity = $_POST['quantity'];
+            for ($i = 0; $i < count($product_ID); $i++) {
+                try {
+                    // write update query
+                    // in this case, it seemed like we have so many fields to pass and
+                    // it is better to label them and not use question marks
+                    $query = "UPDATE order_details SET productID = :productID, quantity = :quantity  WHERE orderDetailsID = :orderDetailsID";
+                    // prepare query for excecution
+                    $stmt = $con->prepare($query);
 
-            try {
-                // write update query
-                // in this case, it seemed like we have so many fields to pass and
-                // it is better to label them and not use question marks
-                $query = "UPDATE order_summary, order_details SET * WHERE orderDetailsID = :orderDetailsID";
-                // prepare query for excecution
-                $stmt = $con->prepare($query);
+                    // bind the parameters
+                    $stmt->bindParam(':orderDetailsID', $orderDetailsID[$i]);
+                    //$stmt->bindParam(':customerID', $customerID);
+                    //$stmt->bindParam(':orderID', $orderID);
+                    $stmt->bindParam(':productID', $product_ID[$i]);
+                    $stmt->bindParam(':quantity', $quantity[$i]);
 
-                // bind the parameters
-                $stmt->bindParam(':orderDetailsID', $orderDetailsID);
-                $stmt->bindParam(':customerID', $customerID);
-                $stmt->bindParam(':orderID', $orderID);
-                $stmt->bindParam(':productID', $productID);
-                $stmt->bindParam(':quantity', $quantity);
-
-                // Execute the query
-                if ($stmt->execute()) {
-                    echo "<div class='alert alert-success'>Record was updated.</div>";
-                } else {
-                    echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
+                    // Execute the query
+                    if ($stmt->execute()) {
+                        if($i+1 == count($product_ID) ){
+                            echo "<div class='alert alert-success'>Record was updated.</div>";
+                        }
+                    } else {
+                        echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
+                    }
+                }
+                // show errors
+                catch (PDOException $exception) {
+                    die('ERROR: ' . $exception->getMessage());
                 }
             }
-            // show errors
+        }else{
+             // read current record's data
+
+             
+            try {
+                // prepare select query
+                $query = "SELECT * FROM order_details WHERE orderID = ?";
+                $stmt = $con->prepare($query);
+
+                // this is the first question mark
+                $stmt->bindParam(1, $orderID);
+
+                // execute our query
+                $stmt->execute();
+
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    // values to fill up our form
+                    $orderDetailsID[] = $row['orderDetailsID'];
+                    $product_ID[] = $row['productID'];
+                    $quantity[] = $row['quantity'];
+                }
+            }
+
+            // show error
             catch (PDOException $exception) {
                 die('ERROR: ' . $exception->getMessage());
-            }
+            } 
         }
 
-        // read current record's data
-        try {
-            // prepare select query
-            $query = "SELECT * FROM order_details WHERE orderID = ? LIMIT 0,1";
-            $stmt = $con->prepare($query);
-
-            // this is the first question mark
-            $stmt->bindParam(1, $orderID);
-
-            // execute our query
-            $stmt->execute();
-
-            // store retrieved row to a variable
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            // values to fill up our form
-            $orderDetailsID = $row['orderDetailsID'];
-            $orderID = $row['orderID'];
-            $productID = $row['productID'];
-            $quantity = $row['quantity'];
-        }
-
-        // show error
-        catch (PDOException $exception) {
-            die('ERROR: ' . $exception->getMessage());
-        }
+       
+       
         ?>
 
         <!-- HTML form to update record will be here -->
         <!-- PHP post to update record will be here -->
 
-
+       
 
         <!--we have our html form here where new record information can be updated-->
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "? orderDetailsID={$orderDetailsID}"); ?>" method="post">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?orderID={$orderID}"); ?>" method="post">
             <table class='table table-hover table-responsive table-bordered'>
 
                 <?php
-                //for ($x = 1; $x <= 3; $x++) {
+                for ($x = 0; $x < count($quantity); $x++) {
                     try {
                         // prepare select query
                         $query = "SELECT * FROM products";
@@ -133,18 +138,24 @@
                         echo '<option selected>Product</option>';
                         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                             extract($row);
-                            echo "<option value='" . $productID . "' >" . $name . "</option>";
+
+                            if($product_ID[$x] == $productID){
+                                echo "<option value='" . $productID . "' selected >" . $name . "</option>";
+                            }else{
+                                echo "<option value='" . $productID . "' >" . $name . "</option>";
+                            }
                         }
                         echo "</select>
                         </div>
                             Quantity
-                            <input type='number' name='quantity[]' class='form-control' value='' />";
+                            <input type='number' name='quantity[]' class='form-control' value='".$quantity[$x]."'/>
+                            <input type='hidden' name='orderDetailsID[]' value='".$orderDetailsID[$x]."'/>";
                     }
                     // show error
                     catch (PDOException $exception) {
                         die('ERROR: ' . $exception->getMessage());
                     }
-                //}
+                }
                 ?>
                 <tr>
                     <td></td>

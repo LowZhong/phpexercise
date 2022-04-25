@@ -76,14 +76,14 @@ function validateAge($year, $birthdate)
 
 function validateGender($gender)
 {
-    if (empty($_POST["gender"])) {
+    if (empty($gender)) {
         return 'Please Select Your gender.';
     }
 }
 
 function validateStatus($status)
 {
-    if (empty($_POST["status"])) {
+    if (empty($status)) {
         return 'Please Select Your status.';
     }
 }
@@ -159,19 +159,6 @@ function user_img($user_image)
     else if($user_image != null)
     {
         return '<img src= "'.$user_image.'.png">';
-    }
-}
-
-//order create
-function validateOrderusername($customerID,$username){
-    if (empty($_POST['customerID']) || empty($_POST['username'])){
-        return 'Please select your Username.';
-    }
-}
-
-function validateOrderProduct($productID, $name){
-    if (empty($_POST['productID']) || empty($_POST['name'])) {
-        return 'Please do not empty the selection products.';
     }
 }
 

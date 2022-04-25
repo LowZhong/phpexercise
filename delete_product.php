@@ -14,7 +14,7 @@ try {
                 ON order_details.productID = products.productID
                 WHERE order_details.productID IS NULL";
     $stmt = $con->prepare($query);
-    $stmt->bindParam(1, $productID);
+    //$stmt->bindParam(1, $productID);
 
     if ($stmt->execute()) { 
         // redirect to read records page and

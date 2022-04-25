@@ -31,11 +31,13 @@
             $email = $_POST['email'];
             $firstname = $_POST['firstname'];
             $lastname = $_POST['lastname'];
-            $year = $_POST['year'];
-            $month = $_POST['month'];
-            $day = $_POST['day'];
-            $birthdate = "$year/$month/$day";
-            $stmt = $con->prepare("SELECT * FROM customerID WHERE usernameID= ?");
+            $status = $_POST['status'];
+            $year_ = $_POST['year'];
+            $month_ = $_POST['month'];
+            $day_ = $_POST['day'];
+            $gender = isset($_POST['gender']) ? $_POST['gender'] : "";
+            $birthdate = "$year_/$month_/$day_";
+            $stmt = $con->prepare("SELECT * FROM customer WHERE customerID= ?");
             //execute the statement
             //$stmt->execute($customerID);
             //fetch result
@@ -44,7 +46,7 @@
             //function
             $error['username'] = validateUsername($username); //array call function
             $error['password'] = validatePassword($password, $inputconfirmPassword);
-            $error['birthdate'] = validateAge($year, $birthdate);
+            $error['birthdate'] = validateAge($year_, $birthdate);
             $error['gender'] = validateGender($gender);
             $error['status'] = validateStatus($status);
 
@@ -145,7 +147,10 @@
                 }
             }
         }
+       
         ?>
+
+        
 
         <!-- html form here where the product information will be entered -->
 
@@ -154,15 +159,15 @@
 
                 <tr>
                     <td>Username</td>
-                    <td><input type="text" name="username" id="username" class="form-control" placeholder="username" value="<?php echo $username; ?>"></td>
+                    <td><input type='text' name='username' class="form-control" placeholder="username" value="<?php echo $username; ?>"></td>
                 </tr>
                 <tr>
                     <td>Firstname</td>
-                    <td><input type="text" name="firstname" id="firstname" class="form-control" placeholder="First name" value="<?php echo $firstname; ?>"></td>
+                    <td><input type='text' name='firstname'  class="form-control" placeholder="First name" value="<?php echo $firstname; ?>"></td>
                 </tr>
                 <tr>
                     <td>Lastname</td>
-                    <td><input type="text" name="lastname" id="lastname" class="form-control" placeholder="Last name" value="<?php echo $lastname; ?>"></td>
+                    <td><input type='text' name='lastname'  class="form-control" placeholder="Last name" value="<?php echo $lastname; ?>"></td>
                 </tr>
 
 
@@ -178,26 +183,26 @@
 
                 <tr>
                     <td>Email</td>
-                    <td><input type="email" class="form-control" name="email" id="email" placeholder="Email" value="<?php echo $email; ?>"></td>
+                    <td><input type='email' class='form-control' name='email' placeholder='Email' value="<?php echo $email; ?>"></td>
                 </tr>
                 <tr>
                     <td>Password</td>
-                    <td><input type="password" class="form-control" name="password" id="password" placeholder="Password" value="<?php echo $password; ?>"></td>
+                    <td><input type='password' class='form-control' name='password'  placeholder='Password' value="<?php echo $password; ?>"></td>
                 </tr>
                 <tr>
                     <td>Confirm Password</td>
-                    <td><input type="password" class="form-control" id="inputconfirmPassword" name="inputconfirmPassword" placeholder="Password" value="<?php echo $inputconfirmPassword; ?>"></td>
+                    <td><input type='password' class='form-control' name='inputconfirmPassword' placeholder='Password' value="<?php echo $inputconfirmPassword; ?>"></td>
                 </tr>
 
                 <tr>
                     <td>Date Of Birth</td>
                     <!--day-->
                     <td><?php
-                        $birthdate = date('d'); //current day
+                        
 
                         echo '<select id="day" name="day">' . "\n";
                         for ($day = 1; $day <= 31; $day++) {
-                            $selected = ($birthdate == $day ? ' selected' : '');
+                            $selected = ($day_ == $day ? ' selected' : '');
                             echo '<option value="' . $day . '"' . $selected . '>' . $day . '</option>' . "\n";
                         }
                         echo '</select>' . "\n";
@@ -209,7 +214,7 @@
 
                         echo '<select id="month" name="month">' . "\n";
                         for ($month = 1; $month <= 12; $month++) {
-                            $selected = ($birthdate == $month ? ' selected' : '');
+                            $selected = ($month_ == $month ? ' selected' : '');
                             echo '<option value="' . $month . '"' . $selected . '>' . date('F', mktime(0, 0, 0, $month)) . '</option>' . "\n";
                         }
                         echo '</select>' . "\n";
@@ -219,11 +224,11 @@
                         <!--year-->
                         <?php
                     $year_start  = 2022;
-                    $birthdate = 2022;
+                
 
                     echo '<select id="year" name="year">' . "\n";
                     for ($year = $year_start; $year >= 1990; $year--) {
-                        $selected = ($birthdate == $year ? ' selected' : '');
+                        $selected = ($year_ == $year ? ' selected' : '');
                         echo '<option value="' . $year . '"' . $selected . '>' . $year . '</option>' . "\n";
                     }
                     echo '</select>' . "\n";
