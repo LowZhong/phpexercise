@@ -2,19 +2,42 @@
 <html>
 
 <head>
-    <title>PDO - Create a Record - PHP CRUD Tutorial</title>
+    <title>Product Creates</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900%7CRoboto+Slab:400,700" />
+    <!-- Nucleo Icons -->
+    <link href="assets/css/nucleo-icons.css" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <!-- CSS Files -->
+    <link id="pagestyle" href="assets/css/material-dashboard.css?v=3.0.2" rel="stylesheet" />
 </head>
 
 <body>
     <!-- container -->
     <div class="container">
-        <?php include 'database/navbar.php'; ?>
+        <?php include 'navbar/navbar.php'; ?>
+        <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true">
+            <div class="container-fluid py-1 px-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
+                        <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Create Product</li>
+                    </ol>
+                </nav>
+        </nav>
         <div class="page-header">
-            <h1>Create Product</h1>
+            <h1>Create A Product</h1>
         </div>
 
+
+
         <?php
+        ob_start();
         // define variables and set to empty values
         $name = $description = $price = "";
 
@@ -61,57 +84,62 @@
 
                     // Execute the query
                     if ($stmt->execute()) {
-                        header("Location:product_read.php");
-                        echo "<div class='alert alert-success'>Record was saved.</div>";
+                        header('location: product_read.php?=actionupdated');
+                        ob_end_clean();
+                        //echo "<div class='alert alert-success'>Record was saved.</div>";
                         // now, if image is not empty, try to upload the image
                         if ($image) {
-
-                            // sha1_file() function is used to make a unique file name
                             $target_directory = "uploads/";
-                            $target_file = $target_directory . $image;
+                            // make sure the 'uploads' folder exists
+                            // if not, create it
+                            if (!is_dir($target_directory)) {
+                                mkdir($target_directory, 0777, true);
+                            }
+                            $target_file = $target_directory . $user_image;
+
+                            // make sure file does not exist
+                            if (file_exists($target_file)) {
+                                $file_upload_error_messages .= "<div>Image already exists. Try to change file name.</div>";
+                            }
+
+                            // check the extension of the upload file
                             $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
-
-                            // error message is empty
-                            $file_upload_error_messages = "";
-                        }
-                        // make sure certain file types are allowed
-                        $allowed_file_types = array("jpg", "png");
-                        if (!in_array($file_type, $allowed_file_types)) {
-                            $file_upload_error_messages .= "<div>Only JPG OR PNG files are allowed.</div>";
-                        }
-                        // make sure file does not exist
-                        if (file_exists($target_file)) {
-                            $file_upload_error_messages .= "<div>Image already exists. Try to change file name.</div>";
-                        }
-                        // make sure submitted file is not too large, can't be larger than 1 MB
-                        if ($_FILES['image']['size'] > (5242880)) {
-                            $file_upload_error_messages .= "<div>Image must be less than 5 MB in size.</div>";
-                        }
-                        // make sure the 'uploads' folder exists
-                        // if not, create it
-                        if (!is_dir($target_directory)) {
-                            mkdir($target_directory, 0777, true);
-                        }
-
-                        // if $file_upload_error_messages is still empty
-                        if (empty($file_upload_error_messages)) {
-                            // it means there are no errors, so try to upload the file
-                            if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-                                // it means photo was uploaded
-                            } else {
+                            // make sure certain file types are allowed
+                            $allowed_file_types = array("jpg", "png");
+                            if (!in_array($file_type, $allowed_file_types)) {
+                                $file_upload_error_messages .= "<div>Only JPG or PNG files are allowed.</div>";
+                            }
+                            // make sure submitted file is not too large
+                            if ($_FILES['user_image']['size'] > (5242880)) {
+                                $file_upload_error_messages .= "<div>Image must be less than 5 MB in size.</div>";
+                            }
+                            // make sure the 'uploads' folder exists
+                            // if not, create it
+                            if (!is_dir($target_directory)) {
+                                mkdir($target_directory, 0777, true);
+                            }
+                            // if $file_upload_error_messages is still empty
+                            if (empty($file_upload_error_messages)) {
+                                // it means there are no errors, so try to upload the file
+                                if (move_uploaded_file($_FILES["user_image"]["tmp_name"], $target_file)) {
+                                    // it means photo was uploaded
+                                } else {
+                                    echo "<div class='alert alert-danger'>";
+                                    echo "<div>Unable to upload photo.</div>";
+                                    echo "<div>Update the record to upload photo.</div>";
+                                    echo "</div>";
+                                }
+                            }
+                            // if $file_upload_error_messages is NOT empty
+                            else {
+                                // it means there are some errors, so show them to user
                                 echo "<div class='alert alert-danger'>";
-                                echo "<div>Unable to upload photo.</div>";
+                                echo "<div>{$file_upload_error_messages}</div>";
                                 echo "<div>Update the record to upload photo.</div>";
                                 echo "</div>";
                             }
-                        }
-                        // if $file_upload_error_messages is NOT empty
-                        else {
-                            // it means there are some errors, so show them to user
-                            echo "<div class='alert alert-danger'>";
-                            echo "<div>{$file_upload_error_messages}</div>";
-                            echo "<div>Update the record to upload photo.</div>";
-                            echo "</div>";
+                        } else {
+                            echo "no file selected.";
                         }
                     } else {
                         echo "<div class='alert alert-danger'>Unable to save record.</div>";
@@ -132,43 +160,37 @@
         <!-- html form here where the product information will be entered -->
 
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
-            <table class='table table-hover table-responsive table-bordered'>
 
-                <tr>
-                    <td>Name</td>
-                    <td><input type='text' name='name' class='form-control' value="<?php echo $name; ?>" /></td>
-                </tr>
+            <table class='table table-hover table-responsive table-bordered border border-3'>
 
-                <tr>
-                    <td>Description</td>
-                    <td><textarea name='description' class='form-control' value="<?php echo $description; ?>"></textarea></td>
-                </tr>
+                <div class="mb-3">
+                    <tr class="border border-3">
+                        <td class="border border-3 p-4">Name</td>
+                        <td class="input-group input-group-outline my-2"><input type='text' name='name' class='form-control' value="<?php echo $name; ?>" /></td>
+                    </tr>
 
-                <tr>
-                    <td>Price</td>
-                    <td><input type='text' name='price' class='form-control' value="<?php echo $price; ?>" /></td>
-                </tr>
+                    <tr class="border border-3">
+                        <td class="border border-3 p-4">Description</td>
+                        <td class="input-group input-group-outline my-2"><textarea name='description' class='form-control' value="<?php echo $description; ?>"></textarea></td>
+                    </tr>
 
-                <tr>
-                    <td>Upload Image</td>
-                    <td>
-                        <input type="file" name="image" />
+                    <tr class="border border-3">
+                        <td class="border border-3 p-4">Price</td>
+                        <td class="input-group input-group-outline my-2"><input type='text' name='price' class='form-control' value="<?php echo $price; ?>" /></td>
+                    </tr>
 
-                    </td>
-                </tr>
+                    <tr class="border border-3">
+                        <td class=" border border-3 p-4">Upload Image</td>
+                        <td class="p-4"><input type="file" name="image" /></td>
 
-                <tr>
-
-                    <td></td>
-
-                    <td>
-                        <input type='submit' value='Save' class='btn btn-primary' />
-                        <a href='product_read.php' class='btn btn-danger'>Back to read products</a>
-                    </td>
-                </tr>
-
+                    </tr>
+                </div>
             </table>
 
+            <div class="d-flex justify-content-end gap-2">
+                <input type='submit' value='Save' class='btn btn-primary' />
+                <a href='product_read.php' class='btn btn-danger'>Back to read products</a>
+            </div>
         </form>
     </div>
     <!-- end .container -->
