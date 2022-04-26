@@ -4,6 +4,16 @@
 <head>
     <title>PDO - Read Records - PHP CRUD Tutorial</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900%7CRoboto+Slab:400,700" />
+    <!-- Nucleo Icons -->
+    <link href="assets/css/nucleo-icons.css" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <!-- CSS Files -->
+    <link id="pagestyle" href="assets/css/material-dashboard.css?v=3.0.2" rel="stylesheet" />
     <!-- Latest compiled and minified Bootstrap CSS -->
     <!-- custom css -->
     <style>
@@ -28,6 +38,16 @@
 <body>
     <!-- container -->
     <div class="container">
+        <?php include 'navbar/navbar.php'; ?>
+        <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true">
+            <div class="container-fluid py-1 px-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
+                        <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Update Products</li>
+                    </ol>
+                </nav>
+        </nav>
         <div class="page-header">
             <h1>Update Product</h1>
         </div>
@@ -178,35 +198,34 @@
         <!-- HTML form to update record will be here -->
         <!--we have our html form here where new record information can be updated-->
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?productID={$productID}"); ?>" method="post">
-            <table class='table table-hover table-responsive table-bordered'>
-                <tr>
-                    <td>Name</td>
-                    <td><input type='text' name='name' <?php echo htmlspecialchars($name, ENT_QUOTES);  ?> class='form-control' value="<?php echo $name; ?>" /></td>
-                </tr>
-                <tr>
-                    <td>Description</td>
-                    <td><textarea name='description' class='form-control'><?php echo htmlspecialchars($description, ENT_QUOTES); ?></textarea></td>
-                </tr>
-                <tr>
-                    <td>Price</td>
-                    <td><input type='text' name='price' value="<?php echo htmlspecialchars($price, ENT_QUOTES);  ?>" class='form-control' value="<?php echo $price; ?>" /></td>
-                </tr>
+            <table class='table table-hover table-responsive table-bordered border border-3'>
+                <div class="mb-3">
+                    <tr class="border border-3">
+                        <td class="border border-3 p-4">Name</td>
+                        <td class="input-group input-group-outline my-2"><input type='text' name='name' <?php echo htmlspecialchars($name, ENT_QUOTES);  ?> class='form-control' value="<?php echo $name; ?>" /></td>
+                    </tr>
+                    <tr class="border border-3">
+                        <td class="border border-3 p-4">Description</td>
+                        <td class="input-group input-group-outline my-2"><textarea name='description' class='form-control'><?php echo htmlspecialchars($description, ENT_QUOTES); ?></textarea></td>
+                    </tr>
+                    <tr class="border border-3">
+                        <td class="border border-3 p-4">Price</td>
+                        <td class="input-group input-group-outline my-2"><input type='text' name='price' value="<?php echo htmlspecialchars($price, ENT_QUOTES);  ?>" class='form-control' value="<?php echo $price; ?>" /></td>
+                    </tr>
 
-                <tr>
-                    <td>Upload Product Image</td>
-                    <td>
-                        <input type="file" name="image" />
-                    </td>
-                </tr>
+                    <tr class="border border-3">
+                        <td class="border border-3 p-4">Upload Product Image</td>
+                        <td class="p-3">
+                            <input type="file" name="image" />
+                        </td>
+                    </tr>
+                </div>
 
-                <tr>
-                    <td></td>
-                    <td>
-                        <input type='submit' value='Save Changes' class='btn btn-primary' />
-                        <a href='product_read.php' class='btn btn-danger'>Back to read products</a>
-                    </td>
-                </tr>
             </table>
+            <div class="d-flex justify-content-end gap-2">
+                <input type='submit' value='Save Changes' class='btn btn-primary' />
+                <a href='product_read.php' class='btn btn-danger'>Back to read products</a>
+            </div>
         </form>
 
 

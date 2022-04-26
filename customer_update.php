@@ -29,6 +29,7 @@
 <body>
     <!-- container -->
     <div class="container">
+        <?php include 'navbar/navbar.php'; ?>
         <div class="page-header">
             <h1>Update Customer</h1>
         </div>

@@ -145,9 +145,9 @@ function pro_img($image)
     if ($image == null){
         return "<img src='images/default_product_image.png' width=80 alt='prod_default'/>";
     }
-    else if($image != null)
+    else
     {
-        return '<img src= "'.$image.'.png">';
+        return "<img src= 'uploads/$image' width=80/>";
     }
 }
 
@@ -156,9 +156,9 @@ function user_img($user_image)
     if ($user_image == null){
         return "<img src='images/default_profile_image.jpg' width=50 alt='user_default'/>";
     }
-    else if($user_image != null)
+    else
     {
-        return '<img src= "'.$user_image.'.png">';
+        return "<img src= 'uploads/$user_image' width=30/>";
     }
 }
 

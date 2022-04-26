@@ -9,7 +9,7 @@
 <body>
     <!-- container -->
     <div class="container">
-        <?php include 'database/navbar.php'; ?>
+        <?php include 'navbar/navbar.php'; ?>
         <div class="page-header">
             <h1>Customer Create Account</h1>
         </div>

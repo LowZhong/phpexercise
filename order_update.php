@@ -29,6 +29,7 @@
 <body>
     <!-- container -->
     <div class="container">
+        <?php include 'navbar/navbar.php'; ?>
         <div class="page-header">
             <h1>Update Order</h1>
         </div>
@@ -67,7 +68,7 @@
 
                     // Execute the query
                     if ($stmt->execute()) {
-                        if($i+1 == count($product_ID) ){
+                        if ($i + 1 == count($product_ID)) {
                             echo "<div class='alert alert-success'>Record was updated.</div>";
                         }
                     } else {
@@ -79,10 +80,10 @@
                     die('ERROR: ' . $exception->getMessage());
                 }
             }
-        }else{
-             // read current record's data
+        } else {
+            // read current record's data
 
-             
+
             try {
                 // prepare select query
                 $query = "SELECT * FROM order_details WHERE orderID = ?";
@@ -105,17 +106,17 @@
             // show error
             catch (PDOException $exception) {
                 die('ERROR: ' . $exception->getMessage());
-            } 
+            }
         }
 
-       
-       
+
+
         ?>
 
         <!-- HTML form to update record will be here -->
         <!-- PHP post to update record will be here -->
 
-       
+
 
         <!--we have our html form here where new record information can be updated-->
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?orderID={$orderID}"); ?>" method="post">
@@ -127,7 +128,7 @@
                         // prepare select query
                         $query = "SELECT * FROM products";
                         $stmt = $con->prepare($query);
-                        
+
                         // execute our query
                         $stmt->execute();
                         echo '<tr class="productrow">
@@ -139,17 +140,17 @@
                         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                             extract($row);
 
-                            if($product_ID[$x] == $productID){
+                            if ($product_ID[$x] == $productID) {
                                 echo "<option value='" . $productID . "' selected >" . $name . "</option>";
-                            }else{
+                            } else {
                                 echo "<option value='" . $productID . "' >" . $name . "</option>";
                             }
                         }
                         echo "</select>
                         </div>
                             Quantity
-                            <input type='number' name='quantity[]' class='form-control' value='".$quantity[$x]."'/>
-                            <input type='hidden' name='orderDetailsID[]' value='".$orderDetailsID[$x]."'/>";
+                            <input type='number' name='quantity[]' class='form-control' value='" . $quantity[$x] . "'/>
+                            <input type='hidden' name='orderDetailsID[]' value='" . $orderDetailsID[$x] . "'/>";
                     }
                     // show error
                     catch (PDOException $exception) {

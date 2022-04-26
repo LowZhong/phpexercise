@@ -11,7 +11,7 @@
     <!-- container -->
     <div class="container">
         <div class="page-header">
-            <?php include 'database/navbar.php'; ?>
+            <?php include 'navbar/navbar.php'; ?>
             <h1>Customer Page</h1>
         </div>
 
