@@ -36,7 +36,7 @@
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT productID, name, description, price FROM products WHERE productID = ? LIMIT 0,1";
+            $query = "SELECT productID, name, description, price, image FROM products WHERE productID = ? LIMIT 0,1";
             $stmt = $con->prepare($query);
 
             // this is the first question mark
@@ -52,6 +52,7 @@
             $name = $row['name'];
             $description = $row['description'];
             $price = $row['price'];
+            $image = $row['image'];
         }
 
         // show error
@@ -59,7 +60,6 @@
             die('ERROR: ' . $exception->getMessage());
         }
         ?>
-
 
         <!-- HTML read one record table will be here -->
 
@@ -76,6 +76,10 @@
                 <tr class='border border-3'>
                     <td class='border border-3'>Price</td>
                     <td><?php echo htmlspecialchars($price, ENT_QUOTES);  ?></td>
+                </tr>
+                <tr class='border border-3'>
+                    <td class='border border-3'>Images</td>
+                    <td><?php echo " ". pro_img($image) . " "?></td>
                 </tr>
             </div>
         </table>

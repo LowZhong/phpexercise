@@ -28,7 +28,7 @@
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT customerID, username, password, email, firstname, lastname, gender, DAY(birthdate) as day, MONTH(birthdate) as month, YEAR(birthdate) as year, status FROM customer WHERE customerID = ?";
+            $query = "SELECT customerID, username, password, email, firstname, lastname, gender, DAY(birthdate) as day, MONTH(birthdate) as month, YEAR(birthdate) as year, status, user_image FROM customer WHERE customerID = ?";
             $stmt = $con->prepare($query);
 
             // this is the first question mark
@@ -53,6 +53,7 @@
             $birthdate = "$year/$month/$day";
             $gender = $row['gender'];
             $status = $row['status'];
+            $user_image = $row['user_image'];
         }
 
         // show error
@@ -108,6 +109,10 @@
             <tr>
                 <td>Animal Year</td>
                 <td><?php animalYear($year); ?></td>
+            </tr>
+            <tr>
+                <td>Images</td>
+                <td><?php echo " ". user_img($user_image) . " "?></td>
             </tr>
             <a href='customer_read.php' class='btn btn-danger'>Back to Customer List</a>
             </td>
