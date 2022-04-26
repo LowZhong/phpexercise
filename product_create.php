@@ -84,7 +84,7 @@
 
                     // Execute the query
                     if ($stmt->execute()) {
-                        header('location: product_read.php?=actionupdated');
+                        header('location: product_read.php?action=updated');
                         ob_end_clean();
                         //echo "<div class='alert alert-success'>Record was saved.</div>";
                         // now, if image is not empty, try to upload the image
