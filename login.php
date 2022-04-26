@@ -74,12 +74,10 @@
                                 <div class="card-body">
                                     <form role="form" class="text-start">
                                         <div class="input-group input-group-outline my-3">
-                                            <label class="form-label">Username</label>
-                                            <input type="text" name='username' class="form-control">
+                                            <input type="text" name='username' class="form-control" placeholder="Username">
                                         </div>
                                         <div class="input-group input-group-outline mb-3">
-                                            <label class="form-label">Password</label>
-                                            <input type="password" name='password' class="form-control">
+                                            <input type="password" name='password' class="form-control" placeholder="Password">
                                         </div>
                                         <div class="text-center">
                                             <input type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2"/>
