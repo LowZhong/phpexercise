@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    
+
     <!-- container -->
     <div class="container">
         <?php include 'navbar/navbar.php'; ?>
@@ -17,7 +17,7 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
                         <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
-                        <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Create Product</li>
+                        <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Welcome</li>
                     </ol>
                 </nav>
         </nav>
@@ -27,7 +27,7 @@
             echo $_GET['username'] . "<br/>";
             ?>
         </div>
-        <h1>Today Total Orders</h1>
+
         <?php
         // include database connection
         include 'database/connection.php';
@@ -49,15 +49,6 @@
         //check if more than 0 record found
         if ($num > 0) {
 
-            // data from database will be here
-            echo "<table class='table table-hover table-responsive table-bordered'>"; //start table
-
-            //creating our table heading
-            echo "<tr>";
-            echo "<th>Customer ID</th>";
-            echo "<th>Number Of Orders</th>";
-            echo "</tr>";
-
             // table body will be here
             // retrieve our table contents
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -67,186 +58,182 @@
                 extract($row);
                 //function
 
-                // creating new table row per record
-                
-                echo "<tr>";
-                echo "<td>{$customerID}</td>";
-                echo "<td>{$NumberOfOrders}</td>";
-                echo "</td>";
-                echo "</tr>";
             }
-            // end table
-            echo "</table>";
         }
         // if no records found
         else {
             echo "<div class='alert alert-danger'>No records Order ID found.</div>";
         }
         ?>
+        <div class="container-fluid py-4">
+            <div class="row">
+                <div class="col-xl-15 col-sm-5 mb-xl-0 mb-4">
+                    <div class="card">
+                        <div class="card-header p-30 pt-2">
 
-        <h2>product Not Yet Purchased</h2>
-        <?php
+                            <div class="text-start pt-2">
+                                <p class="fs-1 mb-0 text-capitalize">Today's Order</p>
+                                <h4 class="mb-0"><?php echo $NumberOfOrders; ?></h4>
+                            </div>
+                        </div>
+                        <hr class="dark horizontal my-0">
+                        <div class="card-footer p-3">
+                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">Order From Customers </span></p>
+                        </div>
+                    </div>
+                </div>
 
-        // select all data
-        $query = "SELECT products.productID 
-        FROM products
-        LEFT JOIN order_details 
-        ON products.productID = order_details.productID
-        WHERE order_details.productID is NULL";
-        $stmt = $con->prepare($query);
-        $stmt->execute();
+                <?php
+                //product not purchased
+                // select all data
+                $query = "SELECT products.name
+                            FROM products
+                            LEFT JOIN order_details 
+                            ON products.productID = order_details.productID
+                            WHERE order_details.productID is NULL";
+                $stmt = $con->prepare($query);
+                $stmt->execute();
 
-        // this is how to get number of rows returned
-        $num = $stmt->rowCount();
+                // this is how to get number of rows returned
+                $num = $stmt->rowCount();
 
-        //check if more than 0 record found
-        if ($num > 0) {
+                //check if more than 0 record found
+                if ($num > 0) {
 
-            // data from database will be here
-            echo "<table class='table table-hover table-responsive table-bordered'>"; //start table
+                    // table body will be here
+                    // retrieve our table contents
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                        // extract row
+                        // this will make $row['firstname'] to just $firstname only
+                        extract($row);
+                        //function
+                    }
+                }
+                // if no records found
+                else {
+                    echo "<div class='alert alert-danger'>No records Order ID found.</div>";
+                }
+                ?>
+                <div class="container-fluid py-4">
+                    <div class="row">
+                        <div class="col-xl-15 col-sm-5 mb-xl-0 mb-4">
+                            <div class="card">
+                                <div class="card-header p-30 pt-2">
 
-            //creating our table heading
-            echo "<tr>";
-            echo "<th>Product ID</th>";
-            //echo "<th>Product Name</th>";
-            echo "</tr>";
+                                    <div class="text-start pt-2">
+                                        <p class="fs-2 mb-0 text-capitalize">Products Not Purchased Yet</p>
+                                        <h4 class="mb-0"><?php echo $name; ?></h4>
+                                    </div>
+                                </div>
+                                <hr class="dark horizontal my-0">
+                                <div class="card-footer p-3">
+                                    <p class="mb-0"><span class="text-danger text-sm font-weight-bolder">Name of product not purchase </span></p>
+                                </div>
+                            </div>
+                        </div>
 
-            // table body will be here
-            // retrieve our table contents
-            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                // extract row
-                // this will make $row['firstname'] to just $firstname only
-
-                extract($row);
-                //function
-
-                // creating new table row per record
-                echo "<tr>";
-                echo "<td>{$productID}</td>";
-                //echo "<td>{$name}</td>";
-                echo "</td>";
-                echo "</tr>";
-            }
-            // end table
-            echo "</table>";
-        }
-
-        // if no records found
-        else {
-            echo "<div class='alert alert-danger'>No records Order ID found.</div>";
-        }
-        ?>
-
-        <h3>Customer Not Purchase</h3>
-        <?php
-
-        // select all data
-        $query = "SELECT customer.customerID
+                        <?php
+                        // select all data
+                        $query = "SELECT customer.username
                     FROM customer
                     LEFT JOIN order_summary
                     ON customer.customerID = order_summary.customerID
                     WHERE order_summary.customerID is NULL;";
-        $stmt = $con->prepare($query);
-        $stmt->execute();
+                        $stmt = $con->prepare($query);
+                        $stmt->execute();
 
-        // this is how to get number of rows returned
-        $num = $stmt->rowCount();
+                        // this is how to get number of rows returned
+                        $num = $stmt->rowCount();
 
-        //check if more than 0 record found
-        if ($num > 0) {
+                        //check if more than 0 record found
+                        if ($num > 0) {
 
-            // data from database will be here
-            echo "<table class='table table-hover table-responsive table-bordered'>"; //start table
+                            // table body will be here
+                            // retrieve our table contents
+                            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                // extract row
+                                // this will make $row['firstname'] to just $firstname only
 
-            //creating our table heading
-            echo "<tr>";
-            echo "<th>Customer ID</th>";
-            //echo "<th>Customer Name</th>";
-            echo "</tr>";
+                                extract($row);
+                                //function
+                            }
+                        }
 
-            // table body will be here
-            // retrieve our table contents
-            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                // extract row
-                // this will make $row['firstname'] to just $firstname only
+                        // if no records found
+                        else {
+                            echo "<div class='alert alert-danger'>No records Order ID found.</div>";
+                        }
+                        ?>
+                        <div class="container-fluid py-4">
+                            <div class="row">
+                                <div class="col-xl-15 col-sm-5 mb-xl-0 mb-4">
+                                    <div class="card">
+                                        <div class="card-header p-30 pt-2">
 
-                extract($row);
-                //function
+                                            <div class="text-start pt-2">
+                                                <p class="fs-2 mb-0 text-capitalize">Customer Not Purchased yet</p>
+                                                <h4 class="mb-0"><?php echo $username; ?></h4>
+                                            </div>
+                                        </div>
+                                        <hr class="dark horizontal my-0">
+                                        <div class="card-footer p-3">
+                                            <p class="mb-0"><span class="text-danger text-sm font-weight-bolder">Name of the customer that didn't purchased yet </span></p>
+                                        </div>
+                                    </div>
+                                </div>
 
-                // creating new table row per record
-                echo "<tr>";
-                echo "<td>{$customerID}</td>";
-                //echo "<td>{$}</td>";
-                echo "</td>";
-                echo "</tr>";
-            }
-            // end table
-            echo "</table>";
-        }
+                                <?php
+                                // select all data
+                                $query = "SELECT products.name, SUM(order_details.Quantity) AS ProductTotals
+                                            FROM products
+                                            INNER JOIN order_details
+                                            ON products.productID = order_details.productID
+                                            GROUP BY products.productID
+                                            ORDER BY ProductTotals DESC
+                                            LIMIT 3;";
+                                $stmt = $con->prepare($query);
+                                $stmt->execute();
 
-        // if no records found
-        else {
-            echo "<div class='alert alert-danger'>No records Order ID found.</div>";
-        }
-        ?>
+                                // this is how to get number of rows returned
+                                $num = $stmt->rowCount();
 
-        <h3>Top 3 best selling products</h3>
-        <?php
+                                //check if more than 0 record found
+                                if ($num > 0) {
 
-        // select all data
-        $query = "SELECT products.productID, products.name, SUM(order_details.Quantity) AS ProductTotals
-                    FROM products
-                    INNER JOIN order_details
-                    ON products.productID = order_details.productID
-                    GROUP BY products.productID
-                    ORDER BY ProductTotals DESC
-                    LIMIT 3;";
-        $stmt = $con->prepare($query);
-        $stmt->execute();
+                                    // table body will be here
+                                    // retrieve our table contents
+                                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                        // extract row
+                                        // this will make $row['firstname'] to just $firstname only
 
-        // this is how to get number of rows returned
-        $num = $stmt->rowCount();
+                                        extract($row);
+                                        //function
+                                    }
+                                }
+                                // if no records found
+                                else {
+                                    echo "<div class='alert alert-danger'>No records Order ID found.</div>";
+                                }
+                                ?>
+                                <div class="container-fluid py-4">
+                                    <div class="row">
+                                        <div class="col-xl-15 col-sm-5 mb-xl-0 mb-4">
+                                            <div class="card">
+                                                <div class="card-header p-30 pt-2">
 
-        //check if more than 0 record found
-        if ($num > 0) {
+                                                    <div class="text-start pt-2">
+                                                        <p class="fs-2 mb-0 text-capitalize">Top 3 Selling Products</p>
+                                                        <h4 class="mb-0"><?php echo $name; ?></h4>
+                                                    </div>
+                                                </div>
+                                                <hr class="dark horizontal my-0">
+                                                <div class="card-footer p-3">
+                                                    <p class="mb-0"><span class="text-success text-sm font-weight-bolder">Top sell products !</span></p>
+                                                </div>
+                                            </div>
+                                        </div>
 
-            // data from database will be here
-            echo "<table class='table table-hover table-responsive table-bordered'>"; //start table
-
-            //creating our table heading
-            echo "<tr>";
-            echo "<th>Product ID</th>";
-            echo "<th>product name</th>";
-            echo "<th>Product Totals</th>";
-            echo "</tr>";
-
-            // table body will be here
-            // retrieve our table contents
-            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                // extract row
-                // this will make $row['firstname'] to just $firstname only
-
-                extract($row);
-                //function
-
-                // creating new table row per record
-                echo "<tr>";
-                echo "<td>{$productID}</td>";
-                echo "<td>{$name}</td>";
-                echo "<td>{$ProductTotals}</td>";
-                echo "</td>";
-                echo "</tr>";
-            }
-            // end table
-            echo "</table>";
-        }
-
-        // if no records found
-        else {
-            echo "<div class='alert alert-danger'>No records Order ID found.</div>";
-        }
-        ?>
-    </div>
+                                    </div>
 </body>
 
 </html>
