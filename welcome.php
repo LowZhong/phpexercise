@@ -23,7 +23,7 @@
         </nav>
         <div class="container-fluid h1 text-center m-2" class="text-primary">
             <?php
-            echo "Welcome!" . "<br/>";
+            echo "<div class ='text-success display-1'>Welcome !</div>";
             echo $_GET['username'] . "<br/>";
             ?>
         </div>
