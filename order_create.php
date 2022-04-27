@@ -27,11 +27,11 @@
             $customerID = $_POST['customerID'];
             $productID = $_POST['productID'];
             $quantity = $_POST['quantity'];
-            echo count($productID);
-            var_dump($productID);
-            var_dump($quantity);
+            //echo count($productID);
+            //var_dump($productID);
+            //var_dump($quantity);
 
-            echo $customerID;
+            //echo $customerID;
             if (!empty($customerID)) {
                 if (!empty(array_filter($productID))) {
                     if (!empty(array_filter($quantity))) {

@@ -1,3 +1,10 @@
+<?php
+session_start();
+if (!isset($_SESSION["username"])) {
+    header("location: index.php");
+    echo "record is here.";
+}
+?>
 <!DOCTYPE HTML>
 <html>
 
@@ -76,7 +83,7 @@
             echo "<div class='alert alert-danger'>No records Order ID found.</div>";
         }
         ?>
-    
+
         <div class="container-fluid py-4 d-flex">
             <div class="row">
                 <div class="col-xl-15 col-sm-5 mb-xl-0 mb-4">

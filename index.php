@@ -1,3 +1,15 @@
+<?php
+session_start();
+?>
+
+<!DOCTYPE html>
+<html>
+
+<body>
+
+</body>
+
+</html>
 <!DOCTYPE HTML>
 <html lang="en">
 
@@ -24,13 +36,13 @@
         <div class="page-header align-items-start min-vh-100" style="background-image: url('https://images.unsplash.com/photo-1497294815431-9365093b7331?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1950&q=80');">
             <span class="mask bg-gradient-dark opacity-6"></span>
             <div class="container my-auto">
-            
+
                 <?php
                 if ($_POST) {
                     // include database connection
                     include 'database/connection.php';
                     include 'function/function.php';
-                    
+
                     //get the key first
 
                     $login_username = $login_password = "";
@@ -55,6 +67,8 @@
                         } else if ($row['status'] == "disabled") {
                             echo "<div class='alert alert-danger'>Account Disabled</div>";
                         } else {
+                            $_SESSION["username"] = $username;
+                            
                             header("Location:welcome.php?username=$login_username");
                         }
                     }
@@ -80,7 +94,7 @@
                                             <input type="password" name='password' class="form-control" placeholder="Password">
                                         </div>
                                         <div class="text-center">
-                                            <input type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2"/>
+                                            <input type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2" />
                                         </div>
                                         <p class="mt-4 text-sm text-center">
                                             Don't have an account?

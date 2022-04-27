@@ -1,0 +1,208 @@
+-- phpMyAdmin SQL Dump
+-- version 5.1.3
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Apr 27, 2022 at 07:03 AM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 8.1.4
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+--
+-- Database: `lz_online_store`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customer`
+--
+
+CREATE TABLE `customer` (
+  `customerID` int(100) NOT NULL,
+  `username` varchar(128) NOT NULL,
+  `password` varchar(128) NOT NULL,
+  `email` varchar(128) NOT NULL,
+  `firstname` varchar(128) NOT NULL,
+  `lastname` varchar(128) NOT NULL,
+  `birthdate` varchar(128) NOT NULL,
+  `gender` varchar(128) NOT NULL,
+  `status` varchar(128) NOT NULL,
+  `user_image` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `customer`
+--
+
+INSERT INTO `customer` (`customerID`, `username`, `password`, `email`, `firstname`, `lastname`, `birthdate`, `gender`, `status`, `user_image`) VALUES
+(1, 'astonmartin', 'Low123', 'lowzhong20020826@gmail.com', 'aston', 'martin', '2001-12-20', 'female', '', ''),
+(2, 'justinbieber', 'Low123', 'lowzhong20020826@gmail.com', 'justin', 'bieber', '2002-12-27', 'male', '', ''),
+(3, 'lowzhong26', 'Low123', 'lowzhong20020826@gmail.com', 'low', 'zhong', '26-08-2002', 'male', 'active', ''),
+(4, 'paulwalker', 'Low123', 'lowzhong20020826@gmail.com', 'paul', 'walker', '2001-12-21', 'male', '', ''),
+(5, 'robertkhan', 'Low123', 'lowzhong20020826@gmail.com', 'robert', 'khan', '2001/12/23', '', '', ''),
+(6, 'steveroger', 'Low123', 'lowzhong20020826@gmail.com', 'steve', 'roger', '2002-12-21', 'female', '', ''),
+(7, 'willsmith', 'Low123', 'lowzhong20020826@gmail.com', 'will', 'smith', '2002-12-23', 'male', 'active', ''),
+(10, 'johncena', 'Low123', 'lowzhong20020826@gmail.com', 'john', 'cena', '2000-12-22', 'male', '', ''),
+(13, 'xkdasein', 'Dasein@123456', 'lowzhsasong20020826@gmail.com', 'xk', 'xk', '1990-4-25', 'male', '', ''),
+(14, 'Jameswoo', 'Password123', 'jameswoo@gmail.com', 'james', 'woo', '1991/12/21', 'male', 'active', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_details`
+--
+
+CREATE TABLE `order_details` (
+  `orderDetailsID` int(100) NOT NULL,
+  `orderID` int(100) NOT NULL,
+  `productID` int(100) NOT NULL,
+  `quantity` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `order_details`
+--
+
+INSERT INTO `order_details` (`orderDetailsID`, `orderID`, `productID`, `quantity`) VALUES
+(1, 1, 30, 111),
+(2, 1, 27, 222),
+(3, 1, 9, 333),
+(4, 2, 9, 12),
+(5, 2, 8, 23),
+(6, 2, 7, 22),
+(7, 3, 1, 12),
+(8, 3, 3, 22),
+(9, 3, 5, 45),
+(10, 4, 9, 12),
+(11, 4, 8, 23),
+(12, 4, 5, 22),
+(14, 8, 7, 3),
+(15, 9, 0, 0),
+(16, 10, 0, 0),
+(17, 11, 0, 0),
+(20, 14, 1, 10),
+(23, 17, 0, 0),
+(24, 18, 4, 12),
+(25, 18, 5, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_summary`
+--
+
+CREATE TABLE `order_summary` (
+  `orderID` int(100) NOT NULL,
+  `customerID` int(100) NOT NULL,
+  `orderTime` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `order_summary`
+--
+
+INSERT INTO `order_summary` (`orderID`, `customerID`, `orderTime`) VALUES
+(1, 1, '2022-04-12 12:29:36'),
+(2, 2, '2022-04-12 12:36:36'),
+(3, 3, '2022-04-12 12:37:51'),
+(4, 1, '2022-04-12 12:39:24'),
+(8, 0, '2022-04-20 03:00:38'),
+(9, 0, '2022-04-20 03:04:40'),
+(10, 0, '2022-04-20 03:04:45'),
+(11, 0, '2022-04-20 03:07:37'),
+(14, 2, '2022-04-25 01:53:37'),
+(17, 1, '2022-04-25 02:43:52'),
+(18, 5, '2022-04-27 00:57:20');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `products`
+--
+
+CREATE TABLE `products` (
+  `productID` int(11) NOT NULL,
+  `name` varchar(128) NOT NULL,
+  `description` text NOT NULL,
+  `price` decimal(4,2) NOT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `created` datetime NOT NULL,
+  `modified` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`productID`, `name`, `description`, `price`, `image`, `created`, `modified`) VALUES
+(1, 'Basketball', 'A ball used in the NBA.', '50.00', '', '2015-08-02 12:04:03', '2015-08-05 22:59:18'),
+(3, 'Gatorade', 'This is a very good drink for athletes.', '2.00', '', '2015-08-02 12:14:29', '2015-08-05 22:59:18'),
+(4, 'Eye Glasses', 'It will make you read better.', '6.00', '', '2015-08-02 12:15:04', '2015-08-05 22:59:18'),
+(5, 'Trash Can', 'It will help you maintain cleanliness.', '4.00', '', '2015-08-02 12:16:08', '2015-08-05 22:59:18'),
+(6, 'Mouse', 'Very useful if you love your computer.', '11.00', '', '2015-08-02 12:17:58', '2015-08-05 22:59:18'),
+(7, 'Earphone', 'You need this one if you love music.', '7.00', '', '2015-08-02 12:18:21', '2015-08-05 22:59:18'),
+(8, 'Pillow', 'Sleeping well is important.', '9.00', '', '2015-08-02 12:18:56', '2015-08-05 22:59:18'),
+(9, 'KitKat', 'Chocolate Bar.', '14.00', '', '2022-04-12 10:03:48', '2022-04-12 02:03:48'),
+(27, 'HL Daily Milk', 'Fresh milk', '12.00', '2068be40de9a81911aae232152c0ba3161d5448c-milk.jpg', '2022-04-19 19:37:58', '2022-04-20 02:05:11'),
+(30, 'HotDog', 'Perfect For Breakfast.', '9.00', '', '2022-04-20 00:24:45', '2022-04-26 17:47:29');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `customer`
+--
+ALTER TABLE `customer`
+  ADD PRIMARY KEY (`customerID`);
+
+--
+-- Indexes for table `order_details`
+--
+ALTER TABLE `order_details`
+  ADD PRIMARY KEY (`orderDetailsID`);
+
+--
+-- Indexes for table `order_summary`
+--
+ALTER TABLE `order_summary`
+  ADD PRIMARY KEY (`orderID`);
+
+--
+-- Indexes for table `products`
+--
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`productID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `customer`
+--
+ALTER TABLE `customer`
+  MODIFY `customerID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `order_details`
+--
+ALTER TABLE `order_details`
+  MODIFY `orderDetailsID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+
+--
+-- AUTO_INCREMENT for table `order_summary`
+--
+ALTER TABLE `order_summary`
+  MODIFY `orderID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT for table `products`
+--
+ALTER TABLE `products`
+  MODIFY `productID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+COMMIT;
