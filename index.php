@@ -5,17 +5,13 @@ session_start();
 <!DOCTYPE html>
 <html>
 
-<body>
-
-</body>
-
 </html>
 <!DOCTYPE HTML>
 <html lang="en">
 
 
 <head>
-    <title>PDO - Log In</title>
+    <title>Log In</title>
     <!-- Latest compiled and minified Bootstrap CSS (Apply your Bootstrap here -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -31,13 +27,7 @@ session_start();
     <link id="pagestyle" href="assets/css/material-dashboard.css?v=3.0.2" rel="stylesheet" />
 </head>
 
-<body class="bg-gray-200">
-    <main class="main-content  mt-0">
-        <div class="page-header align-items-start min-vh-100" style="background-image: url('https://images.unsplash.com/photo-1497294815431-9365093b7331?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1950&q=80');">
-            <span class="mask bg-gradient-dark opacity-6"></span>
-            <div class="container my-auto">
-
-                <?php
+<?php
                 if ($_POST) {
                     // include database connection
                     include 'database/connection.php';
@@ -75,6 +65,11 @@ session_start();
                 }
                 ?>
 
+<body class="bg-gray-200">
+    <main class="main-content  mt-0">
+        <div class="page-header align-items-start min-vh-100" style="background-image: url('https://images.unsplash.com/photo-1497294815431-9365093b7331?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1950&q=80');">
+            <span class="mask bg-gradient-dark opacity-6"></span>
+            <div class="container my-auto">
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 
                     <div class="row">
