@@ -2,15 +2,37 @@
 <html>
 
 <head>
-    <title>PDO - Read One Record - PHP CRUD Tutorial</title>
-    <!-- Latest compiled and minified Bootstrap CSS → -->
+    <title>Order Details</title>
+    <!-- Latest compiled and minified Bootstrap CSS (Apply your Bootstrap here -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900%7CRoboto+Slab:400,700" />
+    <!-- Nucleo Icons -->
+    <link href="assets/css/nucleo-icons.css" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <!-- CSS Files -->
+    <link href="assets/css/styles.css" rel="stylesheet" />
 </head>
 
 <body>
     <!-- container -->
     <div class="container">
         <?php include 'navbar/navbar.php'; ?>
+        <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true">
+            <div class="container-fluid py-1 px-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
+                        <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Order Details</li>
+                    </ol>
+                </nav>
+            </div>
+        </nav>
         <div class="page-header">
             <h1>Order Details</h1>
         </div>
@@ -28,50 +50,54 @@
                     INNER JOIN products 
                     ON order_details.productID = products.productID
                     WHERE OrderID = :OrderID";
-                
+
         $stmt = $con->prepare($query);
         $stmt->bindParam(':OrderID', $orderID);
         $stmt->execute();
         $num = $stmt->rowCount();
 
         if ($num > 0) {
-            echo "<table class='table table-hover table-responsive table-bordered'>"; 
+            echo "<table class='table table-hover table-responsive table-bordered'>";
 
             // create table head
-            echo "<tr>";
-            echo "<th>Order Details ID</th>";
-            echo "<th>Order ID</th>";
-            echo "<th>Product ID</th>";
-            echo "<th>Product Name</th>";
-            echo "<th>Quantity</th>";
-            echo "<th>Price</th>";
-            echo "<th>Total Price</th>";
+            echo "<tr class='border border-3'>";
+            echo "<th class='border border-3'>Order Details ID</th>";
+            echo "<th class='border border-3'>Order ID</th>";
+            echo "<th class='border border-3'>Product ID</th>";
+            echo "<th class='border border-3'>Product Name</th>";
+            echo "<th class='border border-3'>Quantity</th>";
+            echo "<th class='border border-3'>Price</th>";
+            echo "<th class='border border-3'>Total Price</th>";
             echo "</tr>";
 
             // retrieve table contents
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            
+
                 extract($row);
 
                 // creating new table row per record
                 $totalprice = (int)$quantity * (int)$price;
-                echo "<tr>";
-                echo "<td>{$orderDetailsID}</td>";
-                echo "<td>{$orderID}</td>";
-                echo "<td>{$productID}</td>";
-                echo "<td>{$name}</td>";
-                echo "<td>{$quantity}</td>";
-                echo "<td>{$price}</td>";
-                echo "<td>{$totalprice}</td>";
+                echo "<tr class='border border-3'>";
+                echo "<td class='border border-3'>{$orderDetailsID}</td>";
+                echo "<td class='border border-3'>{$orderID}</td>";
+                echo "<td class='border border-3'>{$productID}</td>";
+                echo "<td class='border border-3'>{$name}</td>";
+                echo "<td class='border border-3'>{$quantity}</td>";
+                echo "<td class='border border-3'>{$price}</td>";
+                echo "<td class='border border-3'>{$totalprice}</td>";
             }
 
             // end table
             echo "</table>";
-        }
-        else {
-            echo "<div class='alert alert-danger'>No Records Found.</div>";
+        } else {
+            echo "<div class='alert alert-danger text-white'>No Records Found.</div>";
         }
         ?>
+
+        <div class="d-flex justify-content-end gap-2">
+            <td class="d-flex justify-content-end gap-2">
+                <a href='order_listing.php' class='btn btn-danger'>Back to Order Lists</a>
+        </div>
 
     </div>
     <!-- end .container -->
