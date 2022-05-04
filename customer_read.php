@@ -2,16 +2,38 @@
 <html>
 
 <head>
-    <title>PDO - Create a Record - PHP CRUD Tutorial</title>
-    <!-- Latest compiled and minified Bootstrap CSS -->
+    <title>Customer Lists</title>
+    <!-- Latest compiled and minified Bootstrap CSS (Apply your Bootstrap here -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900%7CRoboto+Slab:400,700" />
+    <!-- Nucleo Icons -->
+    <link href="assets/css/nucleo-icons.css" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <!-- CSS Files -->
+    <link href="assets/css/styles.css" rel="stylesheet" />
 </head>
 
 <body>
     <!-- container -->
-    <div class="container">
+    <div class="container ms-5">
+        <?php include 'navbar/navbar.php'; ?>
+        <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true">
+            <div class="container-fluid py-1 px-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
+                        <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Customer Lists</li>
+                    </ol>
+                </nav>
+            </div>
+        </nav>
         <div class="page-header">
-            <?php include 'navbar/navbar.php'; ?>
             <h1>Customer Page</h1>
         </div>
 
@@ -42,14 +64,15 @@
             echo "<table class='table table-hover table-responsive table-bordered'>"; //start table
 
             //creating our table heading
-            echo "<tr>";
-            echo "<th>Customer ID</th>";
-            echo "<th>Username</th>";
-            echo "<th>Email</th>";
-            echo "<th>Firstname</th>";
-            echo "<th>Lastname</th>";
-            echo "<th>Gender</th>";
-            echo "<th>Profile Picture</th>";
+            echo "<tr class='border border-3'>";
+            echo "<th class='border border-3'>Customer ID</th>";
+            echo "<th class='border border-3'>Username</th>";
+            echo "<th class='border border-3'>Email</th>";
+            echo "<th class='border border-3'>Firstname</th>";
+            echo "<th class='border border-3'>Lastname</th>";
+            echo "<th class='border border-3'>Gender</th>";
+            echo "<th class='border border-3'>Profile Picture</th>";
+            echo "<th class='border border-3'>Action</th>";
             echo "</tr>";
 
             // table body will be here
@@ -62,14 +85,14 @@
                 //function
 
                 // creating new table row per record
-                echo "<tr>";
-                echo "<td>{$customerID}</td>";
-                echo "<td>{$username}</td>";
-                echo "<td>{$email}</td>";
-                echo "<td>{$firstname}</td>";
-                echo "<td>{$lastname}</td>";
-                echo "<td>" . sex($gender) . "</td>";
-                echo "<td>" . user_img($user_image) . "</td>";
+                echo "<tr class='border border-3'>";
+                echo "<td class='border border-3'>{$customerID}</td>";
+                echo "<td class='border border-3'>{$username}</td>";
+                echo "<td class='border border-3'>{$email}</td>";
+                echo "<td class='border border-3'>{$firstname}</td>";
+                echo "<td class='border border-3'>{$lastname}</td>";
+                echo "<td class='border border-3'>" . sex($gender) . "</td>";
+                echo "<td class='border border-3'>" . user_img($user_image) . "</td>";
                 echo "<td>";
 
                 // read one record
