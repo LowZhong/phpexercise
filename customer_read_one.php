@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>PDO - Read One Record - PHP CRUD Tutorial</title>
+    <title>Customer Details</title>
     <!-- Latest compiled and minified Bootstrap CSS (Apply your Bootstrap here -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">

@@ -3,9 +3,20 @@
 
 <head>
     <title>PDO - Read Records - PHP CRUD Tutorial</title>
+    <!-- Latest compiled and minified Bootstrap CSS (Apply your Bootstrap here -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Latest compiled and minified Bootstrap CSS -->
-
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900%7CRoboto+Slab:400,700" />
+    <!-- Nucleo Icons -->
+    <link href="assets/css/nucleo-icons.css" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <!-- CSS Files -->
+    <link href="assets/css/styles.css" rel="stylesheet" />
     <!-- custom css -->
     <style>
         .m-r-1em {
@@ -30,6 +41,16 @@
     <!-- container -->
     <div class="container">
         <?php include 'navbar/navbar.php'; ?>
+        <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true">
+            <div class="container-fluid py-1 px-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
+                        <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Update Customers</li>
+                    </ol>
+                </nav>
+            </div>
+        </nav>
         <div class="page-header">
             <h1>Update Customer</h1>
         </div>
@@ -133,7 +154,7 @@
                                 if (move_uploaded_file($_FILES["user_image"]["tmp_name"], $target_file)) {
                                     // it means photo was uploaded
                                 } else {
-                                    echo "<div class='alert alert-danger'>";
+                                    echo "<div class='alert alert-danger text-white'>";
                                     echo "<div>Unable to upload photo.</div>";
                                     echo "<div>Update the record to upload photo.</div>";
                                     echo "</div>";
@@ -142,7 +163,7 @@
                             // if $file_upload_error_messages is NOT empty
                             else {
                                 // it means there are some errors, so show them to user
-                                echo "<div class='alert alert-danger'>";
+                                echo "<div class='alert alert-danger text-white'>";
                                 echo "<div>{$file_upload_error_messages}</div>";
                                 echo "<div>Update the record to upload photo.</div>";
                                 echo "</div>";
@@ -151,7 +172,7 @@
                             echo "no file selected.";
                         }
                     } else {
-                        echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
+                        echo "<div class='alert alert-danger text-white'>Unable to update record. Please try again.</div>";
                     }
                 }
                 // show errors
@@ -160,7 +181,7 @@
                 }
             } else {
                 foreach ($error as $value) {
-                    echo "<div class='alert alert-danger'>$value <br/></div>"; //start print error msg
+                    echo "<div class='alert alert-danger text-white'>$value <br/></div>"; //start print error msg
                 }
             }
         }
