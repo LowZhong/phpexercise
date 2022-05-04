@@ -1,9 +1,10 @@
-
 <!DOCTYPE HTML>
 <html>
 
 <head>
     <title>Product Creates</title>
+    <!-- Latest compiled and minified Bootstrap CSS (Apply your Bootstrap here -->
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!--     Fonts and icons     -->
@@ -15,7 +16,7 @@
     <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <!-- CSS Files -->
-    <link href="assets/css/material-dashboard.css" rel="stylesheet" />
+    <link href="assets/css/styles.css" rel="stylesheet" />
 </head>
 
 <body>
