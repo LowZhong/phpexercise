@@ -140,13 +140,7 @@
                         // execute our query
                         $stmt->execute();
                         echo '<tr class="productrow border border-3">
-                                <td class="border border-3">Select Product
-                                <div>
-                                    <button type="button" class="add">Add More Product</button>
-                                    <button type="button" class="del">Delete Last Product</button>
-                                </div>
-                                </td>
-                                <td>
+                                <td class="border border-3">Select Product<td>
                                 <div class="col">';
                         echo '<select class="form_select" name="productID[]" >';
                         echo '<option value="">Product</option>';
@@ -171,9 +165,17 @@
 
                 </div>
             </table>
+            <div class="d-flex justify-content-start gap-2">
+                <div>
+                    <button type="button" class="add">Add More Product</button>
+                    <button type="button" class="del">Delete Last Product</button>
+                </div>
+            </div>
+
             <div class="d-flex justify-content-end gap-2">
-                <input type='submit' value='Save' class='btn btn-primary' />
-                <a href='order_listing.php' class='btn btn-danger'>Back To Order List</a>
+
+                <input type='submit' value='Save Changes' class='btn btn-primary' />
+                <a href='order_listing.php' class='btn btn-danger'>Back to Order List</a>
             </div>
         </form>
 
