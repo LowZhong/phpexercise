@@ -217,7 +217,7 @@
 
                     <tr class="border border-3">
                         <td class="border border-3 p-4">Upload Product Image</td>
-                        <td class="p-3">
+                        <td class="p-4">
                             <input type="file" name="image" />
                         </td>
                     </tr>
