@@ -126,7 +126,7 @@
                                 if (move_uploaded_file($_FILES["user_image"]["tmp_name"], $target_file)) {
                                     // it means photo was uploaded
                                 } else {
-                                    echo "<div class='alert alert-danger'>";
+                                    echo "<div class='alert alert-danger text-white'>";
                                     echo "<div>Unable to upload photo.</div>";
                                     echo "<div>Update the record to upload photo.</div>";
                                     echo "</div>";
@@ -135,7 +135,7 @@
                             // if $file_upload_error_messages is NOT empty
                             else {
                                 // it means there are some errors, so show them to user
-                                echo "<div class='alert alert-danger'>";
+                                echo "<div class='alert alert-danger text-white'>";
                                 echo "<div>{$file_upload_error_messages}</div>";
                                 echo "<div>Update the record to upload photo.</div>";
                                 echo "</div>";
@@ -144,7 +144,7 @@
                             echo "no file selected.";
                         }
                     } else {
-                        echo "<div class='alert alert-danger'>Unable to save record.</div>";
+                        echo "<div class='alert alert-danger text-white'>Unable to save record.</div>";
                     }
                 }
                 // show error
@@ -153,7 +153,7 @@
                 }
             } else {
                 foreach ($error as $value) {
-                    echo "<div class='alert alert-danger'>$value <br/></div>"; //start print error msg
+                    echo "<div class='alert alert-danger text-white'>$value <br/></div>"; //start print error msg
                 }
             }
         }

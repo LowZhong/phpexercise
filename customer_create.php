@@ -3,13 +3,35 @@
 
 <head>
     <title>New Customer Sign In</title>
+    <!-- Latest compiled and minified Bootstrap CSS (Apply your Bootstrap here -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900%7CRoboto+Slab:400,700" />
+    <!-- Nucleo Icons -->
+    <link href="assets/css/nucleo-icons.css" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <!-- CSS Files -->
+    <link href="assets/css/styles.css" rel="stylesheet" />
 </head>
 
 <body>
     <!-- container -->
     <div class="container">
         <?php include 'navbar/navbar.php'; ?>
+        <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true">
+            <div class="container-fluid py-1 px-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
+                        <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Create Account</li>
+                    </ol>
+                </nav>
+        </nav>
         <div class="page-header">
             <h1>Customer Create Account</h1>
         </div>
@@ -31,7 +53,7 @@
             $email = $_POST['email'];
             $firstname = $_POST['firstname'];
             $lastname = $_POST['lastname'];
-            $status = $_POST['status'];
+            $status = isset($_POST['status']) ? $_POST['status'] : "";
             $year_ = $_POST['year'];
             $month_ = $_POST['month'];
             $day_ = $_POST['day'];
@@ -51,7 +73,9 @@
             $error['status'] = validateStatus($status);
 
             $error = array_filter($error); //remove null value in the $error if there is no error msg, not have this will not update to database
-            if (empty($error)) { //array里面会有nullvalue如果没有clear null value系统以为他不是empty
+            if (empty($username) || empty($password) || empty($inputconfirmPassword) || empty($email) || empty($firstname) || empty($lastname) || empty($status) || empty($birthdate) || empty($gender)) {
+                echo "<div class='alert alert-danger text-white'>Cannot Be Left Blank.</div>";
+            } else if (empty($error)) { //array里面会有nullvalue如果没有clear null value系统以为他不是empty
 
                 try {
                     // insert query
@@ -116,7 +140,7 @@
                                 if (move_uploaded_file($_FILES["user_image"]["tmp_name"], $target_file)) {
                                     // it means photo was uploaded
                                 } else {
-                                    echo "<div class='alert alert-danger'>";
+                                    echo "<div class='alert alert-danger text-white'>";
                                     echo "<div>Unable to upload photo.</div>";
                                     echo "<div>Update the record to upload photo.</div>";
                                     echo "</div>";
@@ -125,7 +149,7 @@
                             // if $file_upload_error_messages is NOT empty
                             else {
                                 // it means there are some errors, so show them to user
-                                echo "<div class='alert alert-danger'>";
+                                echo "<div class='alert alert-danger text-white'>";
                                 echo "<div>{$file_upload_error_messages}</div>";
                                 echo "<div>Update the record to upload photo.</div>";
                                 echo "</div>";
@@ -134,7 +158,7 @@
                             echo "no file selected.";
                         }
                     } else {
-                        echo "<div class='alert alert-danger'>Unable to save record.</div>";
+                        echo "<div class='alert alert-danger text-white'>Unable to save record.</div>";
                     }
                 }
                 // show error
@@ -143,126 +167,124 @@
                 }
             } else {
                 foreach ($error as $value) {
-                    echo "<div class='alert alert-danger'>$value <br/></div>"; //start print error msg
+                    echo "<div class='alert alert-danger text-white'>$value <br/></div>"; //start print error msg
                 }
             }
         }
-       
+
         ?>
 
-        
+
 
         <!-- html form here where the product information will be entered -->
 
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <table class='table table-hover table-responsive table-bordered'>
 
-                <tr>
-                    <td>Username</td>
-                    <td><input type='text' name='username' class="form-control" placeholder="username" value="<?php echo $username; ?>"></td>
-                </tr>
-                <tr>
-                    <td>Firstname</td>
-                    <td><input type='text' name='firstname'  class="form-control" placeholder="First name" value="<?php echo $firstname; ?>"></td>
-                </tr>
-                <tr>
-                    <td>Lastname</td>
-                    <td><input type='text' name='lastname'  class="form-control" placeholder="Last name" value="<?php echo $lastname; ?>"></td>
-                </tr>
+                <div class="mb-3">
+                    <tr class="border border-3">
+                        <td class="border border-3 p-4">Username</td>
+                        <td class="input-group input-group-outline my-2"><input type='text' name='username' class="form-control" placeholder="username" value="<?php echo $username; ?>"></td>
+                    </tr>
+                    <tr class="border border-3">
+                        <td class="border border-3 p-4">Firstname</td>
+                        <td class="input-group input-group-outline my-2"><input type='text' name='firstname' class="form-control" placeholder="First name" value="<?php echo $firstname; ?>"></td>
+                    </tr>
+                    <tr class="border border-3">
+                        <td class="border border-3 p-4">Lastname</td>
+                        <td class="input-group input-group-outline my-2"><input type='text' name='lastname' class="form-control" placeholder="Last name" value="<?php echo $lastname; ?>"></td>
+                    </tr>
 
 
-                <tr>
-                    <td>Gender</td>
-                    <td><input class="form-check-input" type="radio" name="gender" <?php if ($gender == "male") echo "checked" ?> value="male">
-                        <label class="form-check-label" for="gender">Male</label>
+                    <tr class="border border-3">
+                        <td class="border border-3 p-4">Gender</td>
+                        <td class="p-4"><input class="form-check-input" type="radio" name="gender" <?php if ($gender == "male") echo "checked" ?> value="male">
+                            <label class="form-check-label" for="gender">Male</label>
 
-                        <input class="form-check-input" type="radio" name="gender" <?php if ($gender == "female") echo "checked" ?> value="female">
-                        <label class="form-check-label" for="gender">female</label>
-                    </td>
-                </tr>
+                            <input class="form-check-input" type="radio" name="gender" <?php if ($gender == "female") echo "checked" ?> value="female">
+                            <label class="form-check-label" for="gender">female</label>
+                        </td>
+                    </tr>
 
-                <tr>
-                    <td>Email</td>
-                    <td><input type='email' class='form-control' name='email' placeholder='Email' value="<?php echo $email; ?>"></td>
-                </tr>
-                <tr>
-                    <td>Password</td>
-                    <td><input type='password' class='form-control' name='password'  placeholder='Password' value="<?php echo $password; ?>"></td>
-                </tr>
-                <tr>
-                    <td>Confirm Password</td>
-                    <td><input type='password' class='form-control' name='inputconfirmPassword' placeholder='Password' value="<?php echo $inputconfirmPassword; ?>"></td>
-                </tr>
+                    <tr class="border border-3">
+                        <td class="border border-3 p-4">Email</td>
+                        <td class="input-group input-group-outline my-2"><input type='email' class='form-control' name='email' placeholder='Email' value="<?php echo $email; ?>"></td>
+                    </tr>
+                    <tr class="border border-3">
+                        <td class="border border-3 p-4">Password</td>
+                        <td class="input-group input-group-outline my-2"><input type='password' class='form-control' name='password' placeholder='Password' value="<?php echo $password; ?>"></td>
+                    </tr>
+                    <tr class="border border-3">
+                        <td class="border border-3 p-4">Confirm Password</td>
+                        <td class="input-group input-group-outline my-2"><input type='password' class='form-control' name='inputconfirmPassword' placeholder='Confirm Password' value="<?php echo $inputconfirmPassword; ?>"></td>
+                    </tr>
 
-                <tr>
-                    <td>Date Of Birth</td>
-                    <!--day-->
-                    <td><?php
-                        
+                    <tr class="border border-3">
+                        <td class="border border-3 p-4">Date Of Birth</td>
+                        <!--day-->
+                        <td class="p-4"><?php
 
-                        echo '<select id="day" name="day">' . "\n";
-                        for ($day = 1; $day <= 31; $day++) {
-                            $selected = ($day_ == $day ? ' selected' : '');
-                            echo '<option value="' . $day . '"' . $selected . '>' . $day . '</option>' . "\n";
+
+                            echo '<select id="day" name="day">' . "\n";
+                            for ($day = 1; $day <= 31; $day++) {
+                                $selected = ($day_ == $day ? ' selected' : '');
+                                echo '<option value="' . $day . '"' . $selected . '>' . $day . '</option>' . "\n";
+                            }
+                            echo '</select>' . "\n";
+                            ?>
+
+                            <!--month-->
+                            <?php
+                            $birthdate = date('m'); //current month
+
+                            echo '<select id="month" name="month">' . "\n";
+                            for ($month = 1; $month <= 12; $month++) {
+                                $selected = ($month_ == $month ? ' selected' : '');
+                                echo '<option value="' . $month . '"' . $selected . '>' . date('F', mktime(0, 0, 0, $month)) . '</option>' . "\n";
+                            }
+                            echo '</select>' . "\n";
+                            if ((isset($_GET['month'])) && ($value))
+                            ?>
+
+                            <!--year-->
+                            <?php
+                        $year_start  = 2022;
+
+
+                        echo '<select id="year" name="year">' . "\n";
+                        for ($year = $year_start; $year >= 1990; $year--) {
+                            $selected = ($year_ == $year ? ' selected' : '');
+                            echo '<option value="' . $year . '"' . $selected . '>' . $year . '</option>' . "\n";
                         }
                         echo '</select>' . "\n";
-                        ?>
+                            ?>
+                        </td>
+                    </tr>
 
-                        <!--month-->
-                        <?php
-                        $birthdate = date('m'); //current month
+                    <tr class="border border-3">
+                        <td class="border border-3 p-4">Account status</td>
+                        <td class="p-4"><input class="form-check-input" type="radio" name="status" <?php if ($status == "active") echo "checked" ?> value="active">
+                            <label class="form-check-label" for="status">Active</label>
 
-                        echo '<select id="month" name="month">' . "\n";
-                        for ($month = 1; $month <= 12; $month++) {
-                            $selected = ($month_ == $month ? ' selected' : '');
-                            echo '<option value="' . $month . '"' . $selected . '>' . date('F', mktime(0, 0, 0, $month)) . '</option>' . "\n";
-                        }
-                        echo '</select>' . "\n";
-                        if ((isset($_GET['month'])) && ($value))
-                        ?>
+                            <input class="form-check-input" type="radio" name="status" <?php if ($status == "disabled") echo "checked" ?> value="disabled">
+                            <label class="form-check-label" for="status">Disabled</label>
+                        </td>
+                    </tr>
 
-                        <!--year-->
-                        <?php
-                    $year_start  = 2022;
-                
+                    <tr class="border border-3">
+                        <td class="border border-3 p-4">Upload Your Profile Image</td>
+                        <td class="p-4">
+                            <input type="file" name="user_image" />
+                        </td>
+                    </tr>
 
-                    echo '<select id="year" name="year">' . "\n";
-                    for ($year = $year_start; $year >= 1990; $year--) {
-                        $selected = ($year_ == $year ? ' selected' : '');
-                        echo '<option value="' . $year . '"' . $selected . '>' . $year . '</option>' . "\n";
-                    }
-                    echo '</select>' . "\n";
-                        ?>
-                    </td>
-                </tr>
 
-                <tr>
-                    <td>Account status</td>
-                    <td><input class="form-check-input" type="radio" name="status" <?php if ($status == "active") echo "checked" ?> value="active">
-                        <label class="form-check-label" for="status">Active</label>
-
-                        <input class="form-check-input" type="radio" name="status" <?php if ($status == "disabled") echo "checked" ?> value="disabled">
-                        <label class="form-check-label" for="status">Disabled</label>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>Upload Your Profile Image</td>
-                    <td>
-                        <input type="file" name="user_image" />
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                    <td>
-                        <input type='submit' value='Save' class='btn btn-primary' />
-                        <a href='customer_read.php' class='btn btn-danger'>Go to Customer Lists</a>
-                    </td>
-                    </td>
-                </tr>
+                </div>
             </table>
-
+            <div class="d-flex justify-content-end gap-2">
+                <input type='submit' value='Save' class='btn btn-primary' />
+                <a href='customer_read.php' class='btn btn-danger'>Go to Customer Lists</a>
+            </div>
         </form>
     </div>
 </body>
