@@ -3,16 +3,12 @@ session_start();
 ?>
 
 <!DOCTYPE html>
-<html>
-
-</html>
-<!DOCTYPE HTML>
 <html lang="en">
-
 
 <head>
     <title>Log In</title>
     <!-- Latest compiled and minified Bootstrap CSS (Apply your Bootstrap here -->
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!--     Fonts and icons     -->
@@ -24,46 +20,46 @@ session_start();
     <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <!-- CSS Files -->
-    <link id="pagestyle" href="assets/css/material-dashboard.css?v=3.0.2" rel="stylesheet" />
+    <link href="assets/css/styles.css" rel="stylesheet" />
 </head>
 
 <?php
-                if ($_POST) {
-                    // include database connection
-                    include 'database/connection.php';
-                    include 'function/function.php';
+if ($_POST) {
+    // include database connection
+    include 'database/connection.php';
+    include 'function/function.php';
 
-                    //get the key first
+    //get the key first
 
-                    $login_username = $login_password = "";
+    $login_username = $login_password = "";
 
-                    $login_username = $_POST['username'];
-                    $login_password = $_POST['password'];
+    $login_username = $_POST['username'];
+    $login_password = $_POST['password'];
 
-                    if (empty($login_username) || empty($login_password)) {
-                        echo "<div class='alert alert-danger'>Cannot Be Left Blank.</div>";
-                    } else {
-                        // select all data
-                        $query = "SELECT * FROM customer WHERE username = ?";
-                        $stmt = $con->prepare($query);
-                        $stmt->bindParam(1, $login_username);
-                        $stmt->execute();
-                        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (empty($login_username) || empty($login_password)) {
+        echo "<div class='alert alert-danger text-white'>Cannot Be Left Blank.</div>";
+    } else {
+        // select all data
+        $query = "SELECT * FROM customer WHERE username = ?";
+        $stmt = $con->prepare($query);
+        $stmt->bindParam(1, $login_username);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                        if ($stmt->rowCount() == 0) { //if find error
-                            echo "<div class='alert alert-danger'>User Not Found</div>";
-                        } else if ($login_password != $row['password']) {
-                            echo "<div class='alert alert-danger'>Wrong Password</div>";
-                        } else if ($row['status'] == "disabled") {
-                            echo "<div class='alert alert-danger'>Account Disabled</div>";
-                        } else {
-                            $_SESSION["username"] = $username;
-                            
-                            header("Location:welcome.php?username=$login_username");
-                        }
-                    }
-                }
-                ?>
+        if ($stmt->rowCount() == 0) { //if find error
+            echo "<div class='alert alert-danger text-white'>User Not Found</div>";
+        } else if ($login_password != $row['password']) {
+            echo "<div class='alert alert-danger text-white'>Wrong Password</div>";
+        } else if ($row['status'] == "disabled") {
+            echo "<div class='alert alert-danger text-white'>Account Disabled</div>";
+        } else {
+            $_SESSION["username"] = $username;
+
+            header("Location:welcome.php?username=$login_username");
+        }
+    }
+}
+?>
 
 <body class="bg-gray-200">
     <main class="main-content  mt-0">
@@ -105,5 +101,6 @@ session_start();
         </div>
     </main>
 </body>
+
 
 </html>

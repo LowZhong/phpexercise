@@ -15,7 +15,7 @@
     <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <!-- CSS Files -->
-    <link href="assets/css/material-dashboard.css?v=3.0.2" rel="stylesheet" />
+    <link href="assets/css/material-dashboard.css" rel="stylesheet" />
 </head>
 
 <body>
