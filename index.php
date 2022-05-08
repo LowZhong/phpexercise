@@ -6,7 +6,8 @@ session_start();
 <html lang="en">
 
 <head>
-    <?php 
+    <title>Log In</title>
+    <?php
     include 'head/head.php';
     ?>
 </head>
