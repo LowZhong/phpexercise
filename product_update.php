@@ -65,9 +65,10 @@
             $error['name'] = validatename($name);
             $error['price'] = validatePrice($price);
             $error = array_filter($error);
+            $file_upload_error_messages ="";
 
             if (empty($error)) {
-
+                if(!empty($_FILES["image"]["name"])){
                 try {
                     // write update query
                     // in this case, it seemed like we have so many fields to pass and
@@ -75,6 +76,8 @@
                     $query = "UPDATE products SET name=:name, description=:description, price=:price, image=:image WHERE productID = :productID";
                     // prepare query for excecution
                     $stmt = $con->prepare($query);
+
+                   
 
                     // new 'image' field
                     $image = !empty($_FILES["image"]["name"])
@@ -113,7 +116,7 @@
                                 $file_upload_error_messages .= "<div>Only JPG or PNG files are allowed.</div>";
                             }
                             // make sure submitted file is not too large
-                            if ($_FILES['user_image']['size'] > (5242880)) {
+                            if ($_FILES['image']['size'] > (5242880)) {
                                 $file_upload_error_messages .= "<div>Image must be less than 5 MB in size.</div>";
                             }
                             // make sure the 'uploads' folder exists
@@ -152,6 +155,7 @@
                 catch (PDOException $exception) {
                     die('ERROR: ' . $exception->getMessage());
                 }
+            }
             } else {
                 foreach ($error as $value) {
                     echo "<div class='alert alert-danger text-white'>$value <br/></div>"; //start print error msg
@@ -188,7 +192,7 @@
         ?>
         <!-- HTML form to update record will be here -->
         <!--we have our html form here where new record information can be updated-->
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?productID={$productID}"); ?>" method="post">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?productID={$productID}"); ?>" method="post" enctype="multipart/form-data">
             <table class='table table-hover table-responsive table-bordered border border-3'>
                 <div class="mb-3">
                     <tr class="border border-3">

@@ -13,6 +13,8 @@ session_start();
 </head>
 
 <?php
+$error_ms = "";
+
 if ($_POST) {
     // include database connection
     include 'database/connection.php';
@@ -24,9 +26,10 @@ if ($_POST) {
 
     $login_username = $_POST['username'];
     $login_password = $_POST['password'];
+    
 
     if (empty($login_username) || empty($login_password)) {
-        echo "<div class='alert alert-danger text-white'>Cannot Be Left Blank.</div>";
+        $error_ms = "<div class='alert alert-danger text-white'>Cannot Be Left Blank.</div>";
     } else {
         // select all data
         $query = "SELECT * FROM customer WHERE username = ?";
@@ -36,13 +39,13 @@ if ($_POST) {
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($stmt->rowCount() == 0) { //if find error
-            echo "<div class='alert alert-danger text-white'>User Not Found</div>";
+            $error_ms = "<div class='alert alert-danger text-white'>User Not Found</div>";
         } else if ($login_password != $row['password']) {
-            echo "<div class='alert alert-danger text-white'>Wrong Password</div>";
+            $error_ms = "<div class='alert alert-danger text-white'>Wrong Password</div>";
         } else if ($row['status'] == "disabled") {
-            echo "<div class='alert alert-danger text-white'>Account Disabled</div>";
+            $error_ms = "<div class='alert alert-danger text-white'>Account Disabled</div>";
         } else {
-            $_SESSION["username"] = $username;
+            $_SESSION["username"] = $login_username;
 
             header("Location:welcome.php?username=$login_username");
         }
@@ -60,6 +63,7 @@ if ($_POST) {
                     <div class="row">
                         <div class="col-lg-4 col-md-8 col-12 mx-auto">
                             <div class="card z-index-0 fadeIn3 fadeInBottom">
+                            <div class ="mb-5" ><?php echo $error_ms;?></div>
                                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                                     <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
                                         <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Sign in</h4>
