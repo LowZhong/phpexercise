@@ -36,8 +36,19 @@ if (!isset($_SESSION["username"])) {
         // include database connection
         include 'database/connection.php';
         include 'function/function.php';
-        //include 'database/delete.php';
         // delete message prompt will be here
+        $action = isset($_GET['action']) ? $_GET['action'] :"";
+
+        if($success_msg_prod == 'saved_prod') {
+            echo "<div class='alert alert-success text-white'>Record was saved.</div>";
+        }
+
+        // if it was redirected from delete.php
+        if ($action == 'deleted') {
+            echo "<div class='alert alert-success text-white'>Record was deleted.</div>";
+        } else if($action == 'deleteerror') {
+            echo "<div class='alert alert-danger text-white'>Unable to delete record.</div>";
+        }
 
         // select all data
         $query = "SELECT productID, name, description, price, image FROM products ORDER BY productID ASC";
@@ -98,11 +109,6 @@ if (!isset($_SESSION["username"])) {
             if($action == 'updated') {
                 echo "<div class='alert alert-success'>Record was saved.</div>";
 
-            }
-
-            // if it was redirected from delete.php
-            if ($action == 'deleted') {
-                echo "<div class='alert alert-success'>Record was deleted.</div>";
             }
 
             // end table

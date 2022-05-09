@@ -64,9 +64,8 @@ if (!isset($_SESSION["username"])) {
                     $price = htmlspecialchars(strip_tags($_POST['price']));
 
                     // new 'image' field
-                    $image = !empty($_FILES["image"]["name"])
-                        ? sha1_file($_FILES['image']['tmp_name']) . "-" . basename($_FILES["image"]["name"])
-                        : "";
+                    $image = !empty($_FILES["image"]["name"]) ? sha1_file($_FILES['image']['tmp_name']) . "-" . basename($_FILES["image"]["name"]): "";
+                        
                     $image = htmlspecialchars(strip_tags($image));
 
                     // bind the parameters
@@ -81,9 +80,8 @@ if (!isset($_SESSION["username"])) {
 
                     // Execute the query
                     if ($stmt->execute()) {
-                        header('location: product_read.php?action=updated');
                         ob_end_clean();
-                        //echo "<div class='alert alert-success'>Record was saved.</div>";
+                        header('Location: product_read.php?success_msg_prod=saved_prod');
                         // now, if image is not empty, try to upload the image
                         if ($image) {
                             $target_directory = "uploads/";
