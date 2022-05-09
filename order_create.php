@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
 if (!isset($_SESSION["username"])) {
     header("location: index.php");
@@ -62,6 +63,9 @@ if (!isset($_SESSION["username"])) {
                             $stmt->bindParam(1, $customerID);
                             // Execute the query
                             if ($stmt->execute()) {
+                                ob_end_clean();
+                                $_SESSION['success'] = "<div class='alert alert-success text-white'>Orders was created.</div>";
+                                header('Location: order_listing.php');
                                 $last_order_id = $con->lastInsertId();
                                 if ($last_order_id > 0) {
 

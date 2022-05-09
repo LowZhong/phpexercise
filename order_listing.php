@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
 if (!isset($_SESSION["username"])) {
     header("location: index.php");
@@ -36,6 +37,16 @@ if (!isset($_SESSION["username"])) {
         // include database connection
         include 'database/connection.php';
         include 'function/function.php';
+
+        if (isset($_SESSION['success'])) {
+            echo $_SESSION['success'];
+            unset($_SESSION['success']);
+        }
+
+        if (isset($_SESSION['success_update'])) {
+            echo $_SESSION['success_update'];
+            unset($_SESSION['success_update']);
+        }
 
         // delete message prompt will be here
 

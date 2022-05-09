@@ -1,3 +1,7 @@
+<?php
+ob_start();
+?>
+
 <!DOCTYPE HTML>
 <html>
 
@@ -79,7 +83,9 @@
                     // Execute the query
                     if ($stmt->execute()) {
                         if ($i + 1 == count($product_ID)) {
-                            echo "<div class='alert alert-success'>Record was updated.</div>";
+                            ob_end_clean();
+                            $_SESSION['success_update'] = "<div class='alert alert-success text-white'>Record was Updated.</div>";
+                            header('Location: order_listing.php');
                         }
                     } else {
                         echo "<div class='alert alert-danger text-white'>Unable to update record. Please try again.</div>";
