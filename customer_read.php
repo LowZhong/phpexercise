@@ -39,6 +39,13 @@ if (!isset($_SESSION["username"])) {
         include 'function/function.php';
 
         // delete message prompt will be here
+        // if it was redirected from delete.php
+        $action = isset($_GET['action']) ? $_GET['action'] :"";
+        if ($action == 'deleted') {
+            echo "<div class='alert alert-success text-white'>Record was deleted.</div>";
+        } else if($action == 'deleteerror') {
+            echo "<div class='alert alert-danger text-white'>Unable to delete record.</div>";
+        }
 
         // select all data
         $query = "SELECT customerID, username, email, firstname, lastname, gender, user_image FROM customer ORDER BY customerID ASC";
@@ -109,13 +116,6 @@ if (!isset($_SESSION["username"])) {
         // if no records found
         else {
             echo "<div class='alert alert-danger'>No records found.</div>";
-        }
-
-        $action = isset($_GET['action']) ? $_GET['action'] : "";
-
-        // if it was redirected from delete.php
-        if ($action == 'deleted') {
-            echo "<div class='alert alert-success'>Record was deleted.</div>";
         }
         ?>
 
