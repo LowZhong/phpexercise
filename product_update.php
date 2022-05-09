@@ -1,3 +1,7 @@
+<?php
+ob_start();
+?>
+
 <!DOCTYPE HTML>
 <html>
 
@@ -93,7 +97,9 @@
                         $stmt->bindParam(':image', $image);
                         // Execute the query
                         if ($stmt->execute()) {
-                            echo "<div class='alert alert-success'>Record was updated.</div>";
+                            ob_end_clean();
+                            $_SESSION['success_update'] = "<div class='alert alert-success text-white'>Record was Updated.</div>";
+                            header('Location: product_read.php');
                             if ($image) {
                                 $target_directory = "uploads/";
                                 // make sure the 'uploads' folder exists

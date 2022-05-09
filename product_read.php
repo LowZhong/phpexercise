@@ -37,16 +37,22 @@ if (!isset($_SESSION["username"])) {
         include 'database/connection.php';
         include 'function/function.php';
         // delete message prompt will be here
-        $action = isset($_GET['action']) ? $_GET['action'] :"";
+        $action = isset($_GET['action']) ? $_GET['action'] : "";
 
-        if($success_msg_prod == 'saved_prod') {
-            echo "<div class='alert alert-success text-white'>Record was saved.</div>";
+        if (isset($_SESSION['success'])) {
+            echo $_SESSION['success'];
+            unset($_SESSION['success']);
+        }
+
+        if (isset($_SESSION['success_update'])) {
+            echo $_SESSION['success_update'];
+            unset($_SESSION['success_update']);
         }
 
         // if it was redirected from delete.php
         if ($action == 'deleted') {
             echo "<div class='alert alert-success text-white'>Record was deleted.</div>";
-        } else if($action == 'deleteerror') {
+        } else if ($action == 'deleteerror') {
             echo "<div class='alert alert-danger text-white'>Unable to delete record.</div>";
         }
 
@@ -106,9 +112,8 @@ if (!isset($_SESSION["username"])) {
 
             $action = isset($_GET['action']) ? $_GET['action'] : "";
 
-            if($action == 'updated') {
+            if ($action == 'updated') {
                 echo "<div class='alert alert-success'>Record was saved.</div>";
-
             }
 
             // end table

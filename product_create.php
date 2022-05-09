@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
 if (!isset($_SESSION["username"])) {
     header("location: index.php");
@@ -34,7 +35,6 @@ if (!isset($_SESSION["username"])) {
 
 
         <?php
-        ob_start();
         // define variables and set to empty values
         $name = $description = $price = "";
 
@@ -81,7 +81,8 @@ if (!isset($_SESSION["username"])) {
                     // Execute the query
                     if ($stmt->execute()) {
                         ob_end_clean();
-                        header('Location: product_read.php?success_msg_prod=saved_prod');
+                        $_SESSION['success'] = "<div class='alert alert-success text-white'>Record was saved.</div>";
+                        header('Location: product_read.php');
                         // now, if image is not empty, try to upload the image
                         if ($image) {
                             $target_directory = "uploads/";
