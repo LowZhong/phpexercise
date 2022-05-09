@@ -41,6 +41,17 @@ if (!isset($_SESSION["username"])) {
         // delete message prompt will be here
         // if it was redirected from delete.php
         $action = isset($_GET['action']) ? $_GET['action'] :"";
+
+        if (isset($_SESSION['success'])) {
+            echo $_SESSION['success'];
+            unset($_SESSION['success']);
+        }
+
+        if (isset($_SESSION['success_update'])) {
+            echo $_SESSION['success_update'];
+            unset($_SESSION['success_update']);
+        }
+
         if ($action == 'deleted') {
             echo "<div class='alert alert-success text-white'>Record was deleted.</div>";
         } else if($action == 'deleteerror') {

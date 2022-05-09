@@ -1,3 +1,7 @@
+<?php
+ob_start();
+?>
+
 <!DOCTYPE HTML>
 <html>
 
@@ -109,7 +113,9 @@
 
                         // Execute the query
                         if ($stmt->execute()) {
-                            echo "<div class='alert alert-success'>Record was updated.</div>";
+                            ob_end_clean();
+                            $_SESSION['success_update'] = "<div class='alert alert-success text-white'>Record was Updated.</div>";
+                            header('Location: customer_read.php');
                             if ($user_image) {
                                 $target_directory = "uploads/";
                                 // make sure the 'uploads' folder exists

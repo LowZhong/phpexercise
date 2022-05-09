@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
 if (!isset($_SESSION["username"])) {
     header("location: index.php");
@@ -98,7 +99,9 @@ if (!isset($_SESSION["username"])) {
 
                     // Execute the query
                     if ($stmt->execute()) {
-                        echo "<div class='alert alert-success'>Record was saved.</div>";
+                        ob_end_clean();
+                        $_SESSION['success'] = "<div class='alert alert-success text-white'>Success create account.</div>";
+                        header('Location: customer_read.php');
                         if ($user_image) {
                             $target_directory = "uploads/";
                             // make sure the 'uploads' folder exists
