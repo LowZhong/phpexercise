@@ -54,6 +54,8 @@ if (!isset($_SESSION["username"])) {
         // if it was redirected from delete.php
         if ($action == 'deleted') {
             echo "<div class='alert alert-success'>Record was deleted.</div>";
+        } else if ($action == 'deleteerror') {
+            echo "<div class='alert alert-danger text-white'>Unable to delete record.</div>";
         }
 
         // select all data
