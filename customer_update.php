@@ -6,7 +6,7 @@ ob_start();
 <html>
 
 <head>
-    <title>PDO - Read Records - PHP CRUD Tutorial</title>
+    <title>Update The Customers</title>
     <?php
     include 'head/head.php';
     ?>
@@ -89,13 +89,13 @@ ob_start();
 
                     try {
                         // write update query
-                        $query = "UPDATE customer SET username=:username, email=:email, password=:password, firstname=:firstname, lastname=:lastname, gender=:gender, birthdate=:birthdate, status=:status WHERE customerID = :customerID";
+                        $query = "UPDATE customer SET username=:username, email=:email, password=:password, firstname=:firstname, lastname=:lastname, gender=:gender, birthdate=:birthdate, status=:status, user_image=:user_image WHERE customerID = :customerID";
                         // prepare query for excecution
                         $stmt = $con->prepare($query);
 
                         // new 'image' field
                         $user_image = !empty($_FILES["user_image"]["username"])
-                            ? sha1_file($_FILES['user_image']['user_name']) . "-" . basename($_FILES["user_image"]["username"])
+                            ? sha1_file($_FILES['user_image']['tmp_name']) . "-" . basename($_FILES["user_image"]["username"])
                             : "";
                         $user_image = htmlspecialchars(strip_tags($user_image));
 
@@ -149,7 +149,7 @@ ob_start();
                                 // if $file_upload_error_messages is still empty
                                 if (empty($file_upload_error_messages)) {
                                     // it means there are no errors, so try to upload the file
-                                    if (move_uploaded_file($_FILES["user_image"]["user_name"], $target_file)) {
+                                    if (move_uploaded_file($_FILES["user_image"]["tmp_name"], $target_file)) {
                                         // it means photo was uploaded
                                     } else {
                                         echo "<div class='alert alert-danger text-white'>";

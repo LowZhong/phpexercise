@@ -154,11 +154,11 @@ function pro_img($image)
 function user_img($user_image)
 {
     if ($user_image == null){
-        return "<img src='images/default_profile_image.jpg' width=50 alt='user_default'/>";
+        return "<img src='images/default_profile_image.jpg' width=80 alt='user_default'/>";
     }
     else
     {
-        return "<img src= 'uploads/$user_image' width=30/>";
+        return "<img src= 'uploads/$user_image' width=80/>";
     }
 }
 
