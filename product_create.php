@@ -54,6 +54,8 @@ if (!isset($_SESSION["username"])) {
             $error = array_filter($error);
             if (empty($error)) {
 
+                if (!empty($_FILES["image"]["name"])) {
+
                 try {
                     // insert query
                     $query = "INSERT INTO products SET name=:name, description=:description, price=:price, image=:image, created=:created";
@@ -91,7 +93,7 @@ if (!isset($_SESSION["username"])) {
                             if (!is_dir($target_directory)) {
                                 mkdir($target_directory, 0777, true);
                             }
-                            $target_file = $target_directory . $user_image;
+                            $target_file = $target_directory . $image;
 
                             // make sure file does not exist
                             if (file_exists($target_file)) {
@@ -106,7 +108,7 @@ if (!isset($_SESSION["username"])) {
                                 $file_upload_error_messages .= "<div>Only JPG or PNG files are allowed.</div>";
                             }
                             // make sure submitted file is not too large
-                            if ($_FILES['user_image']['size'] > (5242880)) {
+                            if ($_FILES['image']['size'] > (5242880)) {
                                 $file_upload_error_messages .= "<div>Image must be less than 5 MB in size.</div>";
                             }
                             // make sure the 'uploads' folder exists
@@ -117,7 +119,7 @@ if (!isset($_SESSION["username"])) {
                             // if $file_upload_error_messages is still empty
                             if (empty($file_upload_error_messages)) {
                                 // it means there are no errors, so try to upload the file
-                                if (move_uploaded_file($_FILES["user_image"]["tmp_name"], $target_file)) {
+                                if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
                                     // it means photo was uploaded
                                 } else {
                                     echo "<div class='alert alert-danger text-white'>";
@@ -145,6 +147,8 @@ if (!isset($_SESSION["username"])) {
                 catch (PDOException $exception) {
                     die('ERROR: ' . $exception->getMessage());
                 }
+
+            }
             } else {
                 foreach ($error as $value) {
                     echo "<div class='alert alert-danger text-white'>$value <br/></div>"; //start print error msg

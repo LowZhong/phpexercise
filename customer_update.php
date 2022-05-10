@@ -84,7 +84,7 @@ ob_start();
             $error = array_filter($error);
 
             if (empty($error)) {
-                if (!empty($_FILES["user_image"]["username"])) {
+                if (!empty($_FILES["user_image"]["name"])) {
 
 
                     try {
@@ -94,8 +94,8 @@ ob_start();
                         $stmt = $con->prepare($query);
 
                         // new 'image' field
-                        $user_image = !empty($_FILES["user_image"]["username"])
-                            ? sha1_file($_FILES['user_image']['tmp_name']) . "-" . basename($_FILES["user_image"]["username"])
+                        $user_image = !empty($_FILES["user_image"]["name"])
+                            ? sha1_file($_FILES['user_image']['tmp_name']) . "-" . basename($_FILES["user_image"]["name"])
                             : "";
                         $user_image = htmlspecialchars(strip_tags($user_image));
 
@@ -109,7 +109,7 @@ ob_start();
                         $stmt->bindParam(':gender', $gender);
                         $stmt->bindParam(':birthdate', $birthdate);
                         $stmt->bindParam(':status', $status);
-                        $stmt->bindParam(':status', $user_image);
+                        $stmt->bindParam(':user_image', $user_image);
 
                         // Execute the query
                         if ($stmt->execute()) {
@@ -178,6 +178,7 @@ ob_start();
                         die('ERROR: ' . $exception->getMessage());
                     }
                 } else {
+                    echo "<div class='alert alert-danger text-white'>pls upload a photo. <br/></div>";
                     foreach ($error as $value) {
                         echo "<div class='alert alert-danger text-white'>$value <br/></div>"; //start print error msg
                     }
@@ -219,7 +220,7 @@ ob_start();
 
         <!-- HTML form to update record will be here -->
         <!--we have our html form here where new record information can be updated-->
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?customerID={$customerID}"); ?>" method="post">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?customerID={$customerID}"); ?>" method="post" enctype="multipart/form-data">
             <table class='table table-hover table-responsive table-bordered'>
                 <div class="mb-3">
                     <tr class='border border-3'>
@@ -312,7 +313,7 @@ ob_start();
                     <tr class='border border-3'>
                         <td class="border border-3 p-4">Update Your Profile Picture</td>
                         <td class="p-4">
-                            <input type="file" name="image" />
+                            <input type="file" name="user_image" />
                         </td>
                     </tr>
                 </div>

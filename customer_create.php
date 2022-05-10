@@ -73,95 +73,99 @@ if (!isset($_SESSION["username"])) {
                 echo "<div class='alert alert-danger text-white'>Cannot Be Left Blank.</div>";
             } else if (empty($error)) { //array里面会有nullvalue如果没有clear null value系统以为他不是empty
 
-                try {
-                    // insert query
-                    $query = "INSERT INTO customer SET username=:username, password=:password, email=:email, firstname=:firstname, lastname=:lastname, birthdate=:birthdate, gender=:gender, status=:status, user_image=:user_image";
-                    // prepare query for execution
-                    $stmt = $con->prepare($query);
+                if (!empty($_FILES["user_image"]["name"])) {
 
                     // new 'image' field
-                    $user_image = !empty($_FILES["user_image"]["username"])
-                        ? sha1_file($_FILES['user_image']['tmp_name']) . "-" . basename($_FILES["user_image"]["username"])
+                    $user_image = !empty($_FILES["user_image"]["name"])
+                        ? sha1_file($_FILES['user_image']['tmp_name']) . "-" . basename($_FILES["user_image"]["name"])
                         : "";
-                    $user_image = htmlspecialchars(strip_tags($user_image));
+                    //$user_image = htmlspecialchars(strip_tags($user_image));
 
-                    // bind the parameters
-                    $stmt->bindParam(':username', $username);
-                    $stmt->bindParam(':password', $password);
-                    $stmt->bindParam(':email', $email);
-                    $stmt->bindParam(':firstname', $firstname);
-                    $stmt->bindParam(':lastname', $lastname);
-                    $stmt->bindParam(':birthdate', $birthdate);
-                    $stmt->bindParam(':gender', $gender);
-                    $stmt->bindParam(':status', $status);
-                    $stmt->bindParam(':user_image', $user_image);
-                    // specify when this record was inserted to the database
+                    if ($user_image) {
+                        $target_directory = "uploads/";
+                        // make sure the 'uploads' folder exists
+                        // if not, create it
+                        if (!is_dir($target_directory)) {
+                            mkdir($target_directory, 0777, true);
+                        }
+                        $target_file = $target_directory . $user_image;
 
-                    // Execute the query
-                    if ($stmt->execute()) {
-                        ob_end_clean();
-                        $_SESSION['success'] = "<div class='alert alert-success text-white'>Success create account.</div>";
-                        header('Location: customer_read.php');
-                        if ($user_image) {
-                            $target_directory = "uploads/";
-                            // make sure the 'uploads' folder exists
-                            // if not, create it
-                            if (!is_dir($target_directory)) {
-                                mkdir($target_directory, 0777, true);
-                            }
-                            $target_file = $target_directory . $user_image;
+                        // make sure file does not exist
+                        if (file_exists($target_file)) {
+                            $file_upload_error_messages .= "<div>Image already exists. Try to change file name.</div>";
+                        }
 
-                            // make sure file does not exist
-                            if (file_exists($target_file)) {
-                                $file_upload_error_messages .= "<div>Image already exists. Try to change file name.</div>";
-                            }
-
-                            // check the extension of the upload file
-                            $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
-                            // make sure certain file types are allowed
-                            $allowed_file_types = array("jpg", "png");
-                            if (!in_array($file_type, $allowed_file_types)) {
-                                $file_upload_error_messages .= "<div>Only JPG or PNG files are allowed.</div>";
-                            }
-                            // make sure submitted file is not too large
-                            if ($_FILES['user_image']['size'] > (5242880)) {
-                                $file_upload_error_messages .= "<div>Image must be less than 5 MB in size.</div>";
-                            }
-                            // make sure the 'uploads' folder exists
-                            // if not, create it
-                            if (!is_dir($target_directory)) {
-                                mkdir($target_directory, 0777, true);
-                            }
-                            // if $file_upload_error_messages is still empty
-                            if (empty($file_upload_error_messages)) {
-                                // it means there are no errors, so try to upload the file
-                                if (move_uploaded_file($_FILES["user_image"]["tmp_name"], $target_file)) {
-                                    // it means photo was uploaded
-                                } else {
-                                    echo "<div class='alert alert-danger text-white'>";
-                                    echo "<div>Unable to upload photo.</div>";
-                                    echo "<div>Update the record to upload photo.</div>";
-                                    echo "</div>";
-                                }
-                            }
-                            // if $file_upload_error_messages is NOT empty
-                            else {
-                                // it means there are some errors, so show them to user
+                        // check the extension of the upload file
+                        $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
+                        // make sure certain file types are allowed
+                        $allowed_file_types = array("jpg", "png");
+                        if (!in_array($file_type, $allowed_file_types)) {
+                            $file_upload_error_messages .= "<div>Only JPG or PNG files are allowed.</div>";
+                        }
+                        // make sure submitted file is not too large
+                        if ($_FILES['user_image']['size'] > (5242880)) {
+                            $file_upload_error_messages .= "<div>Image must be less than 5 MB in size.</div>";
+                        }
+                        // make sure the 'uploads' folder exists
+                        // if not, create it
+                        if (!is_dir($target_directory)) {
+                            mkdir($target_directory, 0777, true);
+                        }
+                        // if $file_upload_error_messages is still empty
+                        if (empty($file_upload_error_messages)) {
+                            // it means there are no errors, so try to upload the file
+                            if (move_uploaded_file($_FILES["user_image"]["tmp_name"], $target_file)) {
+                                // it means photo was uploaded
+                            } else {
                                 echo "<div class='alert alert-danger text-white'>";
-                                echo "<div>{$file_upload_error_messages}</div>";
+                                echo "<div>Unable to upload photo.</div>";
                                 echo "<div>Update the record to upload photo.</div>";
                                 echo "</div>";
                             }
-                        } else {
-                            echo "no file selected.";
+                        }
+                        // if $file_upload_error_messages is NOT empty
+                        else {
+                            // it means there are some errors, so show them to user
+                            echo "<div class='alert alert-danger text-white'>";
+                            echo "<div>{$file_upload_error_messages}</div>";
+                            echo "<div>Update the record to upload photo.</div>";
+                            echo "</div>";
                         }
                     } else {
-                        echo "<div class='alert alert-danger text-white'>Unable to save record.</div>";
+                        echo "no file selected.";
                     }
-                }
-                // show error
-                catch (PDOException $exception) {
-                    die('ERROR: ' . $exception->getMessage());
+
+                    try {
+                        // insert query
+                        $query = "INSERT INTO customer SET username=:username, password=:password, email=:email, firstname=:firstname, lastname=:lastname, birthdate=:birthdate, gender=:gender, status=:status, user_image=:user_image";
+                        // prepare query for execution
+                        $stmt = $con->prepare($query);
+
+                        // bind the parameters
+                        $stmt->bindParam(':username', $username);
+                        $stmt->bindParam(':password', $password);
+                        $stmt->bindParam(':email', $email);
+                        $stmt->bindParam(':firstname', $firstname);
+                        $stmt->bindParam(':lastname', $lastname);
+                        $stmt->bindParam(':birthdate', $birthdate);
+                        $stmt->bindParam(':gender', $gender);
+                        $stmt->bindParam(':status', $status);
+                        $stmt->bindParam(':user_image', $user_image);
+                        // specify when this record was inserted to the database
+
+                        // Execute the query
+                        if ($stmt->execute()) {
+                            ob_end_clean();
+                            $_SESSION['success'] = "<div class='alert alert-success text-white'>Success create account.</div>";
+                            header('Location: customer_read.php');
+                        } else {
+                            echo "<div class='alert alert-danger text-white'>Unable to save record.</div>";
+                        }
+                    }
+                    // show error
+                    catch (PDOException $exception) {
+                        die('ERROR: ' . $exception->getMessage());
+                    }
                 }
             } else {
                 foreach ($error as $value) {
@@ -176,7 +180,7 @@ if (!isset($_SESSION["username"])) {
 
         <!-- html form here where the product information will be entered -->
 
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
             <table class='table table-hover table-responsive table-bordered'>
 
                 <div class="mb-3">
@@ -223,13 +227,13 @@ if (!isset($_SESSION["username"])) {
                         <td class="p-4"><?php
 
 
-                            echo '<select id="day" name="day">' . "\n";
-                            for ($day = 1; $day <= 31; $day++) {
-                                $selected = ($day_ == $day ? ' selected' : '');
-                                echo '<option value="' . $day . '"' . $selected . '>' . $day . '</option>' . "\n";
-                            }
-                            echo '</select>' . "\n";
-                            ?>
+                                        echo '<select id="day" name="day">' . "\n";
+                                        for ($day = 1; $day <= 31; $day++) {
+                                            $selected = ($day_ == $day ? ' selected' : '');
+                                            echo '<option value="' . $day . '"' . $selected . '>' . $day . '</option>' . "\n";
+                                        }
+                                        echo '</select>' . "\n";
+                                        ?>
 
                             <!--month-->
                             <?php
