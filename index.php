@@ -78,7 +78,7 @@ if ($_POST) {
                                             <input type="password" name='password' class="form-control" placeholder="Password">
                                         </div>
                                         <div class="text-center">
-                                            <input type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2" />
+                                            <input type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2 " placeholder="sign In"/>
                                         </div>
                                         <p class="mt-4 text-sm text-center">
                                             Don't have an account?
