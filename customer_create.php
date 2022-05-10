@@ -80,8 +80,8 @@ if (!isset($_SESSION["username"])) {
                     $stmt = $con->prepare($query);
 
                     // new 'image' field
-                    $user_image = !empty($_FILES["user_image"]["name"])
-                        ? sha1_file($_FILES['user_image']['tmp_name']) . "-" . basename($_FILES["user_image"]["name"])
+                    $user_image = !empty($_FILES["user_image"]["username"])
+                        ? sha1_file($_FILES['user_image']['tmp_name']) . "-" . basename($_FILES["user_image"]["username"])
                         : "";
                     $user_image = htmlspecialchars(strip_tags($user_image));
 

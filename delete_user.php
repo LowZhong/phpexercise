@@ -2,10 +2,10 @@
 // include database connection
 include 'database/connection.php';
 
-$customerID = isset($_GET['id']) ? $_GET['id'] :  die('ERROR: Record ID not found.');
-$query = "SELECT customerID FROM order_summary WHERE customerID = :id";
+$customerID = isset($_GET['customerID']) ? $_GET['customerID'] :  die('ERROR: Record ID not found.');
+$query = "SELECT customerID FROM order_summary WHERE customerID = :customerID";
 $stmt = $con->prepare($query);
-$stmt->bindParam(':id', $customerID);
+$stmt->bindParam(':customerID', $customerID);
 //$row = $stmt->fetch(PDO::FETCH_ASSOC);
 $stmt->execute();
 $num = $stmt->rowCount();
@@ -17,7 +17,7 @@ if ($num > 0) {
     try {
         // get record ID
         // isset() is a PHP function used to verify if a value is there or not
-        $id = isset($_GET['id']) ? $_GET['id'] :  die('ERROR: Record ID not found.');
+        $customerID = isset($_GET['customerID']) ? $_GET['customerID'] :  die('ERROR: Record ID not found.');
         // delete query
         $query = "DELETE FROM customer WHERE customerID = ?";
         $stmt = $con->prepare($query);
