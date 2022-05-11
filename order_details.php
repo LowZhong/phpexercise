@@ -74,9 +74,8 @@ if (!isset($_SESSION["username"])) {
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
                 extract($row);
-
                 // creating new table row per record
-                $totalprice = (string)$quantity * (string)$price;
+                $totalprice = $quantity * $price;
                 echo "<tr class='border border-3'>";
                 //echo "<td class='border border-3'>{$orderDetailsID}</td>";
                 echo "<td class='border border-3'>{$orderID}</td>";
@@ -85,7 +84,7 @@ if (!isset($_SESSION["username"])) {
                 echo "<td class='border border-3'>{$name}</td>";
                 echo "<td class='border border-3'>{$quantity}</td>";
                 echo "<td class='border border-3'>{$price}</td>";
-                echo "<td class='border border-3 text-end'>{$totalprice}</td>";
+                echo "<td class='border border-3 text-end'>". number_format($totalprice,2)."</td>";
             }
 
             // end table
