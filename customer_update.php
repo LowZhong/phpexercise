@@ -84,7 +84,7 @@ ob_start();
             $error = array_filter($error);
 
             if (empty($error)) {
-                if (!empty($_FILES["user_image"]["name"])) {
+                //if (!empty($_FILES["user_image"]["name"])) {
 
 
                     try {
@@ -177,12 +177,12 @@ ob_start();
                     catch (PDOException $exception) {
                         die('ERROR: ' . $exception->getMessage());
                     }
-                } else {
-                    echo "<div class='alert alert-danger text-white'>pls upload a photo. <br/></div>";
+                //} 
+                    //echo "<div class='alert alert-danger text-white'>pls upload a photo. <br/></div>";
                     foreach ($error as $value) {
                         echo "<div class='alert alert-danger text-white'>$value <br/></div>"; //start print error msg
                     }
-                }
+                
             }
         }
 

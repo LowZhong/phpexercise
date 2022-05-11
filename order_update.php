@@ -64,6 +64,7 @@ ob_start();
             $orderDetailsID = $_POST['orderDetailsID'];
             $product_ID = $_POST['productID'];
             $quantity = $_POST['quantity'];
+
             for ($i = 0; $i < count($product_ID); $i++) {
                 try {
                     // write update query
