@@ -19,7 +19,7 @@ if ($_POST) {
     include 'database/connection.php';
     include 'function/function.php';
 
-    
+
 
     //get the key first
 
@@ -27,7 +27,7 @@ if ($_POST) {
 
     $login_username = $_POST['username'];
     $login_password = $_POST['password'];
-    
+
 
     if (empty($login_username) || empty($login_password)) {
         $error_ms = "<div class='alert alert-danger text-white'>Cannot Be Left Blank.</div>";
@@ -63,15 +63,17 @@ if ($_POST) {
 
                     <div class="row">
                         <div class="col-lg-4 col-md-8 col-12 mx-auto">
-                            <div class ="mb-5" ><?php echo $error_ms;?></div>
+                            <div class="mb-5"><?php echo $error_ms; ?></div>
                             <div class="card z-index-0 fadeIn3 fadeInBottom">
                                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                                    <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
-                                        <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Sign in</h4>
+                                    <div class="bg-gradient-primary shadow-primary border-radius-lg py-3  ps-6">
+                                        <img src="assets/img/logo-ct.png" class="navbar-brand-img w-20" alt="main_logo">
+                                        <span class="ms-4 font-weight-bold text-white">LZ ONLINE SHOP</span>
                                     </div>
                                 </div>
                                 <div class="card-body">
                                     <form role="form" class="text-start">
+                                        <h4 class="text-grey font-weight-bolder text-center mt-2 mb-0">Sign in</h4>
                                         <div class="input-group input-group-outline my-3">
                                             <input type="text" name='username' class="form-control" placeholder="Username">
                                         </div>
@@ -79,7 +81,7 @@ if ($_POST) {
                                             <input type="password" name='password' class="form-control" placeholder="Password">
                                         </div>
                                         <div class="text-center">
-                                            <input type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2 " placeholder="sign In"/>
+                                            <input type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2 " placeholder="sign In" />
                                         </div>
                                         <p class="mt-4 text-sm text-center">
                                             Don't have an account?

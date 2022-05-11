@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 11, 2022 at 06:14 AM
+-- Generation Time: May 11, 2022 at 09:14 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.4
 
@@ -48,7 +48,8 @@ INSERT INTO `customer` (`customerID`, `username`, `password`, `email`, `firstnam
 (10, 'johncena', 'Low123', 'johncena@gmail.com', 'john', 'cena', '2000-12-22', 'male', 'active', 'beddf3fa0dec510f60167e920198c8bcf107113a-john cena.jpg'),
 (14, 'Jameswoo', 'Password123', 'jameswoo@gmail.com', 'james', 'woo', '1991-12-21', 'male', 'active', '273f41e55c721abbb589bce1e664ad5fa9771a6e-team-2.jpg'),
 (27, 'Jamesbond', 'Password123', 'johncena@gmail.com', 'james', 'bond', '2001-3-22', 'male', 'active', 'a610d31c975d2c836beb5e6068ae792f7a27e821-jamesbond.png'),
-(28, 'Harrypotter', 'Low123', 'lowzhong20020826@gmail.com', 'harry', 'potter', '2001/12/20', 'male', 'active', '');
+(28, 'Harrypotter', 'Low123', 'lowzhong20020826@gmail.com', 'harry', 'potter', '2001/12/20', 'male', 'active', ''),
+(34, 'Ironman', 'Low123', 'lowzhong20020826@gmail.com', 'iron', 'man', '2002/2/22', 'male', 'active', '');
 
 -- --------------------------------------------------------
 
@@ -95,7 +96,7 @@ INSERT INTO `order_details` (`orderDetailsID`, `orderID`, `productID`, `quantity
 (34, 25, 55, 100),
 (35, 26, 72, 100),
 (36, 27, 1, 10),
-(37, 28, 55, 10),
+(37, 28, 55, 5),
 (38, 29, 4, 20),
 (39, 30, 1, 50);
 
@@ -201,7 +202,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customerID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `customerID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `order_details`
