@@ -33,7 +33,7 @@ if (!isset($_SESSION["username"])) {
         </div>
 
         <div class="table-responsive">
-            <table class="table">
+            
 
                 <!-- PHP code to read records will be here -->
                 <?php
@@ -132,7 +132,7 @@ if (!isset($_SESSION["username"])) {
                     echo "<div class='alert alert-danger'>No records found.</div>";
                 }
                 ?>
-            </table>
+            
         </div>
     </div> <!-- end .container -->
 
