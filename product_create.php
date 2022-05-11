@@ -47,16 +47,11 @@ if (!isset($_SESSION["username"])) {
             $description = $_POST['description'];
             $price = $_POST['price'];
 
+            $error['name'] = validatename($name);
+            $error['price'] = validatePrice($price);
 
-            if (empty($name) || empty($price)) {
-                echo "<div class='alert alert-danger text-white'>Cannot Be Left Blank.</div>";
-            }else if (empty($error)) {
-                $error = array_filter($error);
-                $error['name'] = validatename($name);
-                $error['price'] = validatePrice($price);
-
-                if (!empty($_FILES["image"]["name"])) {
-
+            $error = array_filter($error);
+            if (empty($error)) {
                     try {
                         // insert query
                         $query = "INSERT INTO products SET name=:name, description=:description, price=:price, image=:image, created=:created";
@@ -148,7 +143,6 @@ if (!isset($_SESSION["username"])) {
                     catch (PDOException $exception) {
                         die('ERROR: ' . $exception->getMessage());
                     }
-                }
             } else {
                 foreach ($error as $value) {
                     echo "<div class='alert alert-danger text-white'>$value <br/></div>"; //start print error msg

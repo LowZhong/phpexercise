@@ -61,26 +61,17 @@ if (!isset($_SESSION["username"])) {
             //fetch result
             $customerID = $stmt->fetch();
 
+            //function
+            $error['username'] = validateUsername($username); //array call function
+            $error['password'] = validatePassword($password, $inputconfirmPassword);
+            $error['birthdate'] = validateAge($year_, $birthdate);
+            $error['gender'] = validateGender($gender);
+            $error['status'] = validateStatus($status);
 
+            $error = array_filter($error); //remove null value in the $error if there is no error msg, not have this will not update to database
             if (empty($username) || empty($password) || empty($inputconfirmPassword) || empty($email) || empty($firstname) || empty($lastname) || empty($status) || empty($birthdate) || empty($gender)) {
                 echo "<div class='alert alert-danger text-white'>Cannot Be Left Blank.</div>";
             } else if (empty($error)) { //array里面会有nullvalue如果没有clear null value系统以为他不是empty
-
-                $error = array_filter($error); //remove null value in the $error if there is no error msg, not have this will not update to database
-                //function
-                $error['username'] = validateUsername($username); //array call function
-                $error['password'] = validatePassword($password, $inputconfirmPassword);
-                $error['birthdate'] = validateAge($year_, $birthdate);
-                $error['gender'] = validateGender($gender);
-                $error['status'] = validateStatus($status);
-
-                $stmt = $con->prepare("SELECT * FROM customer WHERE customerID= ?");
-                //execute the statement
-                //$stmt->execute($customerID);
-                //fetch result
-                $customerID = $stmt->fetch();
-
-                if (!empty($_FILES["user_image"]["name"])) {
 
                     // new 'image' field
                     $user_image = !empty($_FILES["user_image"]["name"])
@@ -173,7 +164,6 @@ if (!isset($_SESSION["username"])) {
                     catch (PDOException $exception) {
                         die('ERROR: ' . $exception->getMessage());
                     }
-                }
             } else {
                 foreach ($error as $value) {
                     echo "<div class='alert alert-danger text-white'>$value <br/></div>"; //start print error msg
