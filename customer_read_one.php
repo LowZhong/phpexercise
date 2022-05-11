@@ -81,60 +81,61 @@ if (!isset($_SESSION["username"])) {
 
 
         <!-- HTML read one record table will be here -->
+        <div class="table-responsive">
+            <table class='table table-hover table-responsive table-bordered'>
+                <div class="mb-3">
+                    <tr class='border border-3'>
+                        <td class='border border-3'>Customer ID</td>
+                        <td><?php echo htmlspecialchars($customerID, ENT_QUOTES);  ?></td>
+                    </tr>
+                    <tr class='border border-3'>
+                        <td class='border border-3'>Username</td>
+                        <td><?php echo htmlspecialchars($username, ENT_QUOTES);  ?></td>
+                    </tr>
+                    <tr class='border border-3'>
+                        <td class='border border-3'>Email</td>
+                        <td><?php echo htmlspecialchars($email, ENT_QUOTES);  ?></td>
+                    </tr>
+                    <tr class='border border-3'>
+                        <td class='border border-3'>Password</td>
+                        <td><?php echo htmlspecialchars($password, ENT_QUOTES);  ?></td>
+                    </tr>
+                    <tr class='border border-3'>
+                        <td class='border border-3'>Firstname</td>
+                        <td><?php echo htmlspecialchars($firstname, ENT_QUOTES);  ?></td>
+                    </tr>
+                    <tr class='border border-3'>
+                        <td class='border border-3'>Lastname</td>
+                        <td><?php echo htmlspecialchars($lastname, ENT_QUOTES);  ?></td>
+                    </tr>
+                    <tr class='border border-3'>
+                        <td class='border border-3'>Gender</td>
+                        <td><?php echo htmlspecialchars($gender, ENT_QUOTES);  ?></td>
+                    </tr>
+                    <tr class='border border-3'>
+                        <td class='border border-3'>Status</td>
+                        <td><?php echo htmlspecialchars($status, ENT_QUOTES);  ?></td>
+                    </tr>
+                    <tr>
+                        <td class='border border-3'>Date Of Birth</td>
+                        <td><?php echo htmlspecialchars($birthdate, ENT_QUOTES);  ?></td>
+                    </tr>
+                    <tr class='border border-3'>
+                        <td class='border border-3'>Star Sign</td>
+                        <td><?php starsign($month, $day);  ?></td>
+                    </tr>
+                    <tr class='border border-3'>
+                        <td class='border border-3'>Animal Year</td>
+                        <td><?php animalYear($year); ?></td>
+                    </tr>
+                    <tr class='border border-3'>
+                        <td class='border border-3'>Images</td>
+                        <td><?php echo " " . user_img($user_image) . " " ?></td>
+                    </tr>
+                </div>
 
-        <table class='table table-hover table-responsive table-bordered'>
-            <div class="mb-3">
-                <tr class='border border-3'>
-                    <td class='border border-3'>Customer ID</td>
-                    <td><?php echo htmlspecialchars($customerID, ENT_QUOTES);  ?></td>
-                </tr>
-                <tr class='border border-3'>
-                    <td class='border border-3'>Username</td>
-                    <td><?php echo htmlspecialchars($username, ENT_QUOTES);  ?></td>
-                </tr>
-                <tr class='border border-3'>
-                    <td class='border border-3'>Email</td>
-                    <td><?php echo htmlspecialchars($email, ENT_QUOTES);  ?></td>
-                </tr>
-                <tr class='border border-3'>
-                    <td class='border border-3'>Password</td>
-                    <td><?php echo htmlspecialchars($password, ENT_QUOTES);  ?></td>
-                </tr>
-                <tr class='border border-3'>
-                    <td class='border border-3'>Firstname</td>
-                    <td><?php echo htmlspecialchars($firstname, ENT_QUOTES);  ?></td>
-                </tr>
-                <tr class='border border-3'>
-                    <td class='border border-3'>Lastname</td>
-                    <td><?php echo htmlspecialchars($lastname, ENT_QUOTES);  ?></td>
-                </tr>
-                <tr class='border border-3'>
-                    <td class='border border-3'>Gender</td>
-                    <td><?php echo htmlspecialchars($gender, ENT_QUOTES);  ?></td>
-                </tr>
-                <tr class='border border-3'>
-                    <td class='border border-3'>Status</td>
-                    <td><?php echo htmlspecialchars($status, ENT_QUOTES);  ?></td>
-                </tr>
-                <tr>
-                    <td class='border border-3'>Date Of Birth</td>
-                    <td><?php echo htmlspecialchars($birthdate, ENT_QUOTES);  ?></td>
-                </tr>
-                <tr class='border border-3'>
-                    <td class='border border-3'>Star Sign</td>
-                    <td><?php starsign($month, $day);  ?></td>
-                </tr>
-                <tr class='border border-3'>
-                    <td class='border border-3'>Animal Year</td>
-                    <td><?php animalYear($year); ?></td>
-                </tr>
-                <tr class='border border-3'>
-                    <td class='border border-3'>Images</td>
-                    <td><?php echo " " . user_img($user_image) . " " ?></td>
-                </tr>
-            </div>
-
-        </table>
+            </table>
+        </div>
         <div class="d-flex justify-content-end gap-2">
             <td class="d-flex justify-content-end gap-2">
                 <a href='customer_read.php' class='btn btn-danger'>Back to Customer List</a>

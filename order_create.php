@@ -106,60 +106,60 @@ if (!isset($_SESSION["username"])) {
 
         <!-- html form here where the product information will be entered -->
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-            <table class='table table-hover table-responsive table-bordered'>
-                <div class="mb-3">
-
-                    <?php
-
-                    $query = "SELECT customerID, username FROM customer";
-                    $stmt = $con->prepare($query);
-                    // execute our query
-                    $stmt->execute();
-                    echo '<tr class="border border-3">
+            <div class="table-responsive">
+                <table class='table table-hover table-responsive table-bordered'>
+                    <div class="mb-3">
+                        <?php
+                        $query = "SELECT customerID, username FROM customer";
+                        $stmt = $con->prepare($query);
+                        // execute our query
+                        $stmt->execute();
+                        echo '<tr class="border border-3">
                             <td class="border border-3">Select username </td>
                             <td>
                             <div class="col">';
-                    echo "<select class='form_select' name='customerID' >";
-                    echo '<option value="">username</option>';
-                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                        extract($row);
-                        echo "<option value='" . $customerID . "' >" . $username . "</option>";
-                    }
-                    //for ($x = 1; $x <= 1; $x++) {
-
-                    try {
-                        // prepare select query
-                        $query = "SELECT * FROM products";
-                        $stmt = $con->prepare($query);
-
-                        // execute our query
-                        $stmt->execute();
-                        echo '<tr class="productrow border border-3">
-                                <td class="border border-3">Select Product<td>
-                                <div class="col">';
-                        echo '<select class="form_select" name="productID[]" >';
-                        echo '<option value="">Product</option>';
-
+                        echo "<select class='form_select' name='customerID' >";
+                        echo '<option value="">username</option>';
                         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                             extract($row);
-                            echo "<option value='" . $productID . "' >" . $name . "</option>";
+                            echo "<option value='" . $customerID . "' >" . $username . "</option>";
                         }
-                        echo "</select>
+                        //for ($x = 1; $x <= 1; $x++) {
+
+                        try {
+                            // prepare select query
+                            $query = "SELECT * FROM products";
+                            $stmt = $con->prepare($query);
+
+                            // execute our query
+                            $stmt->execute();
+                            echo '<tr class="productrow border border-3">
+                                <td class="border border-3">Select Product<td>
+                                <div class="col">';
+                            echo '<select class="form_select" name="productID[]" >';
+                            echo '<option value="">Product</option>';
+
+                            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                extract($row);
+                                echo "<option value='" . $productID . "' >" . $name . "</option>";
+                            }
+                            echo "</select>
                             </div>
                                 Quantity
                                 <div class='input-group input-group-outline my-2'>
                                 <input type='number' name='quantity[]' class='form-control' value='' /></div></td></tr>";
-                    }
-                    // show error
-                    catch (PDOException $exception) {
-                        die('ERROR: ' . $exception->getMessage());
-                    }
-                    //}
-                    ?>
+                        }
+                        // show error
+                        catch (PDOException $exception) {
+                            die('ERROR: ' . $exception->getMessage());
+                        }
+                        //}
+                        ?>
 
 
-                </div>
-            </table>
+                    </div>
+                </table>
+            </div>
             <div class="d-flex justify-content-start gap-2">
                 <div>
                     <button type="button" class="add">Add More Product</button>
@@ -168,7 +168,6 @@ if (!isset($_SESSION["username"])) {
             </div>
 
             <div class="d-flex justify-content-end gap-2">
-
                 <input type='submit' value='Save Changes' class='btn btn-primary' />
                 <a href='order_listing.php' class='btn btn-danger'>Back to Order List</a>
             </div>

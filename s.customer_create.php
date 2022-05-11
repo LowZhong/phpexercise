@@ -1,9 +1,5 @@
 <?php
 ob_start();
-session_start();
-if (!isset($_SESSION["username"])) {
-    header("location: index.php");
-}
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -60,20 +56,17 @@ if (!isset($_SESSION["username"])) {
             //fetch result
             $customerID = $stmt->fetch();
 
+            //function
+            $error['username'] = validateUsername($username); //array call function
+            $error['password'] = validatePassword($password, $inputconfirmPassword);
+            $error['birthdate'] = validateAge($year_, $birthdate);
+            $error['gender'] = validateGender($gender);
+            $error['status'] = validateStatus($status);
 
+            $error = array_filter($error); //remove null value in the $error if there is no error msg, not have this will not update to database
             if (empty($username) || empty($password) || empty($inputconfirmPassword) || empty($email) || empty($firstname) || empty($lastname) || empty($status) || empty($birthdate) || empty($gender)) {
                 echo "<div class='alert alert-danger text-white'>Cannot Be Left Blank.</div>";
             } else if (empty($error)) { //array里面会有nullvalue如果没有clear null value系统以为他不是empty
-
-                $error = array_filter($error); //remove null value in the $error if there is no error msg, not have this will not update to database
-                //function
-                $error['username'] = validateUsername($username); //array call function
-                $error['password'] = validatePassword($password, $inputconfirmPassword);
-                $error['birthdate'] = validateAge($year_, $birthdate);
-                $error['gender'] = validateGender($gender);
-                $error['status'] = validateStatus($status);
-
-                if (!empty($_FILES["user_image"]["name"])) {
 
                     // new 'image' field
                     $user_image = !empty($_FILES["user_image"]["name"])
@@ -157,7 +150,7 @@ if (!isset($_SESSION["username"])) {
                         if ($stmt->execute()) {
                             ob_end_clean();
                             $_SESSION['success'] = "<div class='alert alert-success text-white'>Success create account.</div>";
-                            header('Location: customer_read.php');
+                            header('Location: index.php');
                         } else {
                             echo "<div class='alert alert-danger text-white'>Unable to save record.</div>";
                         }
@@ -166,7 +159,6 @@ if (!isset($_SESSION["username"])) {
                     catch (PDOException $exception) {
                         die('ERROR: ' . $exception->getMessage());
                     }
-                }
             } else {
                 foreach ($error as $value) {
                     echo "<div class='alert alert-danger text-white'>$value <br/></div>"; //start print error msg
@@ -181,6 +173,7 @@ if (!isset($_SESSION["username"])) {
         <!-- html form here where the product information will be entered -->
 
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
+        <div class="table-responsive">
             <table class='table table-hover table-responsive table-bordered'>
 
                 <div class="mb-3">
@@ -283,6 +276,7 @@ if (!isset($_SESSION["username"])) {
 
                 </div>
             </table>
+        </div>
             <div class="d-flex justify-content-end gap-2">
                 <input type='submit' value='Save' class='btn btn-primary' />
             </div>

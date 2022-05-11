@@ -201,6 +201,7 @@ ob_start();
         <!-- HTML form to update record will be here -->
         <!--we have our html form here where new record information can be updated-->
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?productID={$productID}"); ?>" method="post" enctype="multipart/form-data">
+            <div class="table-responsive">
             <table class='table table-hover table-responsive table-bordered border border-3'>
                 <div class="mb-3">
                     <tr class="border border-3">
@@ -225,6 +226,7 @@ ob_start();
                 </div>
 
             </table>
+        </div>
             <div class="d-flex justify-content-end gap-2">
                 <input type='submit' value='Save Changes' class='btn btn-primary' />
                 <a href='product_read.php' class='btn btn-danger'>Back to read products</a>

@@ -14,11 +14,12 @@ session_start();
 
 <?php
 $error_ms = "";
-
 if ($_POST) {
     // include database connection
     include 'database/connection.php';
     include 'function/function.php';
+
+    
 
     //get the key first
 
