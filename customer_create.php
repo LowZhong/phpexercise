@@ -74,6 +74,12 @@ if (!isset($_SESSION["username"])) {
                 $error['gender'] = validateGender($gender);
                 $error['status'] = validateStatus($status);
 
+                $stmt = $con->prepare("SELECT * FROM customer WHERE customerID= ?");
+                //execute the statement
+                //$stmt->execute($customerID);
+                //fetch result
+                $customerID = $stmt->fetch();
+
                 if (!empty($_FILES["user_image"]["name"])) {
 
                     // new 'image' field

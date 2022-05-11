@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 10, 2022 at 06:22 PM
+-- Generation Time: May 11, 2022 at 05:57 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.4
 
@@ -14,40 +14,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `lz_online_store`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `customer`
---
-
-CREATE TABLE `customer` (
-  `customerID` int(100) NOT NULL,
-  `username` varchar(128) NOT NULL,
-  `password` varchar(128) NOT NULL,
-  `email` varchar(128) NOT NULL,
-  `firstname` varchar(128) NOT NULL,
-  `lastname` varchar(128) NOT NULL,
-  `birthdate` varchar(128) NOT NULL,
-  `gender` varchar(128) NOT NULL,
-  `status` varchar(128) NOT NULL,
-  `user_image` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `customer`
---
-
-INSERT INTO `customer` (`customerID`, `username`, `password`, `email`, `firstname`, `lastname`, `birthdate`, `gender`, `status`, `user_image`) VALUES
-(1, 'astonmartin', 'Low123', 'astonmartin@gmail.com', 'aston', 'martin', '2001-12-20', 'female', 'active', '07d5339e402737baf4daa9588b3b5ac7220cba7c-team-5.jpg'),
-(2, 'justinbieber', 'Low123', 'justinbieber@gmail.com', 'justin', 'bieber', '2002-12-27', 'male', 'active', '438f1f21e5ebfe3e1ecc60e755823e5ceca680b2-justin-bieber.jpg'),
-(3, 'lowzhong26', 'Low123', 'lowzhong20020826@gmail.com', 'low', 'zhong', '2022-8-26', 'male', 'active', 'cadd40dad98e146ec547b9362171025f48e8fbba-kal-visuals-square.jpg'),
-(4, 'paulwalker', 'Low123', 'paulwalker@gmail.com', 'paul', 'walker', '2001-12-21', 'male', 'active', '392cf957be3ccd8ba88d236cfdc9b734e277c6d4-paulwalker.jpg'),
-(5, 'robertkhan', 'Low123', 'robertkhan@gmail.com', 'robert', 'khan', '2001-12-23', 'male', 'active', 'e2261545661f54f8ae2ceeab3b29054dd8b49450-robertkhan.jpg'),
-(6, 'steveroger', 'Low123', 'steveroger@gmail.com', 'steve', 'roger', '2002-12-21', 'female', 'active', '53b221d02afb156bb5238c741d1501ed7fbd26ec-steveroger.jpg'),
-(10, 'johncena', 'Low123', 'johncena@gmail.com', 'john', 'cena', '2000-12-22', 'male', 'active', 'beddf3fa0dec510f60167e920198c8bcf107113a-john cena.jpg'),
-(14, 'Jameswoo', 'Password123', 'jameswoo@gmail.com', 'james', 'woo', '1991-12-21', 'male', 'active', '273f41e55c721abbb589bce1e664ad5fa9771a6e-team-2.jpg'),
-(27, 'Jamesbond', 'Password123', 'johncena@gmail.com', 'james', 'bond', '2001-3-22', 'male', 'active', 'a610d31c975d2c836beb5e6068ae792f7a27e821-jamesbond.png');
 
 -- --------------------------------------------------------
 
@@ -92,79 +58,13 @@ INSERT INTO `order_details` (`orderDetailsID`, `orderID`, `productID`, `quantity
 (32, 25, 1, 50),
 (33, 25, 9, 100),
 (34, 25, 55, 100),
-(35, 26, 72, 100);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `order_summary`
---
-
-CREATE TABLE `order_summary` (
-  `orderID` int(100) NOT NULL,
-  `customerID` int(100) NOT NULL,
-  `orderTime` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `order_summary`
---
-
-INSERT INTO `order_summary` (`orderID`, `customerID`, `orderTime`) VALUES
-(1, 1, '2022-04-12 12:29:36'),
-(2, 2, '2022-04-12 12:36:36'),
-(3, 3, '2022-04-12 12:37:51'),
-(14, 2, '2022-04-25 01:53:37'),
-(17, 1, '2022-04-25 02:43:52'),
-(18, 5, '2022-04-27 00:57:20'),
-(21, 3, '2022-05-09 08:04:44'),
-(23, 14, '2022-05-09 17:26:23'),
-(25, 2, '2022-05-10 16:00:44'),
-(26, 2, '2022-05-10 16:03:47');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `products`
---
-
-CREATE TABLE `products` (
-  `productID` int(11) NOT NULL,
-  `name` varchar(128) NOT NULL,
-  `description` text NOT NULL,
-  `price` decimal(4,2) NOT NULL,
-  `image` varchar(255) DEFAULT NULL,
-  `created` datetime NOT NULL,
-  `modified` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `products`
---
-
-INSERT INTO `products` (`productID`, `name`, `description`, `price`, `image`, `created`, `modified`) VALUES
-(1, 'Basketball', 'A ball used in the NBA.', '50.00', 'eea8dbfa50085b2e43de97eb139d6f07da8fc47c-basketball.jpg', '2015-08-02 12:04:03', '2022-05-09 04:02:18'),
-(3, 'Gatorade', 'This is a very good drink for athletes.', '2.00', '26c1f8b66ee7efcdd98ec97a39bd7f2a992c8f5f-Gatorade.jpg', '2015-08-02 12:14:29', '2022-05-09 17:03:20'),
-(4, 'Eye Glasses', 'It will make you read better.', '6.00', '44cf7cbcd6d2b73e5f1c826bc1622819ae454c52-eyeGlasses.jpg', '2015-08-02 12:15:04', '2022-05-09 04:01:38'),
-(5, 'Trash Can', 'It will help you maintain cleanliness.', '4.00', 'c7cb1666dea1e8188b71eb2a529fca57f4a7ef6f-trashCan.jpg', '2015-08-02 12:16:08', '2022-05-09 15:51:57'),
-(6, 'Mouse', 'Very useful if you love your computer.', '11.00', '403a21987dea1fd40e84309c4f9515437417280a-mouse.jpg', '2015-08-02 12:17:58', '2022-05-09 15:52:08'),
-(7, 'Earphone', 'You need this one if you love music.', '7.00', '8e9f6de05dcdf051061924482c1694ab9c7f519d-earphone.jpg', '2015-08-02 12:18:21', '2022-05-09 15:52:14'),
-(8, 'Pillow', 'Sleeping well is important.', '9.00', '1c63effb9d410adeea22ad467b8d588c5ec27a06-pillow.jpg', '2015-08-02 12:18:56', '2022-05-09 15:52:24'),
-(9, 'KitKat', 'Chocolate Bar.', '14.00', '66c4ee14a7e9ed116931903f70eb821e736c457d-kitKat.png', '2022-04-12 10:03:48', '2022-05-09 15:52:32'),
-(27, 'HL Daily Milk', 'Fresh milk', '12.00', '2068be40de9a81911aae232152c0ba3161d5448c-milk.jpg', '2022-04-19 19:37:58', '2022-04-20 02:05:11'),
-(55, 'Hot Dog', 'Perfect for breakfast.', '13.90', '8e0c1c602f5c2efc2c35baaadeb1b69711f95d57-hotDog.png', '2022-05-09 16:04:32', '2022-05-10 10:41:44'),
-(70, 'Dji mini', 'High Tech Drone.', '99.99', '5d01f14d96403a00b5cc3716308b836ad06461ce-dji.jpg', '2022-05-10 16:25:06', '2022-05-10 10:42:08'),
-(72, 'Drew House', 'A Fashion Brand cloth.', '50.00', '6d9863b27b31cbe6c9addd926709c5e978cd1f1e-drewhouse.jpg', '2022-05-11 00:03:24', '2022-05-10 16:03:24');
+(35, 26, 72, 100),
+(36, 27, 1, 10),
+(37, 28, 55, 10);
 
 --
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `customer`
---
-ALTER TABLE `customer`
-  ADD PRIMARY KEY (`customerID`);
 
 --
 -- Indexes for table `order_details`
@@ -173,42 +73,12 @@ ALTER TABLE `order_details`
   ADD PRIMARY KEY (`orderDetailsID`);
 
 --
--- Indexes for table `order_summary`
---
-ALTER TABLE `order_summary`
-  ADD PRIMARY KEY (`orderID`);
-
---
--- Indexes for table `products`
---
-ALTER TABLE `products`
-  ADD PRIMARY KEY (`productID`);
-
---
 -- AUTO_INCREMENT for dumped tables
 --
-
---
--- AUTO_INCREMENT for table `customer`
---
-ALTER TABLE `customer`
-  MODIFY `customerID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `order_details`
 --
 ALTER TABLE `order_details`
-  MODIFY `orderDetailsID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
-
---
--- AUTO_INCREMENT for table `order_summary`
---
-ALTER TABLE `order_summary`
-  MODIFY `orderID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
-
---
--- AUTO_INCREMENT for table `products`
---
-ALTER TABLE `products`
-  MODIFY `productID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `orderDetailsID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 COMMIT;
