@@ -59,7 +59,12 @@ if (!isset($_SESSION["username"])) {
         }
 
         // select all data
-        $query = "SELECT orderID, customerID, orderTime FROM order_summary ORDER BY orderID ASC";
+        $query = "SELECT o.orderID, o.customerID, o.orderTime, c.username
+        FROM order_summary o
+        INNER JOIN customer c
+        ON o.customerID = c.customerID
+        ORDER BY o.orderID DESC";
+        
         $stmt = $con->prepare($query);
         $stmt->execute();
 
@@ -80,7 +85,8 @@ if (!isset($_SESSION["username"])) {
             echo "<tr class='border border-3'>";
             echo "<th class='border border-3'>order ID</th>";
             echo "<th class='border border-3'>Customer ID</th>";
-            echo "<th class='border border-3'>Ordertime</th>";
+            echo "<th class='border border-3'>Username</th>";
+            echo "<th class='border border-3'>Order Date & Time</th>";
             echo "<th class='border border-3'>Action</th>";
             echo "</tr>";
 
@@ -97,6 +103,7 @@ if (!isset($_SESSION["username"])) {
                 echo "<tr class='border border-3'>";
                 echo "<td class='border border-3'>{$orderID}</td>";
                 echo "<td class='border border-3'>{$customerID}</td>";
+                echo "<td class='border border-3'>{$username}</td>";
                 echo "<td class='border border-3'>{$orderTime}</td>";
                 echo "<td class='border border-3'>";
 

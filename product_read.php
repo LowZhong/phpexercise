@@ -57,7 +57,7 @@ if (!isset($_SESSION["username"])) {
         }
 
         // select all data
-        $query = "SELECT productID, name, description, price, image FROM products ORDER BY productID ASC";
+        $query = "SELECT productID, name, description, price, image FROM products ORDER BY productID DESC";
         $stmt = $con->prepare($query);
         $stmt->execute();
 

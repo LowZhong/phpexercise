@@ -59,7 +59,7 @@ if (!isset($_SESSION["username"])) {
         }
 
         // select all data
-        $query = "SELECT customerID, username, email, firstname, lastname, gender, user_image FROM customer ORDER BY customerID ASC";
+        $query = "SELECT customerID, username, email, firstname, lastname, gender, user_image FROM customer ORDER BY customerID DESC";
         $stmt = $con->prepare($query);
         $stmt->execute();
 

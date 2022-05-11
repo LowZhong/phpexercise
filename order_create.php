@@ -50,6 +50,7 @@ if (!isset($_SESSION["username"])) {
                     if (!empty(array_filter($quantity))) {
 
                         try {
+
                             // insert query
                             $query = "INSERT INTO order_summary (customerID) VALUES (?)";
                             // prepare query for execution

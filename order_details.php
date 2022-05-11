@@ -41,13 +41,17 @@ if (!isset($_SESSION["username"])) {
         $orderID = isset($_GET['orderID']) ? $_GET['orderID'] : die('ERROR: Record User not found.');
 
         //select query 
-        $query = "SELECT * FROM order_details 
-                    INNER JOIN products 
-                    ON order_details.productID = products.productID
-                    WHERE OrderID = :OrderID";
+        $query = "SELECT * FROM products p 
+                                    INNER JOIN order_details od
+                                    ON p.productID = od.productID
+                                    INNER JOIN order_summary os 
+                                    ON od.orderID = os.orderID
+                                    INNER JOIN customer c
+                                    ON c.customerID = os.customerID
+                                    WHERE od.orderID = ?";
 
         $stmt = $con->prepare($query);
-        $stmt->bindParam(':OrderID', $orderID);
+        $stmt->bindParam(1, $orderID);
         $stmt->execute();
         $num = $stmt->rowCount();
 
@@ -56,8 +60,9 @@ if (!isset($_SESSION["username"])) {
 
             // create table head
             echo "<tr class='border border-3'>";
-            echo "<th class='border border-3'>Order Details ID</th>";
+            //echo "<th class='border border-3'>Order Details ID</th>";
             echo "<th class='border border-3'>Order ID</th>";
+            echo "<th class='border border-3'>Username</th>";
             echo "<th class='border border-3'>Product ID</th>";
             echo "<th class='border border-3'>Product Name</th>";
             echo "<th class='border border-3'>Quantity</th>";
@@ -71,15 +76,16 @@ if (!isset($_SESSION["username"])) {
                 extract($row);
 
                 // creating new table row per record
-                $totalprice = (int)$quantity * (int)$price;
+                $totalprice = (string)$quantity * (string)$price;
                 echo "<tr class='border border-3'>";
-                echo "<td class='border border-3'>{$orderDetailsID}</td>";
+                //echo "<td class='border border-3'>{$orderDetailsID}</td>";
                 echo "<td class='border border-3'>{$orderID}</td>";
+                echo "<td class='border border-3'>{$username}</td>";
                 echo "<td class='border border-3'>{$productID}</td>";
                 echo "<td class='border border-3'>{$name}</td>";
                 echo "<td class='border border-3'>{$quantity}</td>";
                 echo "<td class='border border-3'>{$price}</td>";
-                echo "<td class='border border-3'>{$totalprice}</td>";
+                echo "<td class='border border-3 text-end'>{$totalprice}</td>";
             }
 
             // end table
