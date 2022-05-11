@@ -5,7 +5,7 @@ ob_start();
 <html>
 
 <head>
-    <title>New Customer Sign Up</title>
+    <title>New Customer Sign In</title>
     <?php
     include 'head/head.php';
     ?>
@@ -56,17 +56,18 @@ ob_start();
             //fetch result
             $customerID = $stmt->fetch();
 
-            //function
-            $error['username'] = validateUsername($username); //array call function
-            $error['password'] = validatePassword($password, $inputconfirmPassword);
-            $error['birthdate'] = validateAge($year_, $birthdate);
-            $error['gender'] = validateGender($gender);
-            $error['status'] = validateStatus($status);
 
-            $error = array_filter($error); //remove null value in the $error if there is no error msg, not have this will not update to database
             if (empty($username) || empty($password) || empty($inputconfirmPassword) || empty($email) || empty($firstname) || empty($lastname) || empty($status) || empty($birthdate) || empty($gender)) {
                 echo "<div class='alert alert-danger text-white'>Cannot Be Left Blank.</div>";
             } else if (empty($error)) { //array里面会有nullvalue如果没有clear null value系统以为他不是empty
+
+                $error = array_filter($error); //remove null value in the $error if there is no error msg, not have this will not update to database
+                //function
+                $error['username'] = validateUsername($username); //array call function
+                $error['password'] = validatePassword($password, $inputconfirmPassword);
+                $error['birthdate'] = validateAge($year_, $birthdate);
+                $error['gender'] = validateGender($gender);
+                $error['status'] = validateStatus($status);
 
                 if (!empty($_FILES["user_image"]["name"])) {
 
